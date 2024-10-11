@@ -4,6 +4,19 @@ import { useState } from 'react';
 import { SignUpForm } from '@/components/auth/SignUpForm';
 import { SignInForm } from '@/components/auth/SignInForm';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
+
+const InfoText = ({ className }: { className?: string }) => (
+  <>
+    <p className={cn("text-responsive-xs whitespace-nowrap", className)}>
+      日課を続けるとあなたも恐竜も一緒に成長します。
+    </p>
+    <p className={cn("text-responsive-xs whitespace-pre-wrap mt-2", className)}>
+      サボると最初からやり直し！<br />
+      恐竜が大人になるまで頑張って続けよう！
+    </p>
+  </>
+);
 
 export default function Home() {
   const [isSignUp, setIsSignUp] = useState(true);
@@ -22,13 +35,7 @@ export default function Home() {
         </div>
         <div className="text-center text-white w-full max-w-md px-4">
           <h2 className="text-responsive-title font-bold mb-4">恐竜マスターになろう！</h2>
-          <p className="text-responsive-xs xxs:text-[10px] xs:text-xs whitespace-nowrap">
-            日課を続けるとあなたも恐竜も一緒に成長します。
-          </p>
-          <p className="text-responsive-xs xxs:text-[10px] xs:text-xs whitespace-pre-wrap mt-2">
-            サボると最初からやり直し！<br />
-            恐竜が大人になるまで頑張って続けよう！
-          </p>
+          <InfoText className="mt-2" />
         </div>
       </div>
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8">
@@ -49,11 +56,7 @@ export default function Home() {
           )}
           <div className="mt-8 text-center md:hidden">
             <h2 className="text-xl font-bold mb-4">恐竜マスターになろう！</h2>
-            <p className="text-[11px] xs:text-[13px]">
-              日課を続けるとあなたも恐竜も一緒に成長します。<br />
-              サボると最初からやり直し！<br />
-              恐竜が大人になるまで頑張って続けよう！
-            </p>
+            <InfoText className="mt-2" />
           </div>
         </div>
       </div>
