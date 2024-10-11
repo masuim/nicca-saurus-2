@@ -1,3 +1,8 @@
-export const Dashboard = () => {
-  return <div>Dashboard</div>;
+type Props = {
+  currentView: 'dashboard';
+}
+
+export const Dashboard = ({ currentView }: Props) => {
+  return <div>{currentView}</div>;
 };
+
