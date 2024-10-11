@@ -22,10 +22,10 @@ export default function Home() {
         </div>
         <div className="text-center text-white w-full max-w-md px-4">
           <h2 className="text-responsive-title font-bold mb-4">恐竜マスターになろう！</h2>
-          <p className="text-responsive-xs whitespace-nowrap">
+          <p className="text-responsive-xs xxs:text-[10px] xs:text-xs whitespace-nowrap">
             日課を続けるとあなたも恐竜も一緒に成長します。
           </p>
-          <p className="text-responsive-xs whitespace-pre-wrap mt-2">
+          <p className="text-responsive-xs xxs:text-[10px] xs:text-xs whitespace-pre-wrap mt-2">
             サボると最初からやり直し！<br />
             恐竜が大人になるまで頑張って続けよう！
           </p>
@@ -49,9 +49,9 @@ export default function Home() {
           )}
           <div className="mt-8 text-center md:hidden">
             <h2 className="text-xl font-bold mb-4">恐竜マスターになろう！</h2>
-            <p className="text-sm">
-              日課を続けるとあなたも恐竜も一緒に成長します。
-              サボると最初からやり直し！
+            <p className="text-[11px] xs:text-[13px]">
+              日課を続けるとあなたも恐竜も一緒に成長します。<br />
+              サボると最初からやり直し！<br />
               恐竜が大人になるまで頑張って続けよう！
             </p>
           </div>
