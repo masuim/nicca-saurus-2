@@ -1,4 +1,5 @@
 'use client'
+
 import {
 Card,
 CardContent,
@@ -7,7 +8,7 @@ CardFooter,
 CardHeader,
 CardTitle,
 } from "@/components/ui/card"
-import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form"
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
@@ -30,7 +31,11 @@ const formSchema = z.object({
   path: ["confirmPassword"],
 })
 
-export const SignUpForm = () => {
+type Props = {
+  setIsSignUp: (isSignUp: boolean) => void;
+};
+
+export const SignUpForm = ({ setIsSignUp }: Props) => {
 const form = useForm<z.infer<typeof formSchema>>({
 resolver: zodResolver(formSchema),
 defaultValues: {
@@ -113,9 +118,12 @@ return (
                 <Button type="submit" className="w-full">サインアップ</Button>
                 <p className="text-sm text-center">
                     すでにアカウントをお持ちの方は、<br />
-                    <a href="/signin" className="text-primary hover:underline">
+                    <button
+                        onClick={() => setIsSignUp(false)}
+                        className="text-primary hover:underline"
+                    >
                         サインイン
-                    </a>
+                    </button>
                     へ
                 </p>
             </CardFooter>
