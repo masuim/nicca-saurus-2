@@ -59,7 +59,7 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-sm space-y-6 px-4 sm:px-6 md:px-8 bg-gray-50 p-6 rounded-lg shadow-md text-responsive-xs">
-        <h2 className="text-2xl font-bold text-center mb-6">サインアップ</h2>
+        <h2 className="text-responsive-title font-bold text-center my-4">サインアップ</h2>
         <FormField
           control={form.control}
           name="name"
