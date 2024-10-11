@@ -83,14 +83,14 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
         <div>
           <Button type="submit" className="w-full text-responsive-sm text-white py-5 mt-[8px]">サインイン</Button>
           <p className="text-responsive-xs text-center text-muted-foreground mt-2">
-            <span className="text-[0.8em]">アカウントをお持ちでない方は、</span>
+            <span className="text-[0.7em]">アカウントをお持ちでない方は、</span>
             <button
               onClick={() => setIsSignUp(true)}
-              className="text-[0.9em] text-primary hover:underline"
+              className="text-[0.8em] text-primary hover:underline"
             >
               サインアップ
             </button>
-            <span className="text-[0.8em]">へ</span>
+            <span className="text-[0.7em]">へ</span>
           </p>
         </div>
       </form>
