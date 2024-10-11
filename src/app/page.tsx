@@ -32,7 +32,7 @@ export default function Home() {
         </div>
       </div>
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8">
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-md flex flex-col justify-center items-center">
           <div className="mb-8 md:hidden">
             <Image
               src="/images/app-name/app-name.png"

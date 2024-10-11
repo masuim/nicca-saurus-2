@@ -1,19 +1,12 @@
 'use client'
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from 'react'
 
 const formSchema = z.object({
   email: z.string().email({
@@ -29,6 +22,8 @@ type Props = {
 };
 
 export const SignInForm = ({ setIsSignUp }: Props) => {
+  const [focusedField, setFocusedField] = useState<string | null>('email')
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,57 +36,61 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
     console.log(values)
   }
 
+  const handleFocus = (fieldName: string) => {
+    setFocusedField(fieldName)
+  }
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Card className="w-[350px]">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold">サインイン</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>メールアドレス</FormLabel>
-                    <FormControl>
-                      <Input type="email" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>パスワード</FormLabel>
-                    <FormControl>
-                      <Input type="password" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full text-white">サインイン</Button>
-            <p className="text-xs text-center text-muted-foreground">
-              <span className="text-[0.7em]">アカウントをお持ちでない方は、</span><br />
-              <button
-                onClick={() => setIsSignUp(true)}
-                className="text-sm text-primary hover:underline"
-              >
-                サインアップ
-              </button>
-              へ
-            </p>
-          </CardFooter>
-        </Card>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-sm space-y-6 px-4 sm:px-6 md:px-8 bg-gray-50 p-6 rounded-lg shadow-md text-responsive-xs">
+        <h2 className="text-responsive-title font-bold text-center my-4">サインイン</h2>
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>メールアドレス</FormLabel>
+              <FormControl>
+                <Input
+                  type="email"
+                  {...field}
+                  isFocused={focusedField === 'email'}
+                  onFocus={() => handleFocus('email')}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>パスワード</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  {...field}
+                  isFocused={focusedField === 'password'}
+                  onFocus={() => handleFocus('password')}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" className="w-full text-responsive-sm text-white">サインイン</Button>
+        <p className="text-responsive-xs text-center text-muted-foreground">
+          <span className="text-[0.8em]">アカウントをお持ちでない方は、</span>
+          <button
+            onClick={() => setIsSignUp(true)}
+            className="text-responsive-xs text-primary hover:underline"
+          >
+            サインアップ
+          </button>
+          へ
+        </p>
       </form>
     </Form>
   );
