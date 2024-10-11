@@ -58,8 +58,8 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-sm space-y-6 px-4 sm:px-6 md:px-8 bg-gray-50 p-6 rounded-lg shadow-md text-responsive-xs">
-        <h2 className="text-responsive-title font-bold text-center my-4">サインアップ</h2>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-sm space-y-6 sm:px-6 md:px-8 bg-gray-50 p-6 rounded-lg shadow-md text-responsive-xs">
+        <h2 className="text-responsive-title font-bold text-center ">サインアップ</h2>
         <FormField
           control={form.control}
           name="name"
@@ -131,17 +131,19 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full text-responsive-sm text-white">サインアップ</Button>
-        <p className="text-responsive-xs text-center text-muted-foreground">
+        <div>
+        <Button type="submit" className="w-full text-responsive-sm text-white py-5 mt-[8px]">サインアップ</Button>
+        <p className="text-responsive-xs text-center text-muted-foreground mt-2">
           <span className="text-[0.8em]">すでにアカウントをお持ちの方は、</span>
           <button
             onClick={() => setIsSignUp(false)}
-            className="text-responsive-xs text-primary hover:underline"
+            className="text-[0.9em] text-primary hover:underline"
           >
             サインイン
           </button>
-          へ
+          <span className="text-[0.8em]">へ</span>
         </p>
+        </div>
       </form>
     </Form>
   );

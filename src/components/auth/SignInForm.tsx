@@ -42,8 +42,8 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-sm space-y-6 px-4 sm:px-6 md:px-8 bg-gray-50 p-6 rounded-lg shadow-md text-responsive-xs">
-        <h2 className="text-responsive-title font-bold text-center my-4">サインイン</h2>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-sm space-y-6 sm:px-6 md:px-8 bg-gray-50 p-6 rounded-lg shadow-md text-responsive-xs">
+        <h2 className="text-responsive-title font-bold text-center">サインイン</h2>
         <FormField
           control={form.control}
           name="email"
@@ -80,17 +80,19 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full text-responsive-sm text-white">サインイン</Button>
-        <p className="text-responsive-xs text-center text-muted-foreground">
-          <span className="text-[0.8em]">アカウントをお持ちでない方は、</span>
-          <button
-            onClick={() => setIsSignUp(true)}
-            className="text-responsive-xs text-primary hover:underline"
-          >
-            サインアップ
-          </button>
-          へ
-        </p>
+        <div>
+          <Button type="submit" className="w-full text-responsive-sm text-white py-5 mt-[8px]">サインイン</Button>
+          <p className="text-responsive-xs text-center text-muted-foreground mt-2">
+            <span className="text-[0.8em]">アカウントをお持ちでない方は、</span>
+            <button
+              onClick={() => setIsSignUp(true)}
+              className="text-[0.9em] text-primary hover:underline"
+            >
+              サインアップ
+            </button>
+            <span className="text-[0.8em]">へ</span>
+          </p>
+        </div>
       </form>
     </Form>
   );
