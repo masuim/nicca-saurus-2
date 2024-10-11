@@ -4,16 +4,27 @@ import { useState } from 'react';
 import { Dashboard } from '@/components/main/Dashboard';
 import { UserNiccaList } from '@/components/main/UserNiccaList';
 import { SideMenu } from '@/components/layout/SideMenu';
+import { Header } from '@/components/layout/Header';
 
 export const MainContent = () => {
   const [currentView, setCurrentView] = useState<'dashboard' | 'niccaList'>('dashboard');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex flex-col md:flex-row h-screen">
+      <div className="md:hidden w-full">
+        <Header onMenuToggle={toggleMobileMenu} />
+      </div>
       <main className="flex-grow p-6 overflow-auto">
         {currentView === 'dashboard' ? <Dashboard currentView={currentView}/> : <UserNiccaList currentView={currentView}/>}
       </main>
-      <SideMenu setCurrentView={setCurrentView} />
+      <div className="hidden md:block">
+        <SideMenu setCurrentView={setCurrentView} />
+      </div>
     </div>
   );
 };
