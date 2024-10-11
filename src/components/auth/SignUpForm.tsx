@@ -54,9 +54,8 @@ return (
 <Form {...form}>
     <form onSubmit={form.handleSubmit(onSubmit)}>
         <Card className="w-[350px]">
-            <CardHeader>
-                <CardTitle>サインアップ</CardTitle>
-                <CardDescription>新しいアカウントを作成します。</CardDescription>
+            <CardHeader className="text-center">
+                <CardTitle className="text-2xl font-bold">サインアップ</CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="space-y-4">
@@ -116,11 +115,11 @@ return (
             </CardContent>
             <CardFooter className="flex flex-col space-y-4">
                 <Button type="submit" className="w-full">サインアップ</Button>
-                <p className="text-sm text-center">
+                <p className="text-xs text-center text-muted-foreground">
                     すでにアカウントをお持ちの方は、<br />
                     <button
                         onClick={() => setIsSignUp(false)}
-                        className="text-primary hover:underline"
+                        className="text-sm text-primary hover:underline"
                     >
                         サインイン
                     </button>

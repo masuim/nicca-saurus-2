@@ -45,9 +45,8 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Card className="w-[350px]">
-          <CardHeader>
-            <CardTitle>サインイン</CardTitle>
-            <CardDescription>アカウントにサインインします。</CardDescription>
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl font-bold">サインイン</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -81,11 +80,11 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
             <Button type="submit" className="w-full">サインイン</Button>
-            <p className="text-sm text-center">
+            <p className="text-xs text-center text-muted-foreground">
               アカウントをお持ちでない方は、<br />
               <button
                 onClick={() => setIsSignUp(true)}
-                className="text-primary hover:underline"
+                className="text-sm text-primary hover:underline"
               >
                 サインアップ
               </button>
