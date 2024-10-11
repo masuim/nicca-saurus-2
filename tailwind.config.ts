@@ -68,9 +68,12 @@ borderRadius: {
 lg: 'var(--radius)',
 md: 'calc(var(--radius) - 2px)',
 sm: 'calc(var(--radius) - 4px)'
-}
-}
+},
+width: {
+  'adaptive-7-9': 'clamp(28px, calc(100vw - 108px) / 7, 36px)',
+},
 },
 plugins: [require("tailwindcss-animate")],
+},
 };
 export default config;
