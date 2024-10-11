@@ -8,13 +8,13 @@ setCurrentView: (view: 'dashboard' | 'niccaList') => void;
 export const Header = ({ setCurrentView }: HeaderProps) => {
 return (
 <header className="absolute top-0 left-0 right-0 z-10 bg-mainColor text-white">
-    <nav className="container mx-auto flex justify-between items-center py-4 h-16">
-        <div className="flex items-center h-full">
+    <nav className="container mx-auto flex justify-between items-center px-4 h-16">
+        <div className="flex items-center">
             <Image
                 src="/images/logos/bg-removed-logo.png"
                 alt="app logo"
-                width={60}
-                height={60}
+                width={64}
+                height={64}
                 className="object-contain"
             />
         </div>
