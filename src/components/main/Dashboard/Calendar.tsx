@@ -24,8 +24,8 @@ export const CustomCalendar = () => {
                 <Image
                   src="/images/meat/meat-removebg.png"
                   alt="Meat"
-                  width={24}
-                  height={24}
+                  width={16}
+                  height={16}
                 />
               </div>
             ),
