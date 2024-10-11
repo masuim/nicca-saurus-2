@@ -10,21 +10,23 @@ export default function Home() {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen">
-      <div className="hidden md:flex md:w-1/2 bg-mainColor flex-col justify-center items-center relative p-8">
-        <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
+      <div className="hidden md:flex md:w-1/2 bg-mainColor flex-col justify-center items-center relative p-12">
+        <div className="w-full max-w-md">
           <Image
             src="/images/logos/bg-removed-logo.png"
             alt="Nicca Saurus Logo"
             width={400}
             height={400}
-            className="object-contain mx-auto"
+            className="object-contain mx-auto w-3/4 xl:w-full"
           />
         </div>
-        <div className="absolute bottom-1/3 left-1/2 transform -translate-x-1/2 translate-y-1/2 text-center text-white w-full max-w-md px-4">
-          <h2 className="text-2xl font-bold mb-4">恐竜マスターになろう！</h2>
-          <p className="text-lg whitespace-pre-wrap">
+        <div className="text-center text-white w-full max-w-md px-4">
+          <h2 className="text-responsive-title font-bold mb-4">恐竜マスターになろう！</h2>
+          <p className="text-responsive-xs whitespace-nowrap">
             日課を続けるとあなたも恐竜も一緒に成長します。
-            サボると最初からやり直し！
+          </p>
+          <p className="text-responsive-xs whitespace-pre-wrap mt-2">
+            サボると最初からやり直し！<br />
             恐竜が大人になるまで頑張って続けよう！
           </p>
         </div>

@@ -58,7 +58,8 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-sm space-y-6 px-4 sm:px-6 md:px-8 bg-gray-50 p-6 rounded-lg shadow-md">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-sm space-y-6 px-4 sm:px-6 md:px-8 bg-gray-50 p-6 rounded-lg shadow-md text-responsive-xs">
+        <h2 className="text-2xl font-bold text-center mb-6">サインアップ</h2>
         <FormField
           control={form.control}
           name="name"
@@ -130,12 +131,12 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">サインアップ</Button>
-        <p className="text-xs text-center text-muted-foreground">
-          すでにアカウントをお持ちの方は、
+        <Button type="submit" className="w-full text-responsive-sm text-white">サインアップ</Button>
+        <p className="text-responsive-xs text-center text-muted-foreground">
+          <span className="text-[0.8em]">すでにアカウントをお持ちの方は、</span>
           <button
             onClick={() => setIsSignUp(false)}
-            className="text-sm text-primary hover:underline"
+            className="text-responsive-xs text-primary hover:underline"
           >
             サインイン
           </button>

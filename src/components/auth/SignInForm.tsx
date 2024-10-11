@@ -79,9 +79,9 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full">サインイン</Button>
+            <Button type="submit" className="w-full text-white">サインイン</Button>
             <p className="text-xs text-center text-muted-foreground">
-              アカウントをお持ちでない方は、<br />
+              <span className="text-[0.7em]">アカウントをお持ちでない方は、</span><br />
               <button
                 onClick={() => setIsSignUp(true)}
                 className="text-sm text-primary hover:underline"
