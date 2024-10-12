@@ -16,16 +16,16 @@ export const MainContent = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen">
-      <div className="md:hidden w-full">
+    <div className="flex flex-col lg:flex-row h-screen">
+      <div className="lg:hidden w-full">
         <Header onMenuToggle={toggleMobileMenu} />
       </div>
-      <main className="flex-grow p-6 overflow-auto md:flex md:items-center md:justify-center">
+      <main className="flex-grow p-6 overflow-auto lg:flex lg:items-center lg:justify-center">
         <div className="w-full max-w-4xl">
           {currentView === 'dashboard' ? <Dashboard currentView={currentView}/> : <UserNiccaList currentView={currentView}/>}
         </div>
       </main>
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <SideMenu setCurrentView={setCurrentView} />
       </div>
     </div>
