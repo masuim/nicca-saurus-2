@@ -15,8 +15,8 @@ export const CompleteButton = ({ className }: { className?: string }) => {
     <Button
       onClick={handleComplete}
       className={`${className} ${
-        isCompleted ? 'bg-gray-500' : 'bg-green-500'
-      } rounded-lg border-2 border-black transition-all duration-300 ease-in-out transform hover:scale-105 px-4 py-2`}
+        isCompleted ? 'bg-gray-500' : 'bg-mainColor hover:bg-primary/80'
+      } text-white rounded-lg border-2 border-mainColor transition-all duration-300 ease-in-out transform hover:scale-105 px-4 py-2`}
       disabled={isCompleted}
     >
       <span className="text-sm font-medium">

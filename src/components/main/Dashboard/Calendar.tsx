@@ -6,11 +6,15 @@ import { Calendar } from "@/components/ui/calendar"
 import { Card, CardContent } from "@/components/ui/card"
 import Image from 'next/image';
 
-export const CustomCalendar = () => {
+type Props = {
+  className?: string;
+}
+
+export const CustomCalendar = ({ className }: Props) => {
   const [date, setDate] = useState<Date | undefined>(new Date())
 
   return (
-    <Card className="w-full max-w-xs mx-auto xs:max-w-[300px] md:max-w-[360px] lg:max-w-[432px] transform md:scale-100 lg:scale-120 transition-transform duration-300 bg-white border-2 border-black rounded-none">
+    <Card className={`w-full max-w-xs mx-auto xs:max-w-[300px] md:max-w-[360px] lg:max-w-[432px] transform md:scale-100 lg:scale-120 transition-transform duration-300 bg-white border-2 rounded-lg border-mainColor ${className}`}>
       <CardContent className="p-4 xs:p-2 md:p-5">
         <Calendar
           mode="single"

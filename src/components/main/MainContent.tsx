@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Dashboard } from '@/components/main/Dashboard';
+
 import { UserNiccaList } from '@/components/main/UserNiccaList';
 import { SideMenu } from '@/components/layout/SideMenu';
 import { Header } from '@/components/layout/Header';
+import { Dashboard } from '@/components/main/Dashboard/Dashboard';
 
 export const MainContent = () => {
   const [currentView, setCurrentView] = useState<'dashboard' | 'niccaList'>('dashboard');
