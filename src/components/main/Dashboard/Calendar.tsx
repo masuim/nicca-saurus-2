@@ -36,7 +36,7 @@ export const CustomCalendar = ({ className }: Props) => {
             ),
           }}
           classNames={{
-            months: 'flex flex-col sm:flex-row space-y-2 sm:space-x-2 sm:space-y-0',
+            months: 'flex flex-col sm:flex-row space-y-2 sm:space-x-2 sm:space-y-0 justify-center',
             month: 'space-y-2 sm:space-y-4',
             caption:
               'flex justify-center pt-1 relative items-center text-xs sm:text-sm md:text-base lg:text-lg',
