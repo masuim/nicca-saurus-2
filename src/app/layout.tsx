@@ -31,8 +31,8 @@ export default function RootLayout({
       >
         <Image
           src="/images/background/bg-white-overlay-10.png"
-          layout="fill"
-          objectFit="cover"
+          fill={true}
+          style={{ objectFit: 'cover' }}
           quality={100}
           alt="Background"
           className="z-0"
