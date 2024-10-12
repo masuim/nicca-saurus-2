@@ -12,7 +12,7 @@ export const Dashboard = ({ currentView }: Props) => {
   const SAURUS_TYPES = ['brachiosaurus', 'triceratops', 'pteranodon', 'tyrannosaurus'];
 
   return (
-    <div className="sm:main-background mx-auto mt-4 w-[calc(100%-1rem)] max-w-4xl rounded-lg p-4 xs:w-[calc(100%-2rem)] sm:w-full sm:border-2 sm:border-mainColor sm:p-6 md:p-8 lg:mt-8">
+    <div className="sm:main-background xs mx-auto mt-4 w-[calc(100%-1rem)] max-w-[280px] rounded-lg p-4 xs:w-[calc(100%-2rem)] xs:max-w-[360px] sm:w-full sm:max-w-[640px] sm:border-2 sm:border-mainColor sm:p-6 md:p-8 lg:mt-8 lg:max-w-[720px]">
       <div className="mb-8">
         <NiccaMessage className="dashboard-component relative flex h-full items-center bg-yellow-50 bg-opacity-90 p-6" />
       </div>
