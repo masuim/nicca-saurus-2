@@ -100,7 +100,7 @@ body {
   }
 
   .dashboard-component {
-    @apply bg-white bg-opacity-90 shadow-md rounded-lg border border-white border-opacity-20 transition-all duration-300;
+    @apply shadow-md rounded-lg border border-white border-opacity-20 transition-all duration-300;
   }
 
   .dashboard-component:hover {
