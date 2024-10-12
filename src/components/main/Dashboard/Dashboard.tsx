@@ -26,8 +26,8 @@ export const Dashboard = ({ currentView }: Props) => {
             <DeleteButton className="dashboard-component flex-1 bg-red-50 bg-opacity-90" />
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-14">
-          <div className="md:col-span-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 px-14">
+          <div className="w-full">
             <CustomCalendar className="dashboard-component bg-purple-50 bg-opacity-90" />
           </div>
           <div className="flex flex-col justify-between h-full">
@@ -40,8 +40,10 @@ export const Dashboard = ({ currentView }: Props) => {
               <div className="mt-4 text-center space-y-2">
               </div>
             </div>
-            <AchievementMetrics className="dashboard-component bg-pink-50 bg-opacity-90" />
           </div>
+        </div>
+        <div className="mt-8 px-14">
+          <AchievementMetrics className="dashboard-component bg-pink-50 bg-opacity-90" />
         </div>
       </div>
     </div>
