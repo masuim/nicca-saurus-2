@@ -26,8 +26,8 @@ export const Dashboard = ({ currentView }: Props) => {
           </div>
         </div>
         <div className="grid grid-cols-1 gap-8 px-2 sm:grid-cols-2 sm:px-8 md:px-14">
-          <div className="w-full">
-            <CustomCalendar className="dashboard-component bg-purple-50 bg-opacity-90" />
+          <div className="h-full w-full">
+            <CustomCalendar className="dashboard-component h-full bg-purple-50 bg-opacity-90" />
           </div>
           <div className="dashboard-component flex h-full flex-col justify-between bg-blue-50 bg-opacity-90 p-6">
             <CompleteButton className="mb-4 w-full transform rounded-lg border-2 border-mainColor bg-green-500 py-3 text-lg font-bold text-white transition-all duration-300 hover:scale-105 hover:shadow-xl" />
