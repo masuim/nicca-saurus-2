@@ -19,7 +19,7 @@ export const Dashboard = ({ currentView }: Props) => {
         <div className="flex items-stretch mb-8 px-14">
           <div className="flex-grow mr-6">
             <NiccaMessage
-              className="dashboard-component bg-orange-50 bg-opacity-90 p-6 relative h-full flex items-center" />
+              className="dashboard-component bg-yellow-50 bg-opacity-90 p-6 relative h-full flex items-center" />
           </div>
           <div className="flex flex-col space-y-6">
             <EditButton className="dashboard-component flex-1 bg-green-50 bg-opacity-90" />
@@ -28,7 +28,7 @@ export const Dashboard = ({ currentView }: Props) => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-14">
           <div className="md:col-span-2">
-            <CustomCalendar className="dashboard-component bg-yellow-50 bg-opacity-90" />
+            <CustomCalendar className="dashboard-component bg-purple-50 bg-opacity-90" />
           </div>
           <div className="flex flex-col justify-between h-full">
             <div className="dashboard-component bg-blue-50 bg-opacity-90 p-6">
