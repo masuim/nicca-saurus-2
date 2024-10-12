@@ -1,8 +1,6 @@
 import { AchievementMetrics } from '@/components/main/Dashboard/AchievementMetrics';
 import { CustomCalendar } from '@/components/main/Dashboard/Calendar';
 import { CompleteButton } from '@/components/main/Dashboard/CompleteButton';
-import { DeleteButton } from '@/components/main/Dashboard/DeleteButton';
-import { EditButton } from '@/components/main/Dashboard/EditButton';
 import { NiccaMessage } from '@/components/main/Dashboard/NiccaMessage';
 import { SaurusImage } from '@/components/main/Dashboard/SaurusImage';
 
@@ -16,14 +14,8 @@ export const Dashboard = ({ currentView }: Props) => {
   return (
     <div className="main-background mx-auto mt-8 max-w-4xl rounded-lg border-2 border-mainColor p-4 sm:p-6 md:p-8">
       <div className="space-y-8">
-        <div className="mb-8 flex items-stretch px-2 sm:px-8 md:px-14">
-          <div className="mr-6 flex-grow">
-            <NiccaMessage className="dashboard-component relative flex h-full items-center bg-yellow-50 bg-opacity-90 p-6" />
-          </div>
-          <div className="flex flex-col space-y-6">
-            <EditButton className="dashboard-component flex-1 bg-green-50 bg-opacity-90" />
-            <DeleteButton className="dashboard-component flex-1 bg-red-50 bg-opacity-90" />
-          </div>
+        <div className="mb-8 px-2 sm:px-8 md:px-14">
+          <NiccaMessage className="dashboard-component relative flex h-full items-center bg-yellow-50 bg-opacity-90 p-6" />
         </div>
         <div className="grid grid-cols-1 gap-8 px-2 sm:grid-cols-2 sm:px-8 md:px-14">
           <div className="h-full w-full">
