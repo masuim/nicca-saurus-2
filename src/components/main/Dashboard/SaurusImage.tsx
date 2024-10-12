@@ -1,22 +1,17 @@
-
-
 type Props = {
-    // TODO: schema作成したらstringではなくなる
+  // TODO: schema作成したらstringではなくなる
   saurusType: string;
   className?: string;
 };
 
 export const SaurusImage = ({ saurusType, className }: Props) => {
-  // TODO: "1.png"で固定値になっているが動的にする
   const imagePath = `/images/saurus/${saurusType}/${saurusType}1.png`;
   return (
-    <div className={`mb-4 ${className}`}>
+    <div className={`${className} relative overflow-hidden`} style={{ paddingTop: '100%' }}>
       <img
         src={imagePath}
         alt={saurusType}
-        width={200}
-        height={200}
-        className="rounded-lg shadow-lg"
+        className="absolute inset-0 h-full w-full rounded-lg object-cover"
       />
     </div>
   );

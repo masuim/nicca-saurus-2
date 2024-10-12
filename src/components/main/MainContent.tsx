@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Dashboard } from '@/components/main/Dashboard';
+
 import { UserNiccaList } from '@/components/main/UserNiccaList';
 import { SideMenu } from '@/components/layout/SideMenu';
 import { Header } from '@/components/layout/Header';
+import { Dashboard } from '@/components/main/Dashboard/Dashboard';
 
 export const MainContent = () => {
   const [currentView, setCurrentView] = useState<'dashboard' | 'niccaList'>('dashboard');
@@ -15,14 +16,20 @@ export const MainContent = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen">
-      <div className="md:hidden w-full">
+    <div className="flex h-screen flex-col lg:flex-row">
+      <div className="w-full lg:hidden">
         <Header onMenuToggle={toggleMobileMenu} />
       </div>
-      <main className="flex-grow p-6 overflow-auto">
-        {currentView === 'dashboard' ? <Dashboard currentView={currentView}/> : <UserNiccaList currentView={currentView}/>}
+      <main className="flex-grow overflow-auto p-3 xs:p-6 lg:flex lg:items-center lg:justify-center">
+        <div className="w-full max-w-[calc(100vw-1.5rem)] xs:max-w-[calc(100vw-3rem)] sm:max-w-4xl">
+          {currentView === 'dashboard' ? (
+            <Dashboard currentView={currentView} />
+          ) : (
+            <UserNiccaList currentView={currentView} />
+          )}
+        </div>
       </main>
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <SideMenu setCurrentView={setCurrentView} />
       </div>
     </div>
