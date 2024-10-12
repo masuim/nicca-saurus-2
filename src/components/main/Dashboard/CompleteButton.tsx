@@ -15,12 +15,13 @@ export const CompleteButton = ({ className }: { className?: string }) => {
     <Button
       onClick={handleComplete}
       className={`${className} ${
-        isCompleted ? 'bg-green-500 hover:bg-green-600' : 'bg-primary hover:bg-primary/90'
-      } transition-all duration-300 ease-in-out transform hover:scale-105`}
+        isCompleted ? 'bg-gray-500' : 'bg-green-500'
+      } rounded-lg border-2 border-black transition-all duration-300 ease-in-out transform hover:scale-105 px-4 py-2`}
       disabled={isCompleted}
     >
-      <GiPlesiosaurus className="mr-2" />
-      {isCompleted ? '完了しました！' : '本日の日課完了！'}
+      <span className="text-sm font-medium">
+        {isCompleted ? '完了しました！' : '本日の日課完了！'}
+      </span>
     </Button>
   );
 };

@@ -19,8 +19,10 @@ export const MainContent = () => {
       <div className="md:hidden w-full">
         <Header onMenuToggle={toggleMobileMenu} />
       </div>
-      <main className="flex-grow p-6 overflow-auto">
-        {currentView === 'dashboard' ? <Dashboard currentView={currentView}/> : <UserNiccaList currentView={currentView}/>}
+      <main className="flex-grow p-6 overflow-auto md:flex md:items-center md:justify-center">
+        <div className="w-full max-w-4xl">
+          {currentView === 'dashboard' ? <Dashboard currentView={currentView}/> : <UserNiccaList currentView={currentView}/>}
+        </div>
       </main>
       <div className="hidden md:block">
         <SideMenu setCurrentView={setCurrentView} />

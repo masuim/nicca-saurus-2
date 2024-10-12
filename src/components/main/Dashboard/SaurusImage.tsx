@@ -1,5 +1,3 @@
-
-
 type Props = {
     // TODO: schema作成したらstringではなくなる
   saurusType: string;
