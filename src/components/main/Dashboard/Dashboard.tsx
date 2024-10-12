@@ -22,7 +22,7 @@ export const Dashboard = ({ currentView }: Props) => {
         </div>
         <div className="dashboard-component flex h-full flex-col justify-between bg-blue-50 bg-opacity-90 p-6">
           <CompleteButton className="mb-4 w-full transform rounded-lg border-2 border-mainColor bg-green-500 py-3 text-lg font-bold text-white transition-all duration-300 hover:scale-105 hover:shadow-xl" />
-          <div className="flex flex-grow items-center justify-center overflow-hidden">
+          <div className="flex flex-grow transform items-center justify-center overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg">
             <SaurusImage saurusType={SAURUS_TYPES[0]} className="w-full" />
           </div>
           <div className="mt-4 space-y-2 text-center"></div>
