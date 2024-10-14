@@ -46,7 +46,7 @@ export const CustomCalendar = ({ className }: Props) => {
             month: 'space-y-2 sm:space-y-4',
             caption:
               'flex justify-center pt-1 relative items-center text-xs sm:text-sm md:text-base lg:text-lg',
-            caption_label: 'text-xs font-medium sm:text-sm md:text-base lg:text-lg',
+            caption_label: 'text-xs font-bold sm:text-sm md:text-base lg:text-lg',
             nav: 'space-x-1 flex items-center',
             nav_button:
               'h-6 w-6 sm:h-7 sm:w-7 bg-transparent p-0 opacity-50 hover:opacity-100 md:h-8 md:w-8 lg:h-9 lg:w-9',
