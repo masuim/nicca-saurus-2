@@ -15,6 +15,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { signUp } from '@/app/actions/auth';
+import { useRouter } from 'next/navigation';
 
 const formSchema = z
   .object({
@@ -41,6 +42,7 @@ type Props = {
 export const SignUpForm = ({ setIsSignUp }: Props) => {
   const [focusedField, setFocusedField] = useState<string | null>('name');
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,8 +59,8 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
     if (result.error) {
       setError(result.error);
     } else {
-      // サインアップ成功時の処理（例：ログインページへのリダイレクト）
       console.log('サインアップ成功');
+      router.push('/main');
     }
   };
 
