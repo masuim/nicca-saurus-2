@@ -92,7 +92,6 @@ body {
   }
 
   .main-background {
-    background-image: url("/images/starry-background.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
