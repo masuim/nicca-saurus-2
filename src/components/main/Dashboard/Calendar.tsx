@@ -19,7 +19,6 @@ export const CustomCalendar = ({ className }: Props) => {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={setDate}
           className="rounded-md border"
           components={{
             Day: ({ day, date }) => (
@@ -53,8 +52,6 @@ export const CustomCalendar = ({ className }: Props) => {
             row: 'flex mt-2 justify-between',
             cell: 'text-center text-xs sm:text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 md:text-base lg:text-lg',
             day: 'h-6 w-6 sm:h-8 sm:w-8 p-0 font-normal aria-selected:opacity-100 md:h-10 md:w-10 lg:h-12 lg:w-12',
-            day_selected:
-              'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground',
             day_today: 'bg-accent text-accent-foreground',
             day_outside:
               'text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30',
