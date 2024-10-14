@@ -19,20 +19,27 @@ export const CustomCalendar = ({ className }: Props) => {
         <Calendar
           mode="single"
           selected={date}
-          className="rounded-md border"
           components={{
-            Day: ({ day, date }) => (
-              <div className="flex h-full w-full flex-col items-center justify-center">
-                <div className="text-xs sm:text-sm md:text-base lg:text-lg">{date.getDate()}</div>
-                <Image
-                  src="/images/meat/meat-removebg.png"
-                  alt="Meat"
-                  width={12}
-                  height={12}
-                  className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5"
-                />
-              </div>
-            ),
+            Day: ({ day, date }) => {
+              const isToday = date.toDateString() === new Date().toDateString();
+              const isOutsideCurrentMonth = date.getMonth() !== new Date().getMonth();
+              return (
+                <div
+                  className={`flex h-full w-full flex-col items-center justify-center rounded-md p-1 ${
+                    isToday ? 'bg-yellow-200' : ''
+                  } ${isOutsideCurrentMonth ? 'opacity-50' : 'font-bold'}`}
+                >
+                  <div className="text-xs sm:text-sm md:text-base lg:text-lg">{date.getDate()}</div>
+                  <Image
+                    src="/images/meat/meat-removebg.png"
+                    alt="Meat"
+                    width={12}
+                    height={12}
+                    className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5"
+                  />
+                </div>
+              );
+            },
           }}
           classNames={{
             months: 'flex flex-col sm:flex-row space-y-2 sm:space-x-2 sm:space-y-0 justify-center',
@@ -46,18 +53,11 @@ export const CustomCalendar = ({ className }: Props) => {
             nav_button_previous: 'absolute left-1',
             nav_button_next: 'absolute right-1',
             table: 'w-full border-collapse space-y-1',
-            head_row: 'flex',
+            head_row: 'flex justify-between w-full',
             head_cell:
-              'text-muted-foreground rounded-md w-6 sm:w-8 font-normal text-[0.7rem] sm:text-[0.8rem] md:text-sm lg:text-base',
+              'text-muted-foreground w-6 sm:w-8 font-normal text-[0.7rem] sm:text-[0.8rem] md:text-sm lg:text-base',
             row: 'flex mt-2 justify-between',
-            cell: 'text-center text-xs sm:text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 md:text-base lg:text-lg',
-            day: 'h-6 w-6 sm:h-8 sm:w-8 p-0 font-normal aria-selected:opacity-100 md:h-10 md:w-10 lg:h-12 lg:w-12',
-            day_today: 'bg-accent text-accent-foreground',
-            day_outside:
-              'text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30',
-            day_disabled: 'text-muted-foreground opacity-50',
-            day_range_middle: 'aria-selected:bg-accent aria-selected:text-accent-foreground',
-            day_hidden: 'invisible',
+            cell: 'text-center text-xs sm:text-sm p-0 relative [&:has([aria-selected])]: first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 md:text-base lg:text-lg px-2 py-1',
           }}
         />
       </CardContent>
