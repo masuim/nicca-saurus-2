@@ -3,9 +3,10 @@ import { CustomCalendar } from '@/components/main/Dashboard/Calendar';
 import { CompleteButton } from '@/components/main/Dashboard/CompleteButton';
 import { NiccaMessage } from '@/components/main/Dashboard/NiccaMessage';
 import { SaurusImage } from '@/components/main/Dashboard/SaurusImage';
+import { ViewProps } from '@/types/views';
 
-type Props = {
-  currentView: 'dashboard';
+type Props = ViewProps & {
+  currentView: Extract<ViewProps['currentView'], 'dashboard'>;
 };
 
 export const Dashboard = ({ currentView }: Props) => {
