@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import { signUp } from '@/app/actions/auth';
+import { signUp } from '@/app/actions/signUp';
 import { useRouter } from 'next/navigation';
 
 const formSchema = z
