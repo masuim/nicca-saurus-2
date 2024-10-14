@@ -57,7 +57,6 @@ export const CustomCalendar = ({ className }: Props) => {
             head_cell:
               'text-muted-foreground w-6 sm:w-8 font-normal text-[0.7rem] sm:text-[0.8rem] md:text-sm lg:text-base',
             row: 'flex mt-2 justify-between',
-            cell: 'text-center text-xs sm:text-sm p-0 relative [&:has([aria-selected])]: first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 md:text-base lg:text-lg px-2 py-1',
           }}
         />
       </CardContent>
