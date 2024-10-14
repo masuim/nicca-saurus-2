@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  password      String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  niccas        Nicca[]
+
+  @@map("users")
+}
+
+model Nicca {
+  id           String            @id @default(uuid())
+  userId       String
+  title        String
+  saurusType   String
+  isActive     Boolean           @default(true)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  user         User              @relation(fields: [userId], references: [id])
+  week         Week?
+  achievements AchievementDate[]
+
+  @@map("niccas")
+}
+
+model Week {
+  id        String  @id @default(uuid())
+  niccaId   String  @unique
+  monday    Boolean @default(false)
+  tuesday   Boolean @default(false)
+  wednesday Boolean @default(false)
+  thursday  Boolean @default(false)
+  friday    Boolean @default(false)
+  saturday  Boolean @default(false)
+  sunday    Boolean @default(false)
+  nicca     Nicca   @relation(fields: [niccaId], references: [id])
+
+  @@map("weeks")
+}
+
+model AchievementDate {
+  id           String   @id @default(uuid())
+  niccaId      String
+  achievedDate DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  nicca        Nicca    @relation(fields: [niccaId], references: [id])
+
+  @@unique([niccaId, achievedDate])
+  @@map("achievement_dates")
+}
