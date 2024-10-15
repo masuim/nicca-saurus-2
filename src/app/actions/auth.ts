@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 
-export async function signUp(formData: SignUpFormValues) {
+export const signUp = async (formData: SignUpFormValues) => {
   const validatedFields = signUpSchema.safeParse(formData);
 
   if (!validatedFields.success) {
@@ -32,4 +32,4 @@ export async function signUp(formData: SignUpFormValues) {
     }
     return { error: 'ユーザーの作成に失敗しました。' };
   }
-}
+};
