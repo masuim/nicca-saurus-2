@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   Form,
@@ -6,60 +6,77 @@ import {
   FormItem,
   FormLabel,
   FormControl,
-  FormMessage
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from 'react'
-
-const formSchema = z.object({
-  name: z.string().min(2, {
-    message: "名前は2文字以上で入力してください。",
-  }),
-  email: z.string().email({
-    message: "有効なメールアドレスを入力してください。",
-  }),
-  password: z.string().min(8, {
-    message: "パスワードは8文字以上で入力してください。",
-  }),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "パスワードが一致しません。",
-  path: ["confirmPassword"],
-})
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useForm } from 'react-hook-form';
+import { Button } from '@/components/ui/button';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { signUp } from '@/app/actions/auth';
+import { signIn } from 'next-auth/react';
+import { signUpSchema, type SignUpFormValues } from '@/lib/validations/auth';
+import { useFlashMessage } from '@/providers/FlashMessageProvider';
 
 type Props = {
   setIsSignUp: (isSignUp: boolean) => void;
 };
 
 export const SignUpForm = ({ setIsSignUp }: Props) => {
-  const [focusedField, setFocusedField] = useState<string | null>('name')
+  const [focusedField, setFocusedField] = useState<string | null>('name');
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+  const { showFlashMessage } = useFlashMessage();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<SignUpFormValues>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
     },
-  })
+  });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values)
-  }
+  const onSubmit = async (values: SignUpFormValues) => {
+    try {
+      const result = await signUp(values);
+      if (result.error) {
+        setError(result.error);
+        showFlashMessage(result.error, 'error');
+      } else {
+        const signInResult = await signIn('credentials', {
+          redirect: false,
+          email: values.email,
+          password: values.password,
+        });
+        if (signInResult?.error) {
+          setError('サインアップ後のサインインに失敗しました。');
+          showFlashMessage('サインアップ後のサインインに失敗しました。', 'error');
+        } else {
+          showFlashMessage('サインアップに成功しました', 'success');
+          router.push('/main');
+        }
+      }
+    } catch (error) {
+      setError('サインアップに失敗しました。もう一度お試しください。');
+      showFlashMessage('サインアップに失敗しました。もう一度お試しください。', 'error');
+    }
+  };
 
   const handleFocus = (fieldName: string) => {
-    setFocusedField(fieldName)
-  }
+    setFocusedField(fieldName);
+  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-sm space-y-6 sm:px-6 md:px-8 bg-gray-50 p-6 rounded-lg shadow-md text-responsive-xs">
-        <h2 className="text-responsive-title font-bold text-center ">サインアップ</h2>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="text-responsive-xs w-full max-w-sm space-y-6 rounded-lg bg-gray-50 p-6 shadow-md sm:px-6 md:px-8"
+      >
+        <h2 className="text-responsive-title text-center font-bold">サインアップ</h2>
+        {error && <p className="text-red-500">{error}</p>}
         <FormField
           control={form.control}
           name="name"
@@ -132,19 +149,21 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
           )}
         />
         <div>
-        <Button type="submit" className="w-full text-responsive-sm text-white py-5 mt-[8px]">サインアップ</Button>
-        <p className="text-responsive-xs text-center text-muted-foreground mt-2">
-          <span className="text-[0.7em]">すでにアカウントをお持ちの方は、</span>
-          <button
-            onClick={() => setIsSignUp(false)}
-            className="text-[0.8em] text-primary hover:underline"
-          >
-            サインイン
-          </button>
-          <span className="text-[0.7em]">へ</span>
-        </p>
+          <Button type="submit" className="text-responsive-sm mt-[8px] w-full py-5 text-white">
+            サインアップ
+          </Button>
+          <p className="text-responsive-xs mt-2 text-center text-muted-foreground">
+            <span className="text-[0.7em]">すでにアカウントをお持ちの方は、</span>
+            <button
+              onClick={() => setIsSignUp(false)}
+              className="text-[0.8em] text-primary hover:underline"
+            >
+              サインイン
+            </button>
+            <span className="text-[0.7em]">へ</span>
+          </p>
         </div>
       </form>
     </Form>
   );
-}
+};

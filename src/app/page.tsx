@@ -31,6 +31,7 @@ export default function Home() {
             alt="Nicca Saurus Logo"
             width={400}
             height={400}
+            priority
             className="mx-auto w-3/4 object-contain xl:w-full"
           />
         </div>
