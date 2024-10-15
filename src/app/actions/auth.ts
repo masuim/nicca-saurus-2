@@ -1,20 +1,15 @@
 'use server';
 
-import { z } from 'zod';
+import { signUpSchema, type SignUpFormValues } from '@/lib/validations/auth';
 import bcrypt from 'bcrypt';
 import { prisma } from '@/lib/prisma';
+import { Prisma } from '@prisma/client';
 
-const signUpSchema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
-  password: z.string().min(8),
-});
-
-export async function signUp(formData: z.infer<typeof signUpSchema>) {
+export async function signUp(formData: SignUpFormValues) {
   const validatedFields = signUpSchema.safeParse(formData);
 
   if (!validatedFields.success) {
-    return { error: 'Invalid fields' };
+    return { error: '無効なフィールドがあります。' };
   }
 
   const { name, email, password } = validatedFields.data;
@@ -30,9 +25,10 @@ export async function signUp(formData: z.infer<typeof signUpSchema>) {
     });
     return { success: true };
   } catch (error) {
-    // TODO: as使わない実装にする。
-    if ((error as { code?: string }).code === 'P2002') {
-      return { error: 'このメールアドレスは既に登録されています。' };
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return { error: 'このメールアドレスは既に登録されています。' };
+      }
     }
     return { error: 'ユーザーの作成に失敗しました。' };
   }

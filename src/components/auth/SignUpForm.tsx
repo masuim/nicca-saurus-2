@@ -11,29 +11,12 @@ import {
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import { signUp } from '@/app/actions/signUp';
 import { useRouter } from 'next/navigation';
-
-const formSchema = z
-  .object({
-    name: z.string().min(2, {
-      message: '名前は2文字以上で入力してください。',
-    }),
-    email: z.string().email({
-      message: '有効なメールアドレスを入力してください。',
-    }),
-    password: z.string().min(8, {
-      message: 'パスワードは8文字以上で入力してください。',
-    }),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'パスワードが一致しません。',
-    path: ['confirmPassword'],
-  });
+import { signUp } from '@/app/actions/auth';
+import { signIn } from 'next-auth/react';
+import { signUpSchema, type SignUpFormValues } from '@/lib/validations/auth';
 
 type Props = {
   setIsSignUp: (isSignUp: boolean) => void;
@@ -44,8 +27,8 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<SignUpFormValues>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       name: '',
       email: '',
@@ -54,13 +37,25 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const result = await signUp(values);
-    if (result.error) {
-      setError(result.error);
-    } else {
-      console.log('サインアップ成功');
-      router.push('/main');
+  const onSubmit = async (values: SignUpFormValues) => {
+    try {
+      const result = await signUp(values);
+      if (result.error) {
+        setError(result.error);
+      } else {
+        const signInResult = await signIn('credentials', {
+          redirect: false,
+          email: values.email,
+          password: values.password,
+        });
+        if (signInResult?.error) {
+          setError('サインアップ後のサインインに失敗しました。');
+        } else {
+          router.push('/main');
+        }
+      }
+    } catch (error) {
+      setError('サインアップに失敗しました。もう一度お試しください。');
     }
   };
 

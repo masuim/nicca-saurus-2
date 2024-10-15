@@ -5,6 +5,7 @@ import NextAuth, { AuthOptions, Session, User } from 'next-auth';
 import { Adapter } from 'next-auth/adapters';
 import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { signInSchema } from '@/lib/validations/auth';
 
 declare module 'next-auth' {
   interface Session {
@@ -26,20 +27,24 @@ export const authOptions: AuthOptions = {
         email: { label: 'Email', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials: Record<'email' | 'password', string> | undefined) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error('メールアドレスとパスワードを入力してください');
+      async authorize(credentials) {
+        const validatedFields = signInSchema.safeParse(credentials);
+
+        if (!validatedFields.success) {
+          throw new Error('無効な入力です。');
         }
 
+        const { email, password } = validatedFields.data;
+
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+          where: { email },
         });
 
         if (!user) {
           throw new Error('ユーザーが見つかりません');
         }
 
-        const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
+        const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
           throw new Error('パスワードが正しくありません');
@@ -62,21 +67,13 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user }: { token: JWT; user: User }) {
       if (user) {
-        if (typeof user.id !== 'string') {
-          console.error('ユーザーIDが文字列ではありません');
-          throw new Error('無効なユーザーID');
-        }
         token.id = user.id;
       }
       return token;
     },
     async session({ session, token }: { session: Session; token: JWT }) {
       if (session.user) {
-        if (typeof token.id !== 'string') {
-          console.error('トークンIDが文字列ではありません');
-          throw new Error('無効なトークンID');
-        }
-        session.user.id = token.id;
+        session.user.id = token.id as string;
       }
       return session;
     },
