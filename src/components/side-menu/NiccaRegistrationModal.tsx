@@ -82,7 +82,7 @@ export const NiccaRegistrationModal = () => {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>日課登録</DialogTitle>
-          <DialogDescription>実施する曜日を選択してください。</DialogDescription>
+          <DialogDescription>日課名を入力し、実施する曜日を選択してください。</DialogDescription>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <input
