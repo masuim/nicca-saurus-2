@@ -12,27 +12,10 @@ import {
 import { FaPlus } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { useFlashMessage } from '@/providers/FlashMessageProvider';
+import { NiccaSchema, NiccaFormValues } from '@/lib/validations/nicca';
 
 const dayMap = ['月', '火', '水', '木', '金', '土', '日'];
-
-const NiccaSchema = z.object({
-  title: z.string().min(1, '日課を入力してください'),
-  week: z
-    .object({
-      monday: z.boolean(),
-      tuesday: z.boolean(),
-      wednesday: z.boolean(),
-      thursday: z.boolean(),
-      friday: z.boolean(),
-      saturday: z.boolean(),
-      sunday: z.boolean(),
-    })
-    .refine((data) => Object.values(data).filter(Boolean).length >= 4, {
-      message: '少なくとも4日は選択してください',
-    }),
-});
 
 const dayKeys = [
   'monday',
@@ -48,7 +31,7 @@ export const NiccaRegistrationModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { showFlashMessage } = useFlashMessage();
 
-  const form = useForm<z.infer<typeof NiccaSchema>>({
+  const form = useForm<NiccaFormValues>({
     resolver: zodResolver(NiccaSchema),
     defaultValues: {
       title: '',
@@ -65,12 +48,14 @@ export const NiccaRegistrationModal = () => {
     mode: 'onChange',
   });
 
-  const toggleDay = (day: keyof z.infer<typeof NiccaSchema>['week']) => {
+  const toggleDay = (
+    day: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday',
+  ) => {
     form.setValue(`week.${day}`, !form.getValues(`week.${day}`), { shouldValidate: true });
     form.trigger('week');
   };
 
-  const onSubmit = async (values: z.infer<typeof NiccaSchema>) => {
+  const onSubmit = async (values: NiccaFormValues) => {
     const isValid = await form.trigger();
     if (!isValid) {
       return;
