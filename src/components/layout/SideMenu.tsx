@@ -12,12 +12,28 @@ import {
   FaSignOutAlt,
 } from 'react-icons/fa';
 import { signOut } from 'next-auth/react';
+import { useFlashMessage } from '@/providers/FlashMessageProvider';
+import { useRouter } from 'next/navigation';
 
 type SideMenuProps = {
   setCurrentView: (view: 'dashboard' | 'niccaList') => void;
 };
 
 export const SideMenu = ({ setCurrentView }: SideMenuProps) => {
+  const { showFlashMessage } = useFlashMessage();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut({ redirect: false });
+      showFlashMessage('サインアウトしました', 'success');
+      router.push('/');
+    } catch (error) {
+      console.error('Signout error:', error);
+      showFlashMessage('サインアウト中にエラーが発生しました。もう一度お試しください。', 'error');
+    }
+  };
+
   return (
     <aside className="flex h-screen w-56 flex-col bg-mainColor text-white">
       <div className="flex items-center justify-center p-4">
@@ -98,15 +114,7 @@ export const SideMenu = ({ setCurrentView }: SideMenuProps) => {
           <Button
             variant="ghost"
             className="w-full justify-start py-2 text-left transition-colors hover:bg-white/10"
-            onClick={async () => {
-              try {
-                await signOut({ redirect: false });
-                window.location.href = '/';
-              } catch (error) {
-                console.error('Signout error:', error);
-                alert('サインアウト中にエラーが発生しました。もう一度お試しください。');
-              }
-            }}
+            onClick={handleSignOut}
           >
             <FaSignOutAlt className="mr-3 text-lg" /> サインアウト
           </Button>

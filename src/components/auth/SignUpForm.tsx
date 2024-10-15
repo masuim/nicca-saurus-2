@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import { signUp } from '@/app/actions/auth';
 import { signIn } from 'next-auth/react';
 import { signUpSchema, type SignUpFormValues } from '@/lib/validations/auth';
+import { useFlashMessage } from '@/providers/FlashMessageProvider';
 
 type Props = {
   setIsSignUp: (isSignUp: boolean) => void;
@@ -26,6 +27,7 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
   const [focusedField, setFocusedField] = useState<string | null>('name');
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const { showFlashMessage } = useFlashMessage();
 
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
@@ -42,6 +44,7 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
       const result = await signUp(values);
       if (result.error) {
         setError(result.error);
+        showFlashMessage(result.error, 'error');
       } else {
         const signInResult = await signIn('credentials', {
           redirect: false,
@@ -50,12 +53,15 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
         });
         if (signInResult?.error) {
           setError('サインアップ後のサインインに失敗しました。');
+          showFlashMessage('サインアップ後のサインインに失敗しました。', 'error');
         } else {
+          showFlashMessage('サインアップに成功しました', 'success');
           router.push('/main');
         }
       }
     } catch (error) {
       setError('サインアップに失敗しました。もう一度お試しください。');
+      showFlashMessage('サインアップに失敗しました。もう一度お試しください。', 'error');
     }
   };
 

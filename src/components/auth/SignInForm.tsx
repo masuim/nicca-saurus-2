@@ -1,30 +1,31 @@
 'use client';
 
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useFlashMessage } from '@/providers/FlashMessageProvider';
+import { signInSchema, type SignInFormValues } from '@/lib/validations/auth';
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
-import { signInSchema, type SignInFormValues } from '@/lib/validations/auth';
 
 type Props = {
   setIsSignUp: (isSignUp: boolean) => void;
 };
 
 export const SignInForm = ({ setIsSignUp }: Props) => {
-  const [focusedField, setFocusedField] = useState<string | null>('email');
-  const [error, setError] = useState<string | null>(null);
+  const [focusedField, setFocusedField] = useState<string | null>(null);
   const router = useRouter();
+  const { showFlashMessage } = useFlashMessage();
 
   const form = useForm<SignInFormValues>({
     resolver: zodResolver(signInSchema),
@@ -43,12 +44,13 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
       });
 
       if (result?.error) {
-        setError('メールアドレスまたはパスワードが正しくありません。');
-      } else {
-        router.push('/main');
+        showFlashMessage(result.error, 'error');
+        return;
       }
+      showFlashMessage('サインインに成功しました', 'success');
+      router.push('/main');
     } catch (error) {
-      setError('サインインに失敗しました。もう一度お試しください。');
+      showFlashMessage('サインイン中に予期せぬエラーが発生しました', 'error');
     }
   };
 
@@ -63,7 +65,6 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
         className="text-responsive-xs w-full max-w-sm space-y-6 rounded-lg bg-gray-50 p-6 shadow-md sm:px-6 md:px-8"
       >
         <h2 className="text-responsive-title text-center font-bold">サインイン</h2>
-        {error && <p className="text-center text-red-500">{error}</p>}
         <FormField
           control={form.control}
           name="email"

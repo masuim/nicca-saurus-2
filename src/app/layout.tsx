@@ -3,6 +3,8 @@ import localFont from 'next/font/local';
 import './globals.css';
 import Image from 'next/image';
 import { NextAuthSessionProvider } from '@/providers/SessionProvider';
+import { FlashMessageProvider } from '@/providers/FlashMessageProvider';
+import { FlashMessage } from '@/components/ui/FlashMessage';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -28,19 +30,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <NextAuthSessionProvider>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} relative min-h-screen antialiased`}
-        >
-          <Image
-            src="/images/background/bg-white-overlay-10.png"
-            fill={true}
-            style={{ objectFit: 'cover' }}
-            quality={100}
-            alt="Background"
-            className="z-0"
-          />
-          <div className="relative z-10">{children}</div>
-        </body>
+        <FlashMessageProvider>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} relative min-h-screen antialiased`}
+          >
+            <Image
+              src="/images/background/bg-white-overlay-10.png"
+              fill={true}
+              style={{ objectFit: 'cover' }}
+              quality={100}
+              alt="Background"
+              className="z-0"
+            />
+            <div className="relative z-10">
+              <FlashMessage />
+              {children}
+            </div>
+          </body>
+        </FlashMessageProvider>
       </NextAuthSessionProvider>
     </html>
   );
