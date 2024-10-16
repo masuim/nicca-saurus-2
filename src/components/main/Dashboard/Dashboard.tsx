@@ -4,13 +4,23 @@ import { CustomCalendar } from '@/components/main/Dashboard/Calendar';
 import { CompleteButton } from '@/components/main/Dashboard/CompleteButton';
 import { NiccaMessage } from '@/components/main/Dashboard/NiccaMessage';
 import { SaurusImage } from '@/components/main/Dashboard/SaurusImage';
+import { NiccaRegistrationModal } from '@/components/side-menu/NiccaRegistrationModal';
 
 type Props = ViewProps & {
   currentView: Extract<ViewProps['currentView'], 'dashboard'>;
   nicca: { title: string } | null;
+  showNiccaRegistration: boolean;
+  setShowNiccaRegistration: (show: boolean) => void;
+  onNiccaRegistration: (newNicca: { title: string }) => void;
 };
 
-export const Dashboard = ({ currentView, nicca }: Props) => {
+export const Dashboard = ({
+  currentView,
+  nicca,
+  showNiccaRegistration,
+  setShowNiccaRegistration,
+  onNiccaRegistration,
+}: Props) => {
   const SAURUS_TYPES = ['brachiosaurus', 'triceratops', 'pteranodon', 'tyrannosaurus'];
 
   return (
@@ -45,6 +55,11 @@ export const Dashboard = ({ currentView, nicca }: Props) => {
       <div className="mt-8">
         <AchievementMetrics className="dashboard-component bg-gray-50" />
       </div>
+      <NiccaRegistrationModal
+        isOpen={showNiccaRegistration}
+        onClose={() => setShowNiccaRegistration(false)}
+        onRegistration={onNiccaRegistration}
+      />
     </div>
   );
 };

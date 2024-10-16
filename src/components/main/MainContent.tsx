@@ -49,7 +49,13 @@ export const MainContent = () => {
           <div className="w-full max-w-[calc(100vw-1.5rem)] xs:max-w-[calc(100vw-3rem)] sm:max-w-4xl">
             <Suspense fallback={<Loading />}>
               {currentView === 'dashboard' ? (
-                <Dashboard currentView={currentView} nicca={nicca} />
+                <Dashboard
+                  currentView={currentView}
+                  nicca={nicca}
+                  showNiccaRegistration={showNiccaRegistration}
+                  setShowNiccaRegistration={setShowNiccaRegistration}
+                  onNiccaRegistration={handleNiccaRegistration}
+                />
               ) : (
                 <UserNiccaList currentView={currentView} />
               )}
@@ -60,11 +66,6 @@ export const MainContent = () => {
           <SideMenu setCurrentView={setCurrentView} />
         </div>
       </div>
-      <NiccaRegistrationModal
-        isOpen={showNiccaRegistration}
-        onClose={() => setShowNiccaRegistration(false)}
-        onRegistration={handleNiccaRegistration}
-      />
     </div>
   );
 };
