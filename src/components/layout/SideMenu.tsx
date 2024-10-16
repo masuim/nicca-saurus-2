@@ -86,15 +86,6 @@ export const SideMenu = ({ setCurrentView }: SideMenuProps) => {
               <Button
                 variant="ghost"
                 className="w-full justify-start text-left transition-colors hover:bg-white/10"
-                onClick={() => true}
-              >
-                <FaPlus className="mr-3 text-lg" /> 日課登録
-              </Button>
-            </li>
-            <li>
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-left transition-colors hover:bg-white/10"
                 onClick={() => alert('日課編集 Clicked!!')}
               >
                 <FaRegEdit className="mr-3 text-lg" /> 日課編集
