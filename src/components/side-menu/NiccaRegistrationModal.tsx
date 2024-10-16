@@ -14,6 +14,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFlashMessage } from '@/providers/FlashMessageProvider';
 import { NiccaSchema, NiccaFormValues } from '@/lib/validations/nicca';
+import { createNicca } from '@/app/actions/nicca';
 
 const dayMap = ['月', '火', '水', '木', '金', '土', '日'];
 
@@ -61,12 +62,19 @@ export const NiccaRegistrationModal = () => {
       return;
     }
 
-    // ここでデータを送信する処理を実装します（現在は省略）
-    console.log(values);
-
-    showFlashMessage('日課が登録されました', 'success');
-    setIsOpen(false);
-    form.reset();
+    try {
+      const result = await createNicca(values);
+      if (result.error) {
+        showFlashMessage(result.error, 'error');
+      } else {
+        showFlashMessage('日課が登録されました', 'success');
+        setIsOpen(false);
+        form.reset();
+      }
+    } catch (error) {
+      console.error('Nicca registration error:', error);
+      showFlashMessage('日課の登録中にエラーが発生しました', 'error');
+    }
   };
 
   return (
