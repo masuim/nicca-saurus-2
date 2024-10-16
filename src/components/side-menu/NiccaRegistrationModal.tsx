@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -6,10 +5,8 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogFooter,
 } from '@/components/ui/dialog';
-import { FaPlus } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFlashMessage } from '@/providers/FlashMessageProvider';
@@ -28,8 +25,13 @@ const dayKeys = [
   'sunday',
 ] as const;
 
-export const NiccaRegistrationModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
+type Props = {
+  isOpen: boolean;
+  onClose: () => void;
+  onRegistration: (nicca: { title: string }) => void;
+};
+
+export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration }: Props) => {
   const { showFlashMessage } = useFlashMessage();
 
   const form = useForm<NiccaFormValues>({
@@ -68,7 +70,7 @@ export const NiccaRegistrationModal = () => {
         showFlashMessage(result.error, 'error');
       } else {
         showFlashMessage('日課が登録されました', 'success');
-        setIsOpen(false);
+        onRegistration({ title: values.title });
         form.reset();
       }
     } catch (error) {
@@ -78,15 +80,7 @@ export const NiccaRegistrationModal = () => {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button
-          variant="ghost"
-          className="w-full justify-start text-left transition-colors hover:bg-white/10"
-        >
-          <FaPlus className="mr-3 text-lg" /> 日課登録
-        </Button>
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>日課登録</DialogTitle>
@@ -128,11 +122,7 @@ export const NiccaRegistrationModal = () => {
             <p className="mt-2 text-sm text-red-500">{form.formState.errors.week.message}</p>
           )}
           <DialogFooter className="mt-4">
-            <Button
-              variant="outline"
-              onClick={() => setIsOpen(false)}
-              className="border-2 border-primary/60"
-            >
+            <Button variant="outline" onClick={onClose} className="border-2 border-primary/60">
               戻る
             </Button>
             <Button type="submit" className="text-white">

@@ -1,29 +1,17 @@
-import { useEffect, useState } from 'react';
+import { ViewProps } from '@/types/views';
 import { AchievementMetrics } from '@/components/main/Dashboard/AchievementMetrics';
 import { CustomCalendar } from '@/components/main/Dashboard/Calendar';
 import { CompleteButton } from '@/components/main/Dashboard/CompleteButton';
 import { NiccaMessage } from '@/components/main/Dashboard/NiccaMessage';
 import { SaurusImage } from '@/components/main/Dashboard/SaurusImage';
-import { ViewProps } from '@/types/views';
-import { getNicca } from '@/app/actions/nicca';
 
 type Props = ViewProps & {
   currentView: Extract<ViewProps['currentView'], 'dashboard'>;
+  nicca: { title: string } | null;
 };
 
-export const Dashboard = ({ currentView }: Props) => {
-  const [nicca, setNicca] = useState<{ title: string } | null>(null);
+export const Dashboard = ({ currentView, nicca }: Props) => {
   const SAURUS_TYPES = ['brachiosaurus', 'triceratops', 'pteranodon', 'tyrannosaurus'];
-
-  useEffect(() => {
-    const fetchNicca = async () => {
-      const result = await getNicca();
-      if (result.nicca) {
-        setNicca(result.nicca);
-      }
-    };
-    fetchNicca();
-  }, []);
 
   return (
     <div className="sm:main-background xs mx-auto mt-4 w-[calc(100%-1rem)] max-w-[280px] rounded-lg p-4 xs:w-[calc(100%-2rem)] xs:max-w-[360px] sm:w-full sm:max-w-[640px] sm:border-2 sm:border-mainColor sm:p-6 md:p-8 lg:mt-8 lg:max-w-[720px]">
