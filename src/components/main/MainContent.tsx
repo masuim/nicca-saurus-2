@@ -9,13 +9,11 @@ import { SideMenu } from '@/components/layout/SideMenu';
 import { Header } from '@/components/layout/Header';
 import { Dashboard } from '@/components/main/Dashboard/Dashboard';
 import { Loading } from '@/components/ui/Loading';
-import { NiccaRegistrationModal } from '@/components/side-menu/NiccaRegistrationModal';
 import { getNicca } from '@/app/actions/nicca';
 
 export const MainContent = () => {
   const [currentView, setCurrentView] = useState<ViewType>('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [showNiccaRegistration, setShowNiccaRegistration] = useState(false);
   const [nicca, setNicca] = useState<{ title: string } | null>(null);
 
   const toggleMobileMenu = () => {
@@ -27,8 +25,6 @@ export const MainContent = () => {
       const result = await getNicca();
       if (result.nicca) {
         setNicca(result.nicca);
-      } else {
-        setShowNiccaRegistration(true);
       }
     };
     fetchNicca();
@@ -36,7 +32,6 @@ export const MainContent = () => {
 
   const handleNiccaRegistration = (newNicca: { title: string }) => {
     setNicca(newNicca);
-    setShowNiccaRegistration(false);
   };
 
   return (
@@ -52,8 +47,6 @@ export const MainContent = () => {
                 <Dashboard
                   currentView={currentView}
                   nicca={nicca}
-                  showNiccaRegistration={showNiccaRegistration}
-                  setShowNiccaRegistration={setShowNiccaRegistration}
                   onNiccaRegistration={handleNiccaRegistration}
                 />
               ) : (
