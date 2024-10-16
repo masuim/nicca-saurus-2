@@ -11,7 +11,7 @@ export const SaurusImage = ({ saurusType, className }: Props) => {
       <img
         src={imagePath}
         alt={saurusType}
-        className="absolute inset-0 h-full w-full rounded-lg object-cover"
+        className="absolute inset-0 h-full w-full rounded-lg object-cover hover:shadow-lg"
       />
     </div>
   );
