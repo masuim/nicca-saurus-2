@@ -44,27 +44,27 @@ export const MainContent = () => {
       <div className="w-full lg:hidden">
         <Header onMenuToggle={toggleMobileMenu} />
       </div>
-      <main className="flex-grow overflow-auto p-3 xs:p-6 lg:flex lg:items-center lg:justify-center">
-        <div className="w-full max-w-[calc(100vw-1.5rem)] xs:max-w-[calc(100vw-3rem)] sm:max-w-4xl">
-          <Suspense fallback={<Loading />}>
-            {currentView === 'dashboard' ? (
-              <Dashboard currentView={currentView} nicca={nicca} />
-            ) : (
-              <UserNiccaList currentView={currentView} />
-            )}
-          </Suspense>
+      <div className="relative flex flex-grow flex-col lg:flex-row">
+        <main className="relative flex-grow overflow-auto p-3 xs:p-6 lg:flex lg:items-center lg:justify-center">
+          <div className="w-full max-w-[calc(100vw-1.5rem)] xs:max-w-[calc(100vw-3rem)] sm:max-w-4xl">
+            <Suspense fallback={<Loading />}>
+              {currentView === 'dashboard' ? (
+                <Dashboard currentView={currentView} nicca={nicca} />
+              ) : (
+                <UserNiccaList currentView={currentView} />
+              )}
+            </Suspense>
+          </div>
+        </main>
+        <div className="hidden lg:block lg:w-56">
+          <SideMenu setCurrentView={setCurrentView} />
         </div>
-      </main>
-      <div className="hidden lg:block">
-        <SideMenu setCurrentView={setCurrentView} />
       </div>
-      {showNiccaRegistration && (
-        <NiccaRegistrationModal
-          isOpen={showNiccaRegistration}
-          onClose={() => {}}
-          onRegistration={handleNiccaRegistration}
-        />
-      )}
+      <NiccaRegistrationModal
+        isOpen={showNiccaRegistration}
+        onClose={() => setShowNiccaRegistration(false)}
+        onRegistration={handleNiccaRegistration}
+      />
     </div>
   );
 };
