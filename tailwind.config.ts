@@ -18,7 +18,8 @@ const config: Config = {
     },
     extend: {
       colors: {
-        mainColor: '#082F68',
+        mainColor: 'hsl(var(--mainColor))',
+        progressColor: 'hsl(var(--progressColor))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -30,7 +31,7 @@ const config: Config = {
           foreground: 'hsl(var(--popover-foreground))',
         },
         primary: {
-          DEFAULT: 'hsl(var(--mainColor))',
+          DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
         },
         secondary: {
@@ -61,7 +62,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        dotgothic: ['DotGothic16"', 'sans-serif'],
+        dotgothic: ['DotGothic16', 'sans-serif'],
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -72,7 +73,8 @@ const config: Config = {
         'adaptive-7-9': 'clamp(28px, calc(100vw - 108px) / 7, 36px)',
       },
     },
-    plugins: [require('tailwindcss-animate')],
   },
+  plugins: [require('tailwindcss-animate')],
 };
+
 export default config;

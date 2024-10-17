@@ -26,7 +26,7 @@ export const createNicca = async (formData: NiccaFormValues) => {
         userId: session.user.id,
         title,
         saurusType: 'brachiosaurus', // TODO:仮の値として設定
-        isActive: false,
+        isActive: true,
         week: {
           create: week,
         },
@@ -36,5 +36,31 @@ export const createNicca = async (formData: NiccaFormValues) => {
   } catch (error) {
     console.error('Nicca creation error:', error);
     return { error: '日課の作成に失敗しました。' };
+  }
+};
+
+export const getNicca = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user) {
+    return { error: 'ユーザーが認証されていません。' };
+  }
+
+  try {
+    const nicca = await prisma.nicca.findFirst({
+      where: {
+        userId: session.user.id,
+        isActive: true,
+      },
+      select: {
+        title: true,
+        week: true,
+      },
+    });
+
+    return { nicca };
+  } catch (error) {
+    console.error('Nicca fetch error:', error);
+    return { error: '日課の取得に失敗しました。' };
   }
 };

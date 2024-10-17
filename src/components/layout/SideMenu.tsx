@@ -83,7 +83,13 @@ export const SideMenu = ({ setCurrentView }: SideMenuProps) => {
           <h3 className="mb-2 px-2 text-sm font-semibold">日課管理</h3>
           <ul className="space-y-2 px-2">
             <li>
-              <NiccaRegistrationModal />
+              <Button
+                variant="ghost"
+                className="w-full justify-start text-left transition-colors hover:bg-white/10"
+                onClick={() => true}
+              >
+                <FaPlus className="mr-3 text-lg" /> 日課登録
+              </Button>
             </li>
             <li>
               <Button
