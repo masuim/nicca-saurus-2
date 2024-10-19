@@ -6,6 +6,8 @@ import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
+import { deleteNicca } from '@/app/actions/nicca';
+import { useFlashMessage } from '@/providers/FlashMessageProvider';
 
 type Nicca = {
   id: string;
@@ -29,6 +31,7 @@ type Nicca = {
 export const UserNiccaList = () => {
   const [niccas, setNiccas] = useState<Nicca[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const { showFlashMessage } = useFlashMessage();
 
   useEffect(() => {
     const fetchNiccas = async () => {
@@ -79,8 +82,16 @@ export const UserNiccaList = () => {
     alert(`日課編集 Clicked!! ID: ${id}`);
   };
 
-  const handleDelete = (id: string) => {
-    alert(`日課削除 Clicked!! ID: ${id}`);
+  const handleDelete = async (id: string) => {
+    if (window.confirm('本当にこの日課を削除しますか？')) {
+      const result = await deleteNicca(id);
+      if (result.success) {
+        setNiccas(niccas.filter((nicca) => nicca.id !== id));
+        showFlashMessage('日課が削除されました', 'success');
+      } else {
+        showFlashMessage(result.error || '日課の削除に失敗しました', 'error');
+      }
+    }
   };
 
   return (
