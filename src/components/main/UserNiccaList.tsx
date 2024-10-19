@@ -1,10 +1,11 @@
 'use client';
 
-import { ViewProps } from '@/types/views';
 import { useEffect, useState } from 'react';
 import { getUserNiccas } from '@/app/actions/nicca';
 import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
+import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
+import { Button } from '@/components/ui/button';
 
 type Nicca = {
   id: string;
@@ -74,12 +75,38 @@ export const UserNiccaList = () => {
     return activeDays.join(', ');
   };
 
+  const handleEdit = (id: string) => {
+    alert(`日課編集 Clicked!! ID: ${id}`);
+  };
+
+  const handleDelete = (id: string) => {
+    alert(`日課削除 Clicked!! ID: ${id}`);
+  };
+
   return (
-    <div className="container mx-auto p-4">
+    <div className="p-4">
       <h2 className="mb-4 text-2xl font-bold">日課一覧</h2>
       {niccas.map((nicca) => (
         <div key={nicca.id} className="mb-4 rounded-lg border p-4 shadow">
-          <h3 className="mb-2 text-xl font-semibold">{nicca.title}</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="mb-2 text-xl font-semibold">{nicca.title}</h3>
+            <div className="space-x-2">
+              <Button
+                variant="ghost"
+                onClick={() => handleEdit(nicca.id)}
+                className="text-blue-500 hover:text-blue-700"
+              >
+                <FaRegEdit className="text-lg" />
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => handleDelete(nicca.id)}
+                className="text-red-500 hover:text-red-700"
+              >
+                <FaRegTrashAlt className="text-lg" />
+              </Button>
+            </div>
+          </div>
           <p>恐竜タイプ: {nicca.saurusType}</p>
           <p>ステータス: {nicca.isActive ? '有効' : '無効'}</p>
           <p>作成日: {format(new Date(nicca.createdAt), 'yyyy年MM月dd日 HH:mm', { locale: ja })}</p>
