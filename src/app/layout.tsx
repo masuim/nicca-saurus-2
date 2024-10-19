@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <NextAuthSessionProvider>
         <FlashMessageProvider>
-          <body className="relative min-h-screen antialiased">
+          <body className="relative min-h-screen font-sans antialiased">
             <Image
               src="/images/background/bg-white-overlay-10.png"
               fill={true}

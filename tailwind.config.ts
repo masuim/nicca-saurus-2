@@ -62,7 +62,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        dotgothic: ['DotGothic16', 'sans-serif'],
+        sans: ['DotGothic16', 'sans-serif'],
       },
       borderRadius: {
         lg: 'var(--radius)',
