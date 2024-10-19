@@ -6,6 +6,9 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
+const SAURUS_TYPES = ['brachiosaurus', 'triceratops', 'pteranodon', 'tyrannosaurus'];
+const randomSaurusType = SAURUS_TYPES[Math.floor(Math.random() * SAURUS_TYPES.length)];
+
 export const createNicca = async (formData: NiccaFormValues) => {
   const validatedFields = NiccaSchema.safeParse(formData);
 
@@ -26,7 +29,7 @@ export const createNicca = async (formData: NiccaFormValues) => {
       data: {
         userId: session.user.id,
         title,
-        saurusType: 'brachiosaurus', // TODO:仮の値として設定
+        saurusType: randomSaurusType,
         isActive: true,
         week: {
           create: week,
@@ -56,6 +59,7 @@ export const getNicca = async () => {
       select: {
         title: true,
         week: true,
+        saurusType: true,
       },
     });
 

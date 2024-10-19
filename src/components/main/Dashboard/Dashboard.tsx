@@ -6,14 +6,18 @@ import { SaurusImage } from '@/components/main/Dashboard/SaurusImage';
 import { NiccaRegistrationModal } from '@/components/side-menu/NiccaRegistrationModal';
 import { useState, useEffect } from 'react';
 
+type Nicca = {
+  title: string;
+  // TODO: 恐竜タイプstiringでなくす
+  saurusType: string;
+};
+
 type Props = {
-  nicca: { title: string } | null;
+  nicca: Nicca | null;
   onNiccaRegistration: (newNicca: { title: string }) => void;
 };
 
 export const Dashboard = ({ nicca, onNiccaRegistration }: Props) => {
-  const SAURUS_TYPES = ['brachiosaurus', 'triceratops', 'pteranodon', 'tyrannosaurus'];
-
   const [showNiccaRegistration, setShowNiccaRegistration] = useState(nicca === null);
 
   useEffect(() => {
@@ -44,7 +48,7 @@ export const Dashboard = ({ nicca, onNiccaRegistration }: Props) => {
           </div>
           <div className="dashboard-component flex h-full flex-col justify-between border-2 border-mainColor bg-gray-50 p-6">
             <div className="flex flex-grow transform items-center justify-center overflow-hidden transition-all duration-300 hover:scale-110">
-              <SaurusImage saurusType={SAURUS_TYPES[0]} className="w-full" />
+              <SaurusImage saurusType={nicca?.saurusType || 'デフォルト'} className="w-full" />
             </div>
             <CompleteButton className="mt-4 w-full transform rounded-lg border-2 border-mainColor py-3 text-lg font-bold text-white transition-all duration-300 hover:scale-105 hover:shadow-xl" />
             <div className="mt-4 space-y-2 text-center"></div>
