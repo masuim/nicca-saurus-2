@@ -64,3 +64,28 @@ export const getNicca = async () => {
     return { error: '日課の取得に失敗しました。' };
   }
 };
+
+export const getUserNiccas = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user) {
+    return { error: 'ユーザーが認証されていません。' };
+  }
+
+  try {
+    const niccas = await prisma.nicca.findMany({
+      where: {
+        userId: session.user.id,
+      },
+      include: {
+        week: true,
+        achievements: true,
+      },
+    });
+
+    return { niccas };
+  } catch (error) {
+    console.error('Niccas fetch error:', error);
+    return { error: '日課の取得に失敗しました。' };
+  }
+};
