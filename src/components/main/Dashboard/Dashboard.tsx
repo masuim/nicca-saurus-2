@@ -1,21 +1,24 @@
-import { ViewProps } from '@/types/views';
 import { AchievementMetrics } from '@/components/main/Dashboard/AchievementMetrics';
 import { CustomCalendar } from '@/components/main/Dashboard/Calendar';
 import { CompleteButton } from '@/components/main/Dashboard/CompleteButton';
 import { NiccaMessage } from '@/components/main/Dashboard/NiccaMessage';
 import { SaurusImage } from '@/components/main/Dashboard/SaurusImage';
 import { NiccaRegistrationModal } from '@/components/side-menu/NiccaRegistrationModal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-type Props = ViewProps & {
-  currentView: Extract<ViewProps['currentView'], 'dashboard'>;
+type Props = {
   nicca: { title: string } | null;
   onNiccaRegistration: (newNicca: { title: string }) => void;
 };
 
-export const Dashboard = ({ currentView, nicca, onNiccaRegistration }: Props) => {
+export const Dashboard = ({ nicca, onNiccaRegistration }: Props) => {
   const SAURUS_TYPES = ['brachiosaurus', 'triceratops', 'pteranodon', 'tyrannosaurus'];
-  const [showNiccaRegistration, setShowNiccaRegistration] = useState(!nicca);
+
+  const [showNiccaRegistration, setShowNiccaRegistration] = useState(nicca === null);
+
+  useEffect(() => {
+    setShowNiccaRegistration(nicca === null);
+  }, [nicca]);
 
   return (
     <>
@@ -51,6 +54,7 @@ export const Dashboard = ({ currentView, nicca, onNiccaRegistration }: Props) =>
           <AchievementMetrics className="dashboard-component bg-gray-50" />
         </div>
       </div>
+      {/* TODO: モーダルを表示しなくて良い時にも一瞬モーダルが表示されている（サインイン後） */}
       <NiccaRegistrationModal
         isOpen={showNiccaRegistration}
         onClose={() => {}}

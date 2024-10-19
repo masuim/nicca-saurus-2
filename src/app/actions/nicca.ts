@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { NiccaSchema, type NiccaFormValues } from '@/lib/validations/nicca';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 export const createNicca = async (formData: NiccaFormValues) => {
   const validatedFields = NiccaSchema.safeParse(formData);
@@ -62,5 +63,70 @@ export const getNicca = async () => {
   } catch (error) {
     console.error('Nicca fetch error:', error);
     return { error: '日課の取得に失敗しました。' };
+  }
+};
+
+export const getUserNiccas = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user) {
+    return { error: 'ユーザーが認証されていません。' };
+  }
+
+  try {
+    const niccas = await prisma.nicca.findMany({
+      where: {
+        userId: session.user.id,
+      },
+      include: {
+        week: true,
+        achievements: true,
+      },
+    });
+
+    return { niccas };
+  } catch (error) {
+    console.error('Niccas fetch error:', error);
+    return { error: '日課の取得に失敗しました。' };
+  }
+};
+
+export const deleteNicca = async (id: string) => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user) {
+    return { error: 'ユーザーが認証されていません。' };
+  }
+
+  try {
+    await prisma.$transaction(async (prisma) => {
+      // 関連する Week データを削除
+      await prisma.week.deleteMany({
+        where: { niccaId: id },
+      });
+
+      // 関連する AchievementDate データを削除
+      await prisma.achievementDate.deleteMany({
+        where: { niccaId: id },
+      });
+
+      // Nicca を削除
+      await prisma.nicca.delete({
+        where: {
+          id: id,
+          userId: session.user.id,
+        },
+      });
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error('Nicca deletion error:', error);
+    if (error instanceof PrismaClientKnownRequestError) {
+      if ((error as PrismaClientKnownRequestError).code === 'P2025') {
+        return { error: '指定された日課が見つかりません。' as const };
+      }
+    }
+    return { error: '日課の削除に失敗しました。' };
   }
 };

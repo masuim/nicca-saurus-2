@@ -1,21 +1,9 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
 import './globals.css';
 import Image from 'next/image';
 import { NextAuthSessionProvider } from '@/providers/SessionProvider';
 import { FlashMessageProvider } from '@/providers/FlashMessageProvider';
 import { FlashMessage } from '@/components/ui/FlashMessage';
-
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-});
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
-});
 
 export const metadata: Metadata = {
   title: 'Nicca Saurus',
@@ -31,9 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <NextAuthSessionProvider>
         <FlashMessageProvider>
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} relative min-h-screen antialiased`}
-          >
+          <body className="relative min-h-screen font-sans antialiased">
             <Image
               src="/images/background/bg-white-overlay-10.png"
               fill={true}

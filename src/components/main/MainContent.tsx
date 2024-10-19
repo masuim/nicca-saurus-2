@@ -44,13 +44,9 @@ export const MainContent = () => {
           <div className="w-full max-w-[calc(100vw-1.5rem)] xs:max-w-[calc(100vw-3rem)] sm:max-w-4xl">
             <Suspense fallback={<Loading />}>
               {currentView === 'dashboard' ? (
-                <Dashboard
-                  currentView={currentView}
-                  nicca={nicca}
-                  onNiccaRegistration={handleNiccaRegistration}
-                />
+                <Dashboard nicca={nicca} onNiccaRegistration={handleNiccaRegistration} />
               ) : (
-                <UserNiccaList currentView={currentView} />
+                <UserNiccaList />
               )}
             </Suspense>
           </div>

@@ -14,7 +14,6 @@ import {
 import { signOut } from 'next-auth/react';
 import { useFlashMessage } from '@/providers/FlashMessageProvider';
 import { useRouter } from 'next/navigation';
-import { NiccaRegistrationModal } from '@/components/side-menu/NiccaRegistrationModal';
 
 type SideMenuProps = {
   setCurrentView: (view: 'dashboard' | 'niccaList') => void;
@@ -79,39 +78,8 @@ export const SideMenu = ({ setCurrentView }: SideMenuProps) => {
             </li>
           </ul>
         </div>
-        <div className="mt-6 border-t border-white/20 pt-4">
-          <h3 className="mb-2 px-2 text-sm font-semibold">日課管理</h3>
-          <ul className="space-y-2 px-2">
-            <li>
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-left transition-colors hover:bg-white/10"
-                onClick={() => true}
-              >
-                <FaPlus className="mr-3 text-lg" /> 日課登録
-              </Button>
-            </li>
-            <li>
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-left transition-colors hover:bg-white/10"
-                onClick={() => alert('日課編集 Clicked!!')}
-              >
-                <FaRegEdit className="mr-3 text-lg" /> 日課編集
-              </Button>
-            </li>
-            <li>
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-left transition-colors hover:bg-white/10"
-                onClick={() => alert('日課削除 Clicked!!')}
-              >
-                <FaRegTrashAlt className="mr-3 text-lg" /> 日課削除
-              </Button>
-            </li>
-          </ul>
-        </div>
-        <div className="mt-auto border-t border-white/20 pt-4">
+
+        <div className="mt-auto">
           <Button
             variant="ghost"
             className="w-full justify-start py-2 text-left transition-colors hover:bg-white/10"
