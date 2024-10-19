@@ -40,7 +40,7 @@ export const FlashMessageProvider: React.FC<{ children: ReactNode }> = ({ childr
 export const useFlashMessage = () => {
   const context = useContext(FlashMessageContext);
   if (context === undefined) {
-    throw new Error('useFlashMessage must be used within a FlashMessageProvider');
+    throw new Error('useFlashMessageはFlashMessageProviderの中で使用する必要があります');
   }
   return context;
 };
