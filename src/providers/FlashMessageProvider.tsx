@@ -20,7 +20,12 @@ export const FlashMessageProvider: React.FC<{ children: ReactNode }> = ({ childr
 
   const showFlashMessage = useCallback((message: string, type: FlashMessage['type']) => {
     const id = Date.now().toString();
-    setFlashMessages((prev) => [...prev, { id, message, type }]);
+    setFlashMessages((prev) => {
+      if (prev.some((msg) => msg.message === message && msg.type === type)) {
+        return prev;
+      }
+      return [...prev, { id, message, type }];
+    });
     setTimeout(() => {
       setFlashMessages((prev) => prev.filter((msg) => msg.id !== id));
     }, 5000);
