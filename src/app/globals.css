@@ -5,11 +5,6 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    font-family: "DotGothic16", sans-serif;
-    @apply bg-background text-foreground;
-  }
-
   :root {
     --mainColor: 215 88% 21%;
     --background: 0 0% 100%;
@@ -92,7 +87,7 @@
   }
 
   .speech-bubble {
-    @apply bg-progressColor relative w-full max-w-[480px] rounded-lg border-2 border-mainColor p-4 text-left font-dotgothic text-sm leading-relaxed shadow-md;
+    @apply relative w-full max-w-[480px] rounded-lg border-2 border-mainColor bg-progressColor p-4 text-left font-dotgothic text-sm leading-relaxed shadow-md;
   }
 
   .speech-bubble::before,
@@ -106,7 +101,7 @@
   }
 
   .speech-bubble::after {
-    @apply border-progressColor bottom-[-7px];
+    @apply bottom-[-7px] border-progressColor;
   }
 
   .nicca-title {
@@ -121,7 +116,7 @@
   .nicca-title::before,
   .nicca-title::after {
     content: "";
-    @apply bg-progressColor absolute left-0 right-0 h-1;
+    @apply absolute left-0 right-0 h-1 bg-progressColor;
   }
 
   .nicca-title::before {
@@ -141,7 +136,7 @@
   }
 
   .progress-bar-fill {
-    @apply bg-progressColor h-full rounded-full shadow transition-all duration-300 ease-in-out;
+    @apply h-full rounded-full bg-progressColor shadow transition-all duration-300 ease-in-out;
   }
 
   .nicca-icon {
