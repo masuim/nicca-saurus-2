@@ -46,7 +46,7 @@ export const MainContent = () => {
               {currentView === 'dashboard' ? (
                 <Dashboard nicca={nicca} onNiccaRegistration={handleNiccaRegistration} />
               ) : (
-                <UserNiccaList currentView={currentView} />
+                <UserNiccaList />
               )}
             </Suspense>
           </div>
