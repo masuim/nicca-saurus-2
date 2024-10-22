@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signUp } from '@/app/actions/auth';
 import { signIn } from 'next-auth/react';
-import { signUpSchema, type SignUpFormValues } from '@/lib/validations/auth';
+import { SignUpFormValues, signUpSchema } from '@/lib/schema/auth';
 import { useFlashMessage } from '@/providers/FlashMessageProvider';
 
 type Props = {
@@ -42,6 +42,7 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
   const onSubmit = async (values: SignUpFormValues) => {
     try {
       const result = await signUp(values);
+      console.log('signUp result', result);
       if (result.error) {
         setError(result.error);
         showFlashMessage(result.error, 'error');

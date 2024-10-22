@@ -5,7 +5,7 @@ import NextAuth, { AuthOptions, Session, User } from 'next-auth';
 import { Adapter } from 'next-auth/adapters';
 import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { signInSchema } from '@/lib/validations/auth';
+import { signInSchema } from '@/lib/schema/auth';
 
 declare module 'next-auth' {
   interface Session {

@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useFlashMessage } from '@/providers/FlashMessageProvider';
-import { signInSchema, type SignInFormValues } from '@/lib/validations/auth';
+
 import {
   Form,
   FormControl,
@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { SignInFormValues, signInSchema } from '@/lib/schema/auth';
 
 type Props = {
   setIsSignUp: (isSignUp: boolean) => void;

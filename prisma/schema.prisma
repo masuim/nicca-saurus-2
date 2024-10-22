@@ -26,28 +26,19 @@ model Nicca {
   title        String
   saurusType   String
   isActive     Boolean           @default(true)
+  monday       Boolean           @default(false)
+  tuesday      Boolean           @default(false)
+  wednesday    Boolean           @default(false)
+  thursday     Boolean           @default(false)
+  friday       Boolean           @default(false)
+  saturday     Boolean           @default(false)
+  sunday       Boolean           @default(false)
   createdAt    DateTime          @default(now())
   updatedAt    DateTime          @updatedAt
-  user         User              @relation(fields: [userId], references: [id])
-  week         Week?
   achievements AchievementDate[]
+  user         User              @relation(fields: [userId], references: [id])
 
   @@map("niccas")
-}
-
-model Week {
-  id        String  @id @default(uuid())
-  niccaId   String  @unique
-  monday    Boolean @default(false)
-  tuesday   Boolean @default(false)
-  wednesday Boolean @default(false)
-  thursday  Boolean @default(false)
-  friday    Boolean @default(false)
-  saturday  Boolean @default(false)
-  sunday    Boolean @default(false)
-  nicca     Nicca   @relation(fields: [niccaId], references: [id])
-
-  @@map("weeks")
 }
 
 model AchievementDate {

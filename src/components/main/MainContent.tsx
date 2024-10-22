@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { ViewType } from '@/types/views';
 import { Suspense } from 'react';
 
@@ -10,29 +10,37 @@ import { Header } from '@/components/layout/Header';
 import { Dashboard } from '@/components/main/Dashboard/Dashboard';
 import { Loading } from '@/components/ui/Loading';
 import { getNicca } from '@/app/actions/nicca';
+import { Nicca } from '@/types/nicca';
+import { useFlashMessage } from '@/providers/FlashMessageProvider';
 
 export const MainContent = () => {
   const [currentView, setCurrentView] = useState<ViewType>('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [nicca, setNicca] = useState<{ title: string } | null>(null);
+  const [nicca, setNicca] = useState<Nicca | null>(null);
+  const { showFlashMessage } = useFlashMessage();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  useEffect(() => {
-    const fetchNicca = async () => {
-      const result = await getNicca();
-      if (result.nicca) {
-        setNicca(result.nicca);
-      }
-    };
-    fetchNicca();
-  }, []);
+  const fetchNicca = useCallback(async () => {
+    const result = await getNicca();
+    // console.log('MainContent result', result);
+    if (!result.success) {
+      console.error('Nicca fetch error:', result.error);
+      showFlashMessage(result.error || '日課の取得に失敗しました', 'error');
+    } else {
+      setNicca(result.data);
+    }
+  }, [showFlashMessage]);
 
-  const handleNiccaRegistration = (newNicca: { title: string }) => {
+  useEffect(() => {
+    fetchNicca();
+  }, [fetchNicca]);
+
+  const handleNiccaRegistration = useCallback((newNicca: Nicca) => {
     setNicca(newNicca);
-  };
+  }, []);
 
   return (
     <div className="flex h-screen flex-col lg:flex-row">
