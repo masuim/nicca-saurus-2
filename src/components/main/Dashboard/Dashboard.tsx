@@ -34,7 +34,7 @@ export const Dashboard = ({ nicca, onNiccaRegistration }: Props) => {
   return (
     <>
       <div className="sm:main-background xs mx-auto mt-4 w-[calc(100%-1rem)] max-w-[280px] rounded-lg p-4 xs:w-[calc(100%-2rem)] xs:max-w-[360px] sm:w-full sm:max-w-[640px] sm:border-2 sm:border-mainColor sm:p-6 md:p-8 lg:mt-8 lg:max-w-[720px]">
-        <div className="mb-8 flex flex-col sm:flex-row sm:items-center">
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-start">
           <div className="mb-4 w-full text-center sm:mb-0 sm:w-1/3">
             <div className="nicca-title">
               <div className="nicca-title-text">
@@ -46,7 +46,7 @@ export const Dashboard = ({ nicca, onNiccaRegistration }: Props) => {
             </div>
           </div>
           <div className="w-full sm:w-2/3 sm:pl-4">
-            <NiccaMessage className="dashboard-component relative flex h-full items-center border-2 border-mainColor p-6" />
+            <NiccaMessage className="dashboard-component relative flex border-2 border-mainColor p-6 pt-4" />
           </div>
         </div>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">

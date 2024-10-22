@@ -87,21 +87,32 @@
   }
 
   .speech-bubble {
-    @apply relative w-full max-w-[480px] rounded-lg border-2 border-mainColor bg-progressColor p-4 text-left font-sans text-sm leading-relaxed shadow-md;
+    @apply relative w-full max-w-[480px] rounded-lg border-2 border-mainColor bg-white p-4 text-left font-sans text-sm leading-relaxed shadow-md;
   }
 
   .speech-bubble::before,
   .speech-bubble::after {
     content: "";
-    @apply absolute bottom-[-10px] right-5 border-x-[10px] border-b-0 border-t-[10px] border-solid;
+    position: absolute;
+    bottom: -15px;
+    right: 5%;
+    border-top: 15px solid;
+    border-right: 30px solid transparent;
+    border-left: 0 solid transparent;
   }
 
   .speech-bubble::before {
-    @apply border-mainColor;
+    border-top-color: hsl(var(--mainColor));
+    bottom: -17px;
+    right: calc(5% - 2px);
+    z-index: 1;
   }
 
   .speech-bubble::after {
-    @apply bottom-[-7px] border-progressColor;
+    border-top-color: white;
+    bottom: -14px;
+    right: calc(5% + 2px);
+    z-index: 2;
   }
 
   .nicca-title {
