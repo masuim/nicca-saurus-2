@@ -19,7 +19,7 @@ const config: Config = {
     extend: {
       colors: {
         mainColor: 'hsl(var(--mainColor))',
-        progressColor: 'hsl(var(--progressColor))',
+        subColor: 'hsl(var(--subColor))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

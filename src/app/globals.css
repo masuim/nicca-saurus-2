@@ -7,6 +7,7 @@
 @layer base {
   :root {
     --mainColor: 215 88% 21%;
+    --subColor: 48 100% 88%;
     --background: 0 0% 100%;
     --foreground: var(--mainColor);
     --card: 0 0% 100%;
@@ -32,8 +33,6 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
-    --progressColor: 173 58% 39%;
-    --accentColor: 48 100% 88%;
   }
 
   body {
@@ -131,7 +130,7 @@
   .nicca-title::before,
   .nicca-title::after {
     content: "";
-    @apply absolute left-0 right-0 h-1 bg-progressColor;
+    @apply bg-subColor absolute left-0 right-0 h-1;
   }
 
   .nicca-title::before {
@@ -151,7 +150,7 @@
   }
 
   .progress-bar-fill {
-    @apply h-full rounded-full bg-progressColor shadow transition-all duration-300 ease-in-out;
+    @apply bg-subColor h-full rounded-full shadow transition-all duration-300 ease-in-out;
   }
 
   .nicca-icon {

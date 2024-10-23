@@ -57,7 +57,7 @@ export const Dashboard = ({ nicca, onNiccaRegistration }: Props) => {
             <div className="flex flex-grow transform items-center justify-center overflow-hidden transition-all duration-300 hover:scale-110">
               <SaurusImage saurusType={nicca.saurusType || 'デフォルト'} className="w-full" />
             </div>
-            <CompleteButton className="mt-4 w-full transform rounded-lg border-2 border-mainColor py-3 text-lg font-bold text-white transition-all duration-300 hover:scale-105 hover:shadow-xl" />
+            <CompleteButton className="mt-4 w-full transform rounded-lg border-2 border-mainColor py-3 text-lg font-bold transition-all duration-300 hover:scale-105 hover:shadow-xl" />
             <div className="mt-4 space-y-2 text-center"></div>
           </div>
         </div>
