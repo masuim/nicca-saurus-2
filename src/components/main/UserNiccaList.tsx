@@ -8,51 +8,38 @@ import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import { deleteNicca } from '@/app/actions/nicca';
 import { useFlashMessage } from '@/providers/FlashMessageProvider';
-
-type Nicca = {
-  id: string;
-  title: string;
-  saurusType: string;
-  isActive: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  week: {
-    monday: boolean;
-    tuesday: boolean;
-    wednesday: boolean;
-    thursday: boolean;
-    friday: boolean;
-    saturday: boolean;
-    sunday: boolean;
-  };
-  achievements: { achievedDate: Date }[];
-};
+import { Nicca, NiccaList } from '@/types/nicca';
 
 export const UserNiccaList = () => {
-  const [niccas, setNiccas] = useState<Nicca[]>([]);
+  const [niccas, setNiccas] = useState<NiccaList>([]);
   const [error, setError] = useState<string | null>(null);
   const { showFlashMessage } = useFlashMessage();
 
   useEffect(() => {
     const fetchNiccas = async () => {
-      const result = await getUserNiccas();
-      if (result.error) {
-        setError(result.error);
-      } else if (result.niccas) {
-        setNiccas(
-          result.niccas.map((nicca) => ({
-            ...nicca,
-            week: nicca.week || {
-              monday: false,
-              tuesday: false,
-              wednesday: false,
-              thursday: false,
-              friday: false,
-              saturday: false,
-              sunday: false,
-            },
-          })),
-        );
+      try {
+        const result = await getUserNiccas();
+        if (result.success) {
+          setNiccas(
+            result.data.map((nicca: Nicca) => ({
+              ...nicca,
+              week: nicca.week || {
+                monday: false,
+                tuesday: false,
+                wednesday: false,
+                thursday: false,
+                friday: false,
+                saturday: false,
+                sunday: false,
+              },
+            })),
+          );
+        } else {
+          setError(result.error || '日課の取得に失敗しました');
+        }
+      } catch (error) {
+        console.error('Niccas fetch error:', error);
+        setError('予期せぬエラーが発生しました');
       }
     };
 
@@ -63,19 +50,21 @@ export const UserNiccaList = () => {
     return <div className="text-red-500">{error}</div>;
   }
 
-  const getDayString = (week: Nicca['week']) => {
+  const getDayString = (nicca: Nicca) => {
     const days = ['月', '火', '水', '木', '金', '土', '日'];
-    const activeDays = Object.entries(week)
-      .filter(([_, value]) => value)
-      .map(
-        ([key]) =>
-          days[
-            ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].indexOf(
-              key,
-            )
-          ],
-      );
-    return activeDays.join(', ');
+    const dayKeys = [
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+      'sunday',
+    ] as const;
+    return dayKeys
+      .filter((day) => nicca?.week?.[day])
+      .map((day) => days[dayKeys.indexOf(day)])
+      .join(', ');
   };
 
   const handleEdit = (id: string) => {
@@ -122,7 +111,7 @@ export const UserNiccaList = () => {
           <p>ステータス: {nicca.isActive ? '有効' : '無効'}</p>
           <p>作成日: {format(new Date(nicca.createdAt), 'yyyy年MM月dd日 HH:mm', { locale: ja })}</p>
           <p>更新日: {format(new Date(nicca.updatedAt), 'yyyy年MM月dd日 HH:mm', { locale: ja })}</p>
-          <p>実施曜日: {getDayString(nicca.week)}</p>
+          <p>実施曜日: {getDayString(nicca)}</p>
           <p>達成回数: {nicca.achievements.length}回</p>
           <p>
             最終達成日:{' '}

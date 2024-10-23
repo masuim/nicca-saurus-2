@@ -1,6 +1,6 @@
 'use server';
 
-import { signUpSchema, type SignUpFormValues } from '@/lib/validations/auth';
+import { signUpSchema, type SignUpFormValues } from '@/lib/schema/auth';
 import bcrypt from 'bcrypt';
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
