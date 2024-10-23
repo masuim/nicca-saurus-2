@@ -1,6 +1,5 @@
 import { z } from 'zod';
-
-const MINIMUM_SELECTED_DAYS = 4;
+import { MINIMUM_SELECTED_DAYS } from '@/constants';
 
 export const WeekSchema = z
   .object({
