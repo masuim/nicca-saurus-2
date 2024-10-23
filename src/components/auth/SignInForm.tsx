@@ -48,9 +48,15 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
         showFlashMessage(result.error, 'error');
         return;
       }
-      showFlashMessage('サインインに成功しました', 'success');
-      router.push('/main');
+
+      if (result?.ok) {
+        showFlashMessage('サインインに成功しました', 'success');
+        router.push('/main');
+      } else {
+        showFlashMessage('サインインに失敗しました', 'error');
+      }
     } catch (error) {
+      console.error('Sign-in error:', error);
       showFlashMessage('サインイン中に予期せぬエラーが発生しました', 'error');
     }
   };
