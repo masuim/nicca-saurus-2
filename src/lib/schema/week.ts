@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+const MINIMUM_SELECTED_DAYS = 4;
+
 export const WeekSchema = z
   .object({
     monday: z.boolean(),
@@ -10,8 +12,9 @@ export const WeekSchema = z
     saturday: z.boolean(),
     sunday: z.boolean(),
   })
-  .refine((data) => Object.values(data).filter(Boolean).length >= 4, {
-    message: '少なくとも4日以上選択してください',
+  .refine((data) => Object.values(data).filter(Boolean).length >= MINIMUM_SELECTED_DAYS, {
+    message: `少なくとも${MINIMUM_SELECTED_DAYS}日以上選択してください`,
+    path: ['week'],
   });
 
 export type Week = z.infer<typeof WeekSchema>;

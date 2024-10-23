@@ -6,7 +6,7 @@ import { NiccaSchema, NiccaFormValues } from '@/lib/schema/nicca';
 import { createNicca } from '@/app/actions/nicca';
 import { CustomModal } from '@/components/ui/CustomModal';
 import { Nicca } from '@/types/nicca';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 const dayMap = ['月', '火', '水', '木', '金', '土', '日'];
 
@@ -20,13 +20,14 @@ const dayKeys = [
   'sunday',
 ] as const;
 
+const MINIMUM_SELECTED_DAYS = 4;
+
 type Props = {
   isOpen: boolean;
   onClose: () => void;
   onRegistration: (newNicca: Nicca) => void;
 };
 
-// TODO: 曜日が不足している時のエラー表示消してしまったので再度書く
 export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration }: Props) => {
   const { showFlashMessage } = useFlashMessage();
 
@@ -45,6 +46,26 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration }: Prop
     mode: 'onChange',
   });
 
+  const selectedDays = form.watch(dayKeys);
+
+  useEffect(() => {
+    const selectedCount = selectedDays.filter(Boolean).length;
+    const currentError = form.formState.errors.root?.message;
+
+    if (selectedCount < MINIMUM_SELECTED_DAYS) {
+      if (currentError !== `少なくとも${MINIMUM_SELECTED_DAYS}日以上選択してください`) {
+        form.setError('root', {
+          type: 'manual',
+          message: `少なくとも${MINIMUM_SELECTED_DAYS}日以上選択してください`,
+        });
+      }
+    } else {
+      if (currentError) {
+        form.clearErrors('root');
+      }
+    }
+  }, [selectedDays, form]);
+
   const onSubmit = async (values: NiccaFormValues) => {
     const isValid = await form.trigger();
     if (!isValid) {
@@ -53,7 +74,6 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration }: Prop
 
     try {
       const result = await createNicca(values);
-      // console.log('result', result);
       if (!result.success) {
         showFlashMessage(result.error, 'error');
       } else {
@@ -67,6 +87,7 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration }: Prop
     }
   };
 
+  // TODO: 使ってない。
   const handleNiccaRegistration = useCallback(
     (newNicca: Nicca) => {
       onRegistration(newNicca);
@@ -106,6 +127,9 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration }: Prop
             );
           })}
         </div>
+        {form.formState.errors.root && (
+          <p className="mt-2 text-sm text-red-500">{form.formState.errors.root.message}</p>
+        )}
         <div className="mt-6 flex justify-end space-x-2">
           <Button variant="outline" onClick={onClose} className="border-2 border-primary/60">
             戻る
