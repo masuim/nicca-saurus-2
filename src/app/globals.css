@@ -7,7 +7,7 @@
 @layer base {
   :root {
     --mainColor: 215 88% 21%;
-    --subColor: 48 100% 88%;
+    --subColor: 48 100% 77%;
     --background: 0 0% 100%;
     --foreground: var(--mainColor);
     --card: 0 0% 100%;
