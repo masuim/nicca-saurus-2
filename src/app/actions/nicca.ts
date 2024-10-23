@@ -61,7 +61,7 @@ export const getNicca = async (): Promise<ApiResult<NiccaWithRelations | null>> 
     });
     // console.log('get nicca', nicca);
     if (!nicca) {
-      return { success: false, error: '日課のデータが不完全です。', status: 500 };
+      console.error('Active Nicca not found for user:', session.user.id);
     }
 
     // console.log('get nicca', nicca);
