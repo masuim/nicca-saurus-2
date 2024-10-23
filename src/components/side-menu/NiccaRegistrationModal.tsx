@@ -7,6 +7,7 @@ import { createNicca } from '@/app/actions/nicca';
 import { CustomModal } from '@/components/ui/CustomModal';
 import { Nicca } from '@/types/nicca';
 import { useCallback, useEffect } from 'react';
+import { MINIMUM_SELECTED_DAYS } from '@/constants';
 
 const dayMap = ['月', '火', '水', '木', '金', '土', '日'];
 
@@ -19,8 +20,6 @@ const dayKeys = [
   'saturday',
   'sunday',
 ] as const;
-
-const MINIMUM_SELECTED_DAYS = 4;
 
 type Props = {
   isOpen: boolean;

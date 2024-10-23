@@ -46,10 +46,7 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
 
       if (result?.error) {
         showFlashMessage(result.error, 'error');
-        return;
-      }
-
-      if (result?.ok) {
+      } else if (result?.ok) {
         showFlashMessage('サインインに成功しました', 'success');
         router.push('/main');
       } else {
@@ -68,7 +65,10 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={(e) => {
+          e.preventDefault();
+          form.handleSubmit(onSubmit)(e);
+        }}
         className="text-responsive-xs w-full max-w-sm space-y-6 rounded-lg bg-gray-50 p-6 shadow-md sm:px-6 md:px-8"
       >
         <h2 className="text-responsive-title text-center font-bold">サインイン</h2>
