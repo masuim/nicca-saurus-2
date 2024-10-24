@@ -135,7 +135,7 @@
   .nicca-title::before,
   .nicca-title::after {
     content: "";
-    @apply bg-subColor absolute left-0 right-0 h-1;
+    @apply sm:bg-subColor absolute left-0 right-0 h-1 border border-mainColor sm:border-0;
   }
 
   .nicca-title::before {
@@ -147,11 +147,11 @@
   }
 
   .nicca-title-text {
-    @apply flex items-center justify-center;
+    @apply flex items-center justify-center sm:text-white;
   }
 
   .progress-bar {
-    @apply mt-3 h-3 w-full overflow-hidden rounded-full bg-white bg-opacity-30 shadow-inner;
+    @apply mt-3 h-3 w-full overflow-hidden border border-mainColor sm:rounded-full sm:border-0 sm:bg-white sm:bg-opacity-30 sm:shadow-inner;
   }
 
   .progress-bar-fill {
