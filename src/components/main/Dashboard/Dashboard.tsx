@@ -14,7 +14,6 @@ type Props = {
 };
 
 export const Dashboard = ({ nicca, onNiccaRegistration }: Props) => {
-  // console.log('nicca', nicca);
   const [showNiccaRegistration, setShowNiccaRegistration] = useState(nicca === null);
 
   useEffect(() => {

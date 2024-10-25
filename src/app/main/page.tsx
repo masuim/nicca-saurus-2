@@ -7,7 +7,6 @@ import { Loading } from '@/components/ui/Loading';
 
 export default async function MainPage() {
   const session = await getServerSession(authOptions);
-
   if (!session) {
     redirect('/');
   }

@@ -35,7 +35,6 @@ export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<
         achievements: true,
       },
     });
-    console.log('created nicca', nicca);
     return { success: true, data: nicca, status: 201 };
   } catch (error) {
     console.error('Nicca creation error:', error);
@@ -59,12 +58,10 @@ export const getNicca = async (): Promise<ApiResult<NiccaWithRelations | null>> 
         achievements: true,
       },
     });
-    // console.log('get nicca', nicca);
     if (!nicca) {
       console.error('Active Nicca not found for user:', session.user.id);
     }
 
-    // console.log('get nicca', nicca);
     return { success: true, data: nicca, status: 200 };
   } catch (error) {
     console.error('Nicca fetch error:', error);

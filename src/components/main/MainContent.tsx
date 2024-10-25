@@ -25,7 +25,6 @@ export const MainContent = () => {
 
   const fetchNicca = useCallback(async () => {
     const result = await getNicca();
-    // console.log('MainContent result', result);
     if (!result.success) {
       console.error('Nicca fetch error:', result.error);
       showFlashMessage(result.error || '日課の取得に失敗しました', 'error');

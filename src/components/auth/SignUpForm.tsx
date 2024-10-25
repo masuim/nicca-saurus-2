@@ -42,7 +42,6 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
   const onSubmit = async (values: SignUpFormValues) => {
     try {
       const result = await signUp(values);
-      console.log('signUp result', result);
       if (result.error) {
         setError(result.error);
         showFlashMessage(result.error, 'error');

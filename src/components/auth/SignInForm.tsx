@@ -43,7 +43,6 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
         email: values.email,
         password: values.password,
       });
-
       if (result?.error) {
         showFlashMessage(result.error, 'error');
       } else if (result?.ok) {
@@ -65,10 +64,7 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
   return (
     <Form {...form}>
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          form.handleSubmit(onSubmit)(e);
-        }}
+        onSubmit={form.handleSubmit(onSubmit)}
         className="text-responsive-xs w-full max-w-sm space-y-6 rounded-lg bg-gray-50 p-6 shadow-md sm:px-6 md:px-8"
       >
         <h2 className="text-responsive-title text-center font-bold">サインイン</h2>

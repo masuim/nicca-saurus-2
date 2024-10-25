@@ -35,21 +35,17 @@ export const authOptions: AuthOptions = {
         }
 
         const { email, password } = validatedFields.data;
-
         const user = await prisma.user.findUnique({
           where: { email },
         });
-
         if (!user) {
           throw new Error('ユーザーが見つかりません');
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
-
         if (!isPasswordValid) {
           throw new Error('パスワードが正しくありません');
         }
-
         return {
           id: user.id,
           email: user.email,
