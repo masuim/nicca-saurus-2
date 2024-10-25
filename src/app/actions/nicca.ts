@@ -7,6 +7,12 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { ApiResult } from '@/types/api-result';
 import { Nicca, NiccaWithRelations } from '@/types/nicca';
+import { SAURUS_TYPES } from '@/lib/schema/saurus-type';
+
+const getRandomSaurusType = () => {
+  const saurusTypes = SAURUS_TYPES.options;
+  return saurusTypes[Math.floor(Math.random() * saurusTypes.length)];
+};
 
 export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<Nicca>> => {
   const validatedFields = NiccaSchema.safeParse(formData);
@@ -27,7 +33,7 @@ export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<
       data: {
         userId: session.user.id,
         title,
-        saurusType: 'brachiosaurus', // TODO:仮の値として設定
+        saurusType: getRandomSaurusType(),
         isActive: true,
         ...weekData,
       },
