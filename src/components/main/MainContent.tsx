@@ -57,12 +57,19 @@ export const MainContent = () => {
     [fetchNicca],
   );
 
+  const handleCloseNiccaRegistration = useCallback(() => {
+    if (nicca !== null) {
+      setShowNiccaRegistration(false);
+    }
+  }, [nicca]);
+
   return (
     <div className="flex h-screen flex-col lg:flex-row">
       <NiccaRegistrationModal
         isOpen={showNiccaRegistration}
-        onClose={() => setShowNiccaRegistration(false)}
+        onClose={handleCloseNiccaRegistration}
         onRegistration={handleNiccaRegistration}
+        canClose={nicca !== null}
       />
       <div className="w-full lg:hidden">
         <Header onMenuToggle={toggleMobileMenu} />
