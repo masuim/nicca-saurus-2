@@ -7,6 +7,7 @@
 @layer base {
   :root {
     --mainColor: 215 88% 21%;
+    --subColor: 48 100% 77%;
     --background: 0 0% 100%;
     --foreground: var(--mainColor);
     --card: 0 0% 100%;
@@ -32,8 +33,10 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
-    --progressColor: 173 58% 39%;
-    --accentColor: 48 100% 88%;
+  }
+
+  body {
+    @apply text-mainColor;
   }
 
   .dark {
@@ -87,36 +90,52 @@
   }
 
   .speech-bubble {
-    @apply relative w-full max-w-[480px] rounded-lg border-2 border-mainColor bg-progressColor p-4 text-left font-sans text-sm leading-relaxed shadow-md;
+    @apply relative w-full max-w-[480px] rounded-lg border-2 border-mainColor bg-white p-4 text-left font-sans text-sm leading-relaxed shadow-md;
   }
 
   .speech-bubble::before,
   .speech-bubble::after {
     content: "";
-    @apply absolute bottom-[-10px] right-5 border-x-[10px] border-b-0 border-t-[10px] border-solid;
+    position: absolute;
+    bottom: -15px;
+    right: 5%;
+    border-top: 15px solid;
+    border-right: 30px solid transparent;
+    border-left: 0 solid transparent;
   }
 
   .speech-bubble::before {
-    @apply border-mainColor;
+    border-top-color: hsl(var(--mainColor));
+    bottom: -17px;
+    right: calc(5% - 2px);
+    z-index: 1;
   }
 
   .speech-bubble::after {
-    @apply bottom-[-7px] border-progressColor;
+    border-top-color: white;
+    bottom: -14px;
+    right: calc(5% + 2px);
+    z-index: 2;
   }
 
   .nicca-title {
-    @apply relative overflow-hidden px-5 py-4 font-sans text-3xl font-bold text-white;
-    text-shadow:
-      2px 2px 0 hsl(var(--mainColor)),
-      -2px -2px 0 hsl(var(--mainColor)),
-      2px -2px 0 hsl(var(--mainColor)),
-      -2px 2px 0 hsl(var(--mainColor));
+    @apply relative overflow-hidden px-5 py-4 font-sans text-3xl font-black text-mainColor lg:text-white;
+  }
+
+  @media (min-width: 1024px) {
+    .nicca-title {
+      text-shadow:
+        2px 2px 0 hsl(var(--mainColor)),
+        -2px -2px 0 hsl(var(--mainColor)),
+        2px -2px 0 hsl(var(--mainColor)),
+        -2px 2px 0 hsl(var(--mainColor));
+    }
   }
 
   .nicca-title::before,
   .nicca-title::after {
     content: "";
-    @apply absolute left-0 right-0 h-1 bg-progressColor;
+    @apply sm:bg-subColor absolute left-0 right-0 h-1 border border-mainColor sm:border-0;
   }
 
   .nicca-title::before {
@@ -128,15 +147,15 @@
   }
 
   .nicca-title-text {
-    @apply flex items-center justify-center;
+    @apply flex items-center justify-center sm:text-white;
   }
 
   .progress-bar {
-    @apply mt-3 h-3 w-full overflow-hidden rounded-full bg-white bg-opacity-30 shadow-inner;
+    @apply mt-3 h-3 w-full overflow-hidden border border-mainColor sm:rounded-full sm:border-0 sm:bg-white sm:bg-opacity-30 sm:shadow-inner;
   }
 
   .progress-bar-fill {
-    @apply h-full rounded-full bg-progressColor shadow transition-all duration-300 ease-in-out;
+    @apply bg-subColor h-full rounded-full shadow transition-all duration-300 ease-in-out;
   }
 
   .nicca-icon {

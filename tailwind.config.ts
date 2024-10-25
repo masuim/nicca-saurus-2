@@ -19,7 +19,7 @@ const config: Config = {
     extend: {
       colors: {
         mainColor: 'hsl(var(--mainColor))',
-        progressColor: 'hsl(var(--progressColor))',
+        subColor: 'hsl(var(--subColor))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -71,6 +71,9 @@ const config: Config = {
       },
       width: {
         'adaptive-7-9': 'clamp(28px, calc(100vw - 108px) / 7, 36px)',
+      },
+      textColor: {
+        DEFAULT: 'hsl(var(--mainColor))',
       },
     },
   },

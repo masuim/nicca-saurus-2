@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useFlashMessage } from '@/providers/FlashMessageProvider';
-import { signInSchema, type SignInFormValues } from '@/lib/validations/auth';
+
 import {
   Form,
   FormControl,
@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { SignInFormValues, signInSchema } from '@/lib/schema/auth';
 
 type Props = {
   setIsSignUp: (isSignUp: boolean) => void;
@@ -42,14 +43,16 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
         email: values.email,
         password: values.password,
       });
-
       if (result?.error) {
         showFlashMessage(result.error, 'error');
-        return;
+      } else if (result?.ok) {
+        showFlashMessage('サインインに成功しました', 'success');
+        router.push('/main');
+      } else {
+        showFlashMessage('サインインに失敗しました', 'error');
       }
-      showFlashMessage('サインインに成功しました', 'success');
-      router.push('/main');
     } catch (error) {
+      console.error('Sign-in error:', error);
       showFlashMessage('サインイン中に予期せぬエラーが発生しました', 'error');
     }
   };

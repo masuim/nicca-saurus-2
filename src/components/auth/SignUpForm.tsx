@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signUp } from '@/app/actions/auth';
 import { signIn } from 'next-auth/react';
-import { signUpSchema, type SignUpFormValues } from '@/lib/validations/auth';
+import { SignUpFormValues, signUpSchema } from '@/lib/schema/auth';
 import { useFlashMessage } from '@/providers/FlashMessageProvider';
 
 type Props = {

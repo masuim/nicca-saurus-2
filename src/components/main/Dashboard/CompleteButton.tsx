@@ -14,11 +14,11 @@ export const CompleteButton = ({ className }: { className?: string }) => {
     <Button
       onClick={handleComplete}
       className={`${className} ${
-        isCompleted ? 'bg-gray-500' : 'bg-progressColor hover:bg-progressColor/80'
-      } transform rounded-lg border-2 border-mainColor px-4 py-2 text-white transition-all duration-300 ease-in-out hover:scale-105`}
+        isCompleted ? 'bg-gray-500' : 'bg-subColor hover:bg-subColor/80'
+      } transform rounded-lg border-2 border-mainColor px-4 py-2 transition-all duration-300 ease-in-out hover:scale-105`}
       disabled={isCompleted}
     >
-      <span className="text-sm font-medium">
+      <span className="text-sm font-semibold text-mainColor">
         {isCompleted ? '完了しました！' : '本日の日課完了！'}
       </span>
     </Button>
