@@ -13,20 +13,8 @@ type Props = {
 };
 
 export const Dashboard = ({ nicca, onNiccaRegistration }: Props) => {
-  const [showNiccaRegistration, setShowNiccaRegistration] = useState(nicca === null);
-
-  useEffect(() => {
-    setShowNiccaRegistration(nicca === null);
-  }, [nicca]);
-
   if (nicca === null) {
-    return (
-      <NiccaRegistrationModal
-        isOpen={true}
-        onClose={() => {}}
-        onRegistration={onNiccaRegistration}
-      />
-    );
+    return <div>アクティブな日課がないよー！</div>;
   }
 
   return (
