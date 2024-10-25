@@ -15,7 +15,7 @@ export const CustomCalendar = ({ className }: Props) => {
 
   return (
     <Card className={`w-full rounded-lg border-2 border-mainColor bg-white ${className}`}>
-      <CardContent className="p-2 xs:p-3 sm:p-4 md:p-5">
+      <CardContent className="p-1 xs:p-2">
         <Calendar
           mode="single"
           selected={date}

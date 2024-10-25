@@ -32,16 +32,13 @@ export const Dashboard = ({ nicca, onNiccaRegistration }: Props) => {
 
   return (
     <>
-      <div className="sm:main-background xs mx-auto mt-4 w-[calc(100%-1rem)] max-w-[280px] rounded-lg p-4 xs:w-[calc(100%-2rem)] xs:max-w-[360px] sm:w-full sm:max-w-[640px] sm:border-2 sm:border-mainColor sm:p-6 md:p-8 lg:mt-8 lg:max-w-[720px]">
-        <div className="mb-8 flex flex-col sm:flex-row sm:items-start">
+      <div className="sm:main-background xs mx-auto w-[calc(100%-1rem)] max-w-[280px] rounded-lg p-4 xs:w-[calc(100%-2rem)] xs:max-w-[360px] sm:w-full sm:max-w-[640px] sm:border-2 sm:border-mainColor sm:p-6 md:p-8 lg:mt-8 lg:flex lg:h-auto lg:max-w-[720px] lg:flex-col lg:justify-between">
+        <div className="mb-8 flex flex-col bg-red-500 sm:flex-row sm:items-start lg:mb-8">
           <div className="mb-4 w-full text-center sm:mb-0 sm:w-1/3">
             <div className="nicca-title">
               <div className="nicca-title-text">
-                <h2>{nicca.title || '日課'}</h2>
+                <h2 className="truncate text-2xl lg:text-3xl">{nicca.title || '日課'}</h2>
               </div>
-            </div>
-            <div className="progress-bar">
-              <div className="progress-bar-fill" style={{ width: '50%' }}></div>
             </div>
           </div>
           <div className="w-full sm:w-2/3 sm:pl-4">
@@ -59,9 +56,6 @@ export const Dashboard = ({ nicca, onNiccaRegistration }: Props) => {
             <CompleteButton className="mt-4 w-full transform rounded-lg border-2 border-mainColor py-3 text-lg font-bold transition-all duration-300 hover:scale-105 hover:shadow-xl" />
             <div className="mt-4 space-y-2 text-center"></div>
           </div>
-        </div>
-        <div className="mt-8">
-          <AchievementMetrics className="dashboard-component bg-gray-50" />
         </div>
       </div>
     </>
