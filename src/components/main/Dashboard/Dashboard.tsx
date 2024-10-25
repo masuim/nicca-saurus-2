@@ -1,4 +1,3 @@
-import { AchievementMetrics } from '@/components/main/Dashboard/AchievementMetrics';
 import { CustomCalendar } from '@/components/main/Dashboard/Calendar';
 import { CompleteButton } from '@/components/main/Dashboard/CompleteButton';
 import { NiccaMessage } from '@/components/main/Dashboard/NiccaMessage';
