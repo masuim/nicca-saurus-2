@@ -51,7 +51,6 @@ export const Dashboard = ({ nicca }: Props) => {
               className="mt-4 w-full transform rounded-lg border-2 border-mainColor py-3 text-lg font-bold transition-all duration-300 hover:scale-105 hover:shadow-xl"
               onComplete={handleComplete}
             />
-            <div className="mt-4 space-y-2 text-center"></div>
           </div>
         </div>
       </div>
