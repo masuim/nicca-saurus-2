@@ -30,20 +30,22 @@ export const CustomCalendar = ({ className, completedDates }: Props) => {
             return (
               <div
                 className={`flex h-full w-full flex-col items-center justify-between rounded-md ${
-                  isToday ? 'bg-yellow-200 px-2' : 'px-0.5'
+                  isToday
+                    ? 'bg-yellow-200 px-1 pb-1 xs:px-2 xs:pb-1'
+                    : 'xs:by-1 px-1 pb-0.5 xs:px-2'
                 } ${isOutsideCurrentMonth ? 'opacity-50' : 'font-bold'}`}
               >
-                <div className="text-xs sm:text-[0.7rem] md:text-xs lg:text-sm">
+                <div className="w-full px-0.5 py-1 text-center text-xs sm:text-[0.7rem] md:text-xs lg:text-sm">
                   {date.getDate()}
                 </div>
-                <div className="h-3 w-3 sm:h-3 sm:w-3 md:h-4 md:w-4 lg:h-5 lg:w-5">
+                <div className="flex h-3 w-3 items-center justify-center sm:h-3 sm:w-3 md:h-4 md:w-4 lg:h-5 lg:w-5">
                   {isCompleted && (
                     <Image
                       src="/images/meat/meat-removebg.png"
                       alt="Meat"
                       width={12}
                       height={12}
-                      className="h-full w-full"
+                      className="h-full w-full object-contain"
                     />
                   )}
                 </div>
