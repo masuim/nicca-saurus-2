@@ -67,7 +67,6 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration, canClo
   }, [selectedDays, form]);
 
   const onSubmit = async (values: NiccaFormValues) => {
-    console.log('values', values);
     const isValid = await form.trigger();
     if (!isValid) {
       return;

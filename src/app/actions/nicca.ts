@@ -16,7 +16,6 @@ const getRandomSaurusType = () => {
 
 export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<Nicca | null>> => {
   const validatedFields = NiccaSchema.safeParse(formData);
-  console.log('validatedFields', validatedFields);
   if (!validatedFields.success) {
     return { success: false, error: '無効なフィールドがあります。', status: 400 };
   }
@@ -48,8 +47,6 @@ export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<
   // endDateを計算（startDateから5週間後）
   const endDate = new Date(startDate);
   endDate.setDate(endDate.getDate() + 35);
-  console.log('startDate', startDate);
-  console.log('endDate', endDate);
   try {
     const nicca = await prisma.nicca.create({
       data: {
