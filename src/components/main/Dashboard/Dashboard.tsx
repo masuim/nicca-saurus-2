@@ -12,15 +12,21 @@ type Props = {
 };
 
 export const Dashboard = ({ nicca }: Props) => {
-  const [completedDates, setCompletedDates] = useState<Date[]>([]);
+  const [achievements, setAchievements] = useState<Date[]>(
+    nicca?.achievements.map((a) => new Date(a.achievedDate)) || [],
+  );
   const [isAnimating, setIsAnimating] = useState(false);
 
   if (nicca === null) {
     return <div>アクティブな日課がないよー！</div>;
   }
 
+  const isCompletedToday = achievements.some(
+    (date) => date.toDateString() === new Date().toDateString(),
+  );
+
   const handleComplete = (date: Date) => {
-    setCompletedDates((prevDates) => [...prevDates, date]);
+    setAchievements((prev) => [...prev, date]);
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 5000);
   };
@@ -55,6 +61,7 @@ export const Dashboard = ({ nicca }: Props) => {
               className="mt-4 w-full transform rounded-lg border-2 border-mainColor py-3 text-lg font-bold transition-all duration-300 hover:scale-105 hover:shadow-xl"
               niccaId={nicca.id}
               onComplete={handleComplete}
+              isCompletedToday={isCompletedToday}
             />
           </div>
         </div>
