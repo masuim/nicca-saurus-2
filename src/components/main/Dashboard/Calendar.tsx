@@ -8,9 +8,10 @@ import Image from 'next/image';
 
 type Props = {
   className?: string;
+  completedDates: Date[];
 };
 
-export const CustomCalendar = ({ className }: Props) => {
+export const CustomCalendar = ({ className, completedDates }: Props) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
 
   return (
@@ -23,6 +24,9 @@ export const CustomCalendar = ({ className }: Props) => {
             Day: ({ day, date }) => {
               const isToday = date.toDateString() === new Date().toDateString();
               const isOutsideCurrentMonth = date.getMonth() !== new Date().getMonth();
+              const isCompleted = completedDates.some(
+                (completedDate) => completedDate.toDateString() === date.toDateString(),
+              );
               return (
                 <div
                   className={`flex h-full w-full flex-col items-center justify-center rounded-md p-1 ${
@@ -30,13 +34,15 @@ export const CustomCalendar = ({ className }: Props) => {
                   } ${isOutsideCurrentMonth ? 'opacity-50' : 'font-bold'}`}
                 >
                   <div className="text-xs sm:text-sm md:text-base lg:text-lg">{date.getDate()}</div>
-                  <Image
-                    src="/images/meat/meat-removebg.png"
-                    alt="Meat"
-                    width={12}
-                    height={12}
-                    className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5"
-                  />
+                  {isCompleted && (
+                    <Image
+                      src="/images/meat/meat-removebg.png"
+                      alt="Meat"
+                      width={12}
+                      height={12}
+                      className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5"
+                    />
+                  )}
                 </div>
               );
             },

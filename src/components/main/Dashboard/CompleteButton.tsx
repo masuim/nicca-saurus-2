@@ -1,12 +1,17 @@
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import { GiPlesiosaurus } from 'react-icons/gi';
 
-export const CompleteButton = ({ className }: { className?: string }) => {
+type CompleteButtonProps = {
+  className?: string;
+  onComplete: (date: Date) => void;
+};
+
+export const CompleteButton = ({ className, onComplete }: CompleteButtonProps) => {
   const [isCompleted, setIsCompleted] = useState(false);
 
   const handleComplete = () => {
     setIsCompleted(true);
+    onComplete(new Date());
     alert('本日の日課完了！お疲れさまです！');
   };
 

@@ -13,9 +13,15 @@ type Props = {
 };
 
 export const Dashboard = ({ nicca, onNiccaRegistration }: Props) => {
+  const [completedDates, setCompletedDates] = useState<Date[]>([]);
+
   if (nicca === null) {
     return <div>アクティブな日課がないよー！</div>;
   }
+
+  const handleComplete = (date: Date) => {
+    setCompletedDates((prevDates) => [...prevDates, date]);
+  };
 
   return (
     <>
@@ -34,13 +40,19 @@ export const Dashboard = ({ nicca, onNiccaRegistration }: Props) => {
         </div>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
           <div className="h-full w-full">
-            <CustomCalendar className="dashboard-component h-full w-full bg-gray-50" />
+            <CustomCalendar
+              className="dashboard-component h-full w-full bg-gray-50"
+              completedDates={completedDates}
+            />
           </div>
           <div className="dashboard-component flex h-full flex-col justify-between border-2 border-mainColor bg-gray-50 p-6">
             <div className="flex flex-grow transform items-center justify-center overflow-hidden transition-all duration-300 hover:scale-110">
               <SaurusImage saurusType={nicca.saurusType || 'デフォルト'} className="w-full" />
             </div>
-            <CompleteButton className="mt-4 w-full transform rounded-lg border-2 border-mainColor py-3 text-lg font-bold transition-all duration-300 hover:scale-105 hover:shadow-xl" />
+            <CompleteButton
+              className="mt-4 w-full transform rounded-lg border-2 border-mainColor py-3 text-lg font-bold transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              onComplete={handleComplete}
+            />
             <div className="mt-4 space-y-2 text-center"></div>
           </div>
         </div>
