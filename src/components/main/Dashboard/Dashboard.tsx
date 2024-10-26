@@ -3,7 +3,7 @@ import { CompleteButton } from '@/components/main/Dashboard/CompleteButton';
 import { NiccaMessage } from '@/components/main/Dashboard/NiccaMessage';
 import { SaurusImage } from '@/components/main/Dashboard/SaurusImage';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Nicca } from '@/types/nicca';
 import { Confetti } from '@/components/main/Dashboard/Animation/Confetti';
 
@@ -16,6 +16,7 @@ export const Dashboard = ({ nicca }: Props) => {
     nicca?.achievements.map((a) => new Date(a.achievedDate)) || [],
   );
   const [isAnimating, setIsAnimating] = useState(false);
+  const [message, setMessage] = useState('日課を続けて、恐竜と一緒に成長しましょう！');
 
   if (nicca === null) {
     return <div>アクティブな日課がないよー！</div>;
@@ -24,6 +25,47 @@ export const Dashboard = ({ nicca }: Props) => {
   const isCompletedToday = achievements.some(
     (date) => date.toDateString() === new Date().toDateString(),
   );
+
+  const saurusLevel = useMemo(() => {
+    // SaurusImage コンポーネントと同じロジックでレベルを計算
+    const weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    const selectedDaysCount = weekDays.filter((day) => nicca[day as keyof Nicca]).length;
+    const achievementsCount = nicca.achievements.length;
+    const level = Math.floor(achievementsCount / selectedDaysCount) + 1;
+    return Math.min(level, 5);
+  }, [nicca]);
+
+  const randomEncouragingMessage = () => {
+    const messages = [
+      'すごい！今日も一歩前進だね！',
+      '継続は力なり！その調子で頑張ろう！',
+      '日々の努力が実を結んでいるよ！',
+      '恐竜も喜んでいるよ！一緒に成長しよう！',
+      'その調子！日々の積み重ねが大切だよ！',
+    ];
+    return messages[Math.floor(Math.random() * messages.length)];
+  };
+
+  useEffect(() => {
+    if (nicca.achievements.length === 0) {
+      setMessage('日課を続けて、恐竜と一緒に成長しましょう！');
+    } else if (
+      new Date(nicca.endDate).toDateString() === new Date().toDateString() &&
+      achievements.some((date) => date.toDateString() === new Date().toDateString())
+    ) {
+      setMessage(
+        'おめでとうございます！\nあなたも恐竜も独り立ちの時が来ました！\n1ヶ月お疲れ様でした！',
+      );
+    } else {
+      setMessage(randomEncouragingMessage());
+    }
+  }, [nicca, achievements]);
+
+  useEffect(() => {
+    if (saurusLevel > 1 && achievements.length % (saurusLevel - 1) === 0) {
+      setMessage('恐竜が一段階成長したよ！次の成長も楽しみだね！');
+    }
+  }, [saurusLevel, achievements]);
 
   const handleComplete = (date: Date) => {
     setAchievements((prev) => [...prev, date]);
@@ -43,7 +85,10 @@ export const Dashboard = ({ nicca }: Props) => {
             </div>
           </div>
           <div className="w-full sm:w-1/2 sm:pl-4">
-            <NiccaMessage className="dashboard-component relative flex border-2 border-mainColor p-6 pt-4" />
+            <NiccaMessage
+              className="dashboard-component relative flex border-2 border-mainColor p-6 pt-4"
+              message={message}
+            />
           </div>
         </div>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
