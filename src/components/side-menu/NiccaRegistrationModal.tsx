@@ -7,7 +7,8 @@ import { createNicca } from '@/app/actions/nicca';
 import { CustomModal } from '@/components/ui/CustomModal';
 import { Nicca } from '@/types/nicca';
 import { useEffect } from 'react';
-import { MINIMUM_SELECTED_DAYS } from '@/constants';
+import { NUMBERS } from '@/constants/numbers';
+import { MESSAGES } from '@/constants/messages';
 
 const dayMap = ['月', '火', '水', '木', '金', '土', '日'];
 
@@ -52,11 +53,13 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration, canClo
     const selectedCount = selectedDays.filter(Boolean).length;
     const currentError = form.formState.errors.root?.message;
 
-    if (selectedCount < MINIMUM_SELECTED_DAYS) {
-      if (currentError !== `少なくとも${MINIMUM_SELECTED_DAYS}日以上選択してください`) {
+    if (selectedCount < NUMBERS.MINIMUM_SELECTED_DAYS) {
+      if (
+        currentError !== MESSAGES.VALIDATION.MINIMUM_DAYS_SELECTION(NUMBERS.MINIMUM_SELECTED_DAYS)
+      ) {
         form.setError('root', {
           type: 'manual',
-          message: `少なくとも${MINIMUM_SELECTED_DAYS}日以上選択してください`,
+          message: MESSAGES.VALIDATION.MINIMUM_DAYS_SELECTION(NUMBERS.MINIMUM_SELECTED_DAYS),
         });
       }
     } else {
@@ -75,27 +78,27 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration, canClo
     try {
       const result = await createNicca(values);
       if (!result.success) {
-        showFlashMessage(result.error, 'error');
+        showFlashMessage(MESSAGES.FLASH_MESSAGES.NICCA_REGISTRATION_ERROR, 'error');
       } else if (result.data) {
-        showFlashMessage('日課が登録されました', 'success');
+        showFlashMessage(MESSAGES.FLASH_MESSAGES.NICCA_REGISTRATION_SUCCESS, 'success');
         onRegistration(result.data);
         form.reset();
       } else {
-        showFlashMessage('日課の登録に失敗しました', 'error');
+        showFlashMessage(MESSAGES.FLASH_MESSAGES.NICCA_REGISTRATION_UNEXPECTED_ERROR, 'error');
       }
     } catch (error) {
       console.error('Nicca registration error:', error);
-      showFlashMessage('日課の登録中にエラーが発生しました', 'error');
+      showFlashMessage(MESSAGES.FLASH_MESSAGES.NICCA_REGISTRATION_UNEXPECTED_ERROR, 'error');
     }
   };
 
   return (
     <CustomModal isOpen={isOpen} onClose={onClose} canClose={canClose}>
-      <h2 className="mb-4 text-xl font-bold">日課登録</h2>
-      <p className="mb-4 text-sm text-gray-600">日課名を入力し、実施する曜日を選択してください。</p>
+      <h2 className="mb-4 text-xl font-bold">{MESSAGES.FORM.NICCA_REGISTRATION_TITLE}</h2>
+      <p className="mb-4 text-sm text-gray-600">{MESSAGES.FORM.NICCA_REGISTRATION_INSTRUCTION}</p>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <input
-          placeholder="日課を入力してください"
+          placeholder={MESSAGES.FORM.NICCA_TITLE_PLACEHOLDER}
           {...form.register('title')}
           className="mb-4 w-full rounded-md border-2 border-primary/60 p-2 focus:outline-none focus:ring-2"
         />
@@ -125,7 +128,7 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration, canClo
         )}
         <div className="mt-6 flex justify-end">
           <Button type="submit" className="text-white">
-            登録
+            {MESSAGES.FORM.REGISTER}
           </Button>
         </div>
       </form>

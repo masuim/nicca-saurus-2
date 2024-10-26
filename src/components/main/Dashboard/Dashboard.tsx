@@ -6,6 +6,7 @@ import { SaurusImage } from '@/components/main/Dashboard/SaurusImage';
 import { useState, useEffect, useMemo } from 'react';
 import { Nicca } from '@/types/nicca';
 import { Confetti } from '@/components/main/Dashboard/Animation/Confetti';
+import { MESSAGES } from '@/constants/messages';
 
 type Props = {
   nicca: Nicca | null;
@@ -14,7 +15,7 @@ type Props = {
 export const Dashboard = ({ nicca }: Props) => {
   const [achievements, setAchievements] = useState<Date[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [message, setMessage] = useState('日課を続けて、恐竜と一緒に成長しましょう！');
+  const [message, setMessage] = useState(MESSAGES.NICCA_MESSAGE.DEFAULT);
 
   const saurusLevel = useMemo(() => {
     if (!nicca) return 1;
@@ -27,13 +28,7 @@ export const Dashboard = ({ nicca }: Props) => {
   }, [nicca]);
 
   const randomEncouragingMessage = () => {
-    const messages = [
-      'すごい！今日も一歩前進だね！',
-      '継続は力なり！その調子で頑張ろう！',
-      '日々の努力が実を結んでいるよ！',
-      '恐竜も喜んでいるよ！一緒に成長しよう！',
-      'その調子！日々の積み重ねが大切だよ！',
-    ];
+    const messages = MESSAGES.NICCA_MESSAGE.ENCOURAGING;
     return messages[Math.floor(Math.random() * messages.length)];
   };
 
@@ -41,14 +36,12 @@ export const Dashboard = ({ nicca }: Props) => {
     if (!nicca) return;
 
     if (nicca.achievements.length === 0) {
-      setMessage('日課を続けて、恐竜と一緒に成長しましょう！');
+      setMessage(MESSAGES.NICCA_MESSAGE.DEFAULT);
     } else if (
       new Date(nicca.endDate).toDateString() === new Date().toDateString() &&
       achievements.some((date) => date.toDateString() === new Date().toDateString())
     ) {
-      setMessage(
-        'おめでとうございます！\nあなたも恐竜も独り立ちの時が来ました！\n1ヶ月お疲れ様でした！',
-      );
+      setMessage(MESSAGES.NICCA_MESSAGE.CONGRATULATIONS);
     } else {
       setMessage(randomEncouragingMessage());
     }
@@ -56,7 +49,7 @@ export const Dashboard = ({ nicca }: Props) => {
 
   useEffect(() => {
     if (saurusLevel > 1 && achievements.length % (saurusLevel - 1) === 0) {
-      setMessage('恐竜が一段階成長したよ！次の成長も楽しみだね！');
+      setMessage(MESSAGES.NICCA_MESSAGE.SAUR_GROWTH);
     }
   }, [saurusLevel, achievements]);
 

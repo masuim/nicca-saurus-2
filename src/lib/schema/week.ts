@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { MINIMUM_SELECTED_DAYS } from '@/constants';
+import { NUMBERS } from '@/constants/numbers';
+import { MESSAGES } from '@/constants/messages';
 
 export const WeekSchema = z
   .object({
@@ -11,8 +12,8 @@ export const WeekSchema = z
     saturday: z.boolean(),
     sunday: z.boolean(),
   })
-  .refine((data) => Object.values(data).filter(Boolean).length >= MINIMUM_SELECTED_DAYS, {
-    message: `少なくとも${MINIMUM_SELECTED_DAYS}日以上選択してください`,
+  .refine((data) => Object.values(data).filter(Boolean).length >= NUMBERS.MINIMUM_SELECTED_DAYS, {
+    message: MESSAGES.VALIDATION.MINIMUM_DAYS_SELECTION(NUMBERS.MINIMUM_SELECTED_DAYS),
     path: ['week'],
   });
 
