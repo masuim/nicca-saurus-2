@@ -43,8 +43,8 @@ export const CustomCalendar = ({ className, completedDates }: Props) => {
                     <Image
                       src="/images/meat/meat-removebg.png"
                       alt="Meat"
-                      width={12}
-                      height={12}
+                      width={16}
+                      height={16}
                       className="h-full w-full object-contain"
                     />
                   )}

@@ -5,6 +5,7 @@ import { SaurusImage } from '@/components/main/Dashboard/SaurusImage';
 
 import { useState, useEffect } from 'react';
 import { Nicca } from '@/types/nicca';
+import { Confetti } from '@/components/main/Dashboard/Animation/Confetti';
 
 type Props = {
   nicca: Nicca | null;
@@ -12,6 +13,7 @@ type Props = {
 
 export const Dashboard = ({ nicca }: Props) => {
   const [completedDates, setCompletedDates] = useState<Date[]>([]);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   if (nicca === null) {
     return <div>アクティブな日課がないよー！</div>;
@@ -19,6 +21,8 @@ export const Dashboard = ({ nicca }: Props) => {
 
   const handleComplete = (date: Date) => {
     setCompletedDates((prevDates) => [...prevDates, date]);
+    setIsAnimating(true);
+    setTimeout(() => setIsAnimating(false), 5000); // 10秒後にアニメーションを停止
   };
 
   return (
@@ -54,6 +58,7 @@ export const Dashboard = ({ nicca }: Props) => {
           </div>
         </div>
       </div>
+      <Confetti isAnimating={isAnimating} className="fixed inset-0 z-[9999]" />
     </>
   );
 };
