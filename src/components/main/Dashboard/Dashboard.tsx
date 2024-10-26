@@ -2,17 +2,15 @@ import { CustomCalendar } from '@/components/main/Dashboard/Calendar';
 import { CompleteButton } from '@/components/main/Dashboard/CompleteButton';
 import { NiccaMessage } from '@/components/main/Dashboard/NiccaMessage';
 import { SaurusImage } from '@/components/main/Dashboard/SaurusImage';
-import { NiccaRegistrationModal } from '@/components/side-menu/NiccaRegistrationModal';
 
 import { useState, useEffect } from 'react';
 import { Nicca } from '@/types/nicca';
 
 type Props = {
   nicca: Nicca | null;
-  onNiccaRegistration: (newNicca: Nicca) => void;
 };
 
-export const Dashboard = ({ nicca, onNiccaRegistration }: Props) => {
+export const Dashboard = ({ nicca }: Props) => {
   const [completedDates, setCompletedDates] = useState<Date[]>([]);
 
   if (nicca === null) {
