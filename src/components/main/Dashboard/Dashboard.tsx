@@ -57,7 +57,7 @@ export const Dashboard = ({ nicca }: Props) => {
           </div>
           <div className="dashboard-component flex h-full flex-col justify-between border-2 border-mainColor bg-gray-50 p-6">
             <div className="flex flex-grow transform items-center justify-center overflow-hidden transition-all duration-300 hover:scale-110">
-              <SaurusImage saurusType={nicca.saurusType || 'デフォルト'} className="w-full" />
+              <SaurusImage nicca={nicca} className="w-full" />
             </div>
             <CompleteButton
               className="mt-4 w-full transform rounded-lg border-2 border-mainColor py-3 text-lg font-bold transition-all duration-300 hover:scale-105 hover:shadow-xl"
