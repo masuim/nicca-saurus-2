@@ -6,7 +6,7 @@ import { NiccaSchema, NiccaFormValues } from '@/lib/schema/nicca';
 import { createNicca } from '@/app/actions/nicca';
 import { CustomModal } from '@/components/ui/CustomModal';
 import { Nicca } from '@/types/nicca';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { MINIMUM_SELECTED_DAYS } from '@/constants';
 
 const dayMap = ['月', '火', '水', '木', '金', '土', '日'];
@@ -77,10 +77,12 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration, canClo
       const result = await createNicca(values);
       if (!result.success) {
         showFlashMessage(result.error, 'error');
-      } else {
+      } else if (result.data) {
         showFlashMessage('日課が登録されました', 'success');
         onRegistration(result.data);
         form.reset();
+      } else {
+        showFlashMessage('日課の登録に失敗しました', 'error');
       }
     } catch (error) {
       console.error('Nicca registration error:', error);

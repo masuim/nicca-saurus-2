@@ -5,32 +5,36 @@ import { useState } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
-import { Achievement } from '@/types/nicca';
+import { Achievement, Nicca } from '@/types/nicca';
 
 type CustomCalendarProps = {
   className?: string;
   achievements: Achievement[];
+  nicca: Nicca;
 };
 
-export const CustomCalendar = ({ className, achievements }: CustomCalendarProps) => {
+export const CustomCalendar = ({ className, achievements, nicca }: CustomCalendarProps) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
 
-  const tileContent = ({ date, view }: { date: Date; view: string }) => {
-    if (view === 'month') {
-      const isAchieved = achievements.some(
-        (achievement) =>
-          achievement.achievedDate.getDate() === date.getDate() &&
-          achievement.achievedDate.getMonth() === date.getMonth() &&
-          achievement.achievedDate.getFullYear() === date.getFullYear(),
-      );
+  const isScheduledDay = (date: Date) => {
+    const dayOfWeek = date.getDay();
+    const weekDays = [
+      'sunday',
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+    ] as const;
+    const currentDay = weekDays[dayOfWeek];
 
-      return isAchieved ? (
-        <div className="flex items-center justify-center">
-          <Image src="/images/nicca-icon.png" alt="Completed" width={20} height={20} />
-        </div>
-      ) : null;
-    }
-    return null;
+    const startDate = new Date(nicca.startDate);
+    startDate.setHours(0, 0, 0, 0);
+    const endDate = new Date(nicca.endDate);
+    endDate.setHours(23, 59, 59, 999);
+
+    return nicca[currentDay as keyof typeof nicca] && date >= startDate && date <= endDate;
   };
 
   return (
@@ -40,17 +44,20 @@ export const CustomCalendar = ({ className, achievements }: CustomCalendarProps)
         selected={date}
         onSelect={setDate}
         components={{
-          Day: ({ day, date }) => {
+          Day: ({ date, ...props }: { date: Date } & React.HTMLAttributes<HTMLDivElement>) => {
             const isToday = date.toDateString() === new Date().toDateString();
             const isOutsideCurrentMonth = date.getMonth() !== new Date().getMonth();
             const isCompleted = achievements.some(
               (achievement) =>
-                achievement.achievedDate.getDate() === date.getDate() &&
-                achievement.achievedDate.getMonth() === date.getMonth() &&
-                achievement.achievedDate.getFullYear() === date.getFullYear(),
+                new Date(achievement.achievedDate).toDateString() === date.toDateString(),
             );
+            const isScheduled = isScheduledDay(date);
+            console.log('date', date);
+            console.log('isScheduled', isScheduled);
+
             return (
               <div
+                {...props}
                 className={`flex h-full w-full flex-col items-center justify-between rounded-md ${
                   isToday
                     ? 'bg-yellow-200 px-1 pb-1 xs:px-2 xs:pb-1'
@@ -61,7 +68,7 @@ export const CustomCalendar = ({ className, achievements }: CustomCalendarProps)
                   {date.getDate()}
                 </div>
                 <div className="flex h-3 w-3 items-center justify-center sm:h-3 sm:w-3 md:h-4 md:w-4 lg:h-5 lg:w-5">
-                  {isCompleted && (
+                  {isCompleted ? (
                     <Image
                       src="/images/meat/meat-removebg.png"
                       alt="Meat"
@@ -69,7 +76,9 @@ export const CustomCalendar = ({ className, achievements }: CustomCalendarProps)
                       height={16}
                       className="h-full w-full object-contain"
                     />
-                  )}
+                  ) : isScheduled ? (
+                    <div className="h-2 w-2 rounded-full bg-subColor sm:h-2 sm:w-2 md:h-3 md:w-3 lg:h-4 lg:w-4" />
+                  ) : null}
                 </div>
               </div>
             );
@@ -91,8 +100,8 @@ export const CustomCalendar = ({ className, achievements }: CustomCalendarProps)
           head_cell:
             'text-muted-foreground w-6 sm:w-8 font-normal text-[0.7rem] sm:text-[0.8rem] md:text-sm lg:text-base',
           row: 'flex mt-2 justify-between',
+          day: 'h-8 w-8 p-0 font-normal',
         }}
-        tileContent={tileContent}
       />
     </Card>
   );

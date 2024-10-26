@@ -12,6 +12,7 @@ type Props = {
 };
 
 export const Dashboard = ({ nicca }: Props) => {
+  console.log('nicca object', nicca);
   const [achievements, setAchievements] = useState<Date[]>(
     nicca?.achievements.map((a) => new Date(a.achievedDate)) || [],
   );
@@ -51,6 +52,7 @@ export const Dashboard = ({ nicca }: Props) => {
             <CustomCalendar
               className="dashboard-component h-full w-full bg-gray-50"
               achievements={nicca.achievements}
+              nicca={nicca}
             />
           </div>
           <div className="dashboard-component flex h-full flex-col justify-between border-2 border-mainColor bg-gray-50 p-6">
