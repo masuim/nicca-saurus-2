@@ -12,21 +12,12 @@ type Props = {
 };
 
 export const Dashboard = ({ nicca }: Props) => {
-  const [achievements, setAchievements] = useState<Date[]>(
-    nicca?.achievements.map((a) => new Date(a.achievedDate)) || [],
-  );
+  const [achievements, setAchievements] = useState<Date[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [message, setMessage] = useState('日課を続けて、恐竜と一緒に成長しましょう！');
 
-  if (nicca === null) {
-    return <div>アクティブな日課がないよー！</div>;
-  }
-
-  const isCompletedToday = achievements.some(
-    (date) => date.toDateString() === new Date().toDateString(),
-  );
-
   const saurusLevel = useMemo(() => {
+    if (!nicca) return 1;
     // SaurusImage コンポーネントと同じロジックでレベルを計算
     const weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     const selectedDaysCount = weekDays.filter((day) => nicca[day as keyof Nicca]).length;
@@ -47,6 +38,8 @@ export const Dashboard = ({ nicca }: Props) => {
   };
 
   useEffect(() => {
+    if (!nicca) return;
+
     if (nicca.achievements.length === 0) {
       setMessage('日課を続けて、恐竜と一緒に成長しましょう！');
     } else if (
@@ -72,6 +65,14 @@ export const Dashboard = ({ nicca }: Props) => {
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 5000);
   };
+
+  if (nicca === null) {
+    return <div>アクティブな日課がないよー！</div>;
+  }
+
+  const isCompletedToday = achievements.some(
+    (date) => date.toDateString() === new Date().toDateString(),
+  );
 
   return (
     <>
