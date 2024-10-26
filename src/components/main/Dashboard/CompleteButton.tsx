@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
+import { useFlashMessage } from '@/providers/FlashMessageProvider';
 
 type CompleteButtonProps = {
   className?: string;
@@ -8,11 +9,12 @@ type CompleteButtonProps = {
 
 export const CompleteButton = ({ className, onComplete }: CompleteButtonProps) => {
   const [isCompleted, setIsCompleted] = useState(false);
+  const { showFlashMessage } = useFlashMessage();
 
   const handleComplete = () => {
     setIsCompleted(true);
     onComplete(new Date());
-    alert('本日の日課完了！お疲れさまです！');
+    showFlashMessage('本日の日課完了！お疲れさまです！', 'success');
   };
 
   return (
