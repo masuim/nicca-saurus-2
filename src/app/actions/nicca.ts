@@ -8,6 +8,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { ApiResult } from '@/types/api-result';
 import { Nicca, NiccaWithRelations } from '@/types/nicca';
 import { SAURUS_TYPES } from '@/lib/schema/saurus-type';
+import { MESSAGES } from '@/constants/messages';
 
 const getRandomSaurusType = () => {
   const saurusTypes = SAURUS_TYPES.options;
@@ -17,13 +18,13 @@ const getRandomSaurusType = () => {
 export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<Nicca | null>> => {
   const validatedFields = NiccaSchema.safeParse(formData);
   if (!validatedFields.success) {
-    return { success: false, error: '無効なフィールドがあります。', status: 400 };
+    return { success: false, error: MESSAGES.OTHER.INVALID_FIELDS, status: 400 };
   }
 
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user) {
-    return { success: false, error: 'ユーザーが認証されていません。', status: 401 };
+    return { success: false, error: MESSAGES.OTHER.USER_NOT_AUTHENTICATED, status: 401 };
   }
 
   const { title, ...weekData } = validatedFields.data;
@@ -81,14 +82,14 @@ export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<
     return { success: true, data: niccaWithAchievements, status: 201 };
   } catch (error) {
     console.error('Nicca creation error:', error);
-    return { success: false, error: '日課の作成に失敗しました。', status: 500 };
+    return { success: false, error: MESSAGES.FLASH_MESSAGES.NICCA_CREATION_ERROR, status: 500 };
   }
 };
 
 export const getNicca = async (): Promise<ApiResult<NiccaWithRelations | null>> => {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
-    return { success: false, error: 'ユーザーが認証されていません。', status: 401 };
+    return { success: false, error: MESSAGES.OTHER.USER_NOT_AUTHENTICATED, status: 401 };
   }
 
   try {
@@ -108,7 +109,7 @@ export const getNicca = async (): Promise<ApiResult<NiccaWithRelations | null>> 
     return { success: true, data: nicca, status: 200 };
   } catch (error) {
     console.error('Nicca fetch error:', error);
-    return { success: false, error: '日課の取得に失敗しました。', status: 500 };
+    return { success: false, error: MESSAGES.FLASH_MESSAGES.NICCA_FETCH_ERROR, status: 500 };
   }
 };
 
@@ -116,7 +117,7 @@ export const getUserNiccas = async (): Promise<ApiResult<Nicca[]>> => {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user) {
-    return { success: false, error: 'ユーザーが認証されていません。', status: 401 };
+    return { success: false, error: MESSAGES.OTHER.USER_NOT_AUTHENTICATED, status: 401 };
   }
 
   try {
@@ -132,7 +133,7 @@ export const getUserNiccas = async (): Promise<ApiResult<Nicca[]>> => {
     return { success: true, data: niccas, status: 200 };
   } catch (error) {
     console.error('Niccas fetch error:', error);
-    return { success: false, error: '日課の取得に失敗しました。', status: 500 };
+    return { success: false, error: MESSAGES.FLASH_MESSAGES.NICCA_FETCH_ERROR, status: 500 };
   }
 };
 
@@ -140,7 +141,7 @@ export const deleteNicca = async (id: string): Promise<ApiResult<void>> => {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user) {
-    return { success: false, error: 'ユーザーが認証されていません。', status: 401 };
+    return { success: false, error: MESSAGES.OTHER.USER_NOT_AUTHENTICATED, status: 401 };
   }
 
   try {
@@ -162,10 +163,10 @@ export const deleteNicca = async (id: string): Promise<ApiResult<void>> => {
     console.error('Nicca deletion error:', error);
     if (error instanceof PrismaClientKnownRequestError) {
       if ((error as PrismaClientKnownRequestError).code === 'P2025') {
-        return { success: false, error: '指定された日課が見つかりません。', status: 404 };
+        return { success: false, error: MESSAGES.FLASH_MESSAGES.NICCA_NOT_FOUND, status: 404 };
       }
     }
-    return { success: false, error: '日課の削除に失敗しました。', status: 500 };
+    return { success: false, error: MESSAGES.FLASH_MESSAGES.NICCA_DELETION_ERROR, status: 500 };
   }
 };
 
@@ -173,7 +174,7 @@ export const addAchievement = async (niccaId: string, date: Date): Promise<ApiRe
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user) {
-    return { success: false, error: 'ユーザーが認証されていません。', status: 401 };
+    return { success: false, error: MESSAGES.OTHER.USER_NOT_AUTHENTICATED, status: 401 };
   }
 
   try {
@@ -193,9 +194,17 @@ export const addAchievement = async (niccaId: string, date: Date): Promise<ApiRe
     console.error('Achievement addition error:', error);
     if (error instanceof PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
-        return { success: false, error: 'この日付の達成記録は既に存在します。', status: 400 };
+        return {
+          success: false,
+          error: MESSAGES.FLASH_MESSAGES.ACHIEVEMENT_ALREADY_EXISTS,
+          status: 400,
+        };
       }
     }
-    return { success: false, error: '達成日の追加に失敗しました。', status: 500 };
+    return {
+      success: false,
+      error: MESSAGES.FLASH_MESSAGES.ACHIEVEMENT_ADDITION_ERROR,
+      status: 500,
+    };
   }
 };

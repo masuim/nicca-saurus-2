@@ -23,7 +23,7 @@ export type Nicca = {
 export type Achievement = {
   id: string;
   niccaId: string;
-  achievedDate: Date;
+  achievedDate: Date | null;
   createdAt: Date;
   updatedAt: Date;
 };

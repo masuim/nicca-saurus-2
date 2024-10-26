@@ -3,19 +3,61 @@ import { CompleteButton } from '@/components/main/Dashboard/CompleteButton';
 import { NiccaMessage } from '@/components/main/Dashboard/NiccaMessage';
 import { SaurusImage } from '@/components/main/Dashboard/SaurusImage';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Nicca } from '@/types/nicca';
 import { Confetti } from '@/components/main/Dashboard/Animation/Confetti';
+import { MESSAGES } from '@/constants/messages';
 
 type Props = {
   nicca: Nicca | null;
 };
 
 export const Dashboard = ({ nicca }: Props) => {
-  const [achievements, setAchievements] = useState<Date[]>(
-    nicca?.achievements.map((a) => new Date(a.achievedDate)) || [],
-  );
+  const [achievements, setAchievements] = useState<Date[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [message, setMessage] = useState(MESSAGES.NICCA_MESSAGE.DEFAULT);
+
+  const saurusLevel = useMemo(() => {
+    if (!nicca) return 1;
+    // SaurusImage コンポーネントと同じロジックでレベルを計算
+    const weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    const selectedDaysCount = weekDays.filter((day) => nicca[day as keyof Nicca]).length;
+    const achievementsCount = nicca.achievements.length;
+    const level = Math.floor(achievementsCount / selectedDaysCount) + 1;
+    return Math.min(level, 5);
+  }, [nicca]);
+
+  const randomEncouragingMessage = () => {
+    const messages = MESSAGES.NICCA_MESSAGE.ENCOURAGING;
+    return messages[Math.floor(Math.random() * messages.length)];
+  };
+
+  useEffect(() => {
+    if (!nicca) return;
+
+    if (nicca.achievements.length === 0) {
+      setMessage(MESSAGES.NICCA_MESSAGE.DEFAULT);
+    } else if (
+      new Date(nicca.endDate).toDateString() === new Date().toDateString() &&
+      achievements.some((date) => date.toDateString() === new Date().toDateString())
+    ) {
+      setMessage(MESSAGES.NICCA_MESSAGE.CONGRATULATIONS);
+    } else {
+      setMessage(randomEncouragingMessage());
+    }
+  }, [nicca, achievements]);
+
+  useEffect(() => {
+    if (saurusLevel > 1 && achievements.length % (saurusLevel - 1) === 0) {
+      setMessage(MESSAGES.NICCA_MESSAGE.SAUR_GROWTH);
+    }
+  }, [saurusLevel, achievements]);
+
+  const handleComplete = (date: Date) => {
+    setAchievements((prev) => [...prev, date]);
+    setIsAnimating(true);
+    setTimeout(() => setIsAnimating(false), 5000);
+  };
 
   if (nicca === null) {
     return <div>アクティブな日課がないよー！</div>;
@@ -25,25 +67,22 @@ export const Dashboard = ({ nicca }: Props) => {
     (date) => date.toDateString() === new Date().toDateString(),
   );
 
-  const handleComplete = (date: Date) => {
-    setAchievements((prev) => [...prev, date]);
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 5000);
-  };
-
   return (
     <>
       <div className="sm:main-background xs mx-auto w-[calc(100%-1rem)] max-w-[280px] rounded-lg p-4 xs:w-[calc(100%-2rem)] xs:max-w-[360px] sm:w-full sm:max-w-[640px] sm:border-2 sm:border-mainColor sm:p-6 md:p-8 lg:mt-8 lg:flex lg:h-auto lg:max-w-[720px] lg:flex-col lg:justify-between">
-        <div className="mb-8 flex flex-col sm:flex-row sm:items-start lg:mb-8">
-          <div className="mb-4 w-full text-center sm:mb-0 sm:w-1/2">
-            <div className="nicca-title">
-              <div className="nicca-title-text">
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-stretch lg:mb-8">
+          <div className="mb-4 w-full sm:mb-0 sm:w-1/2">
+            <div className="nicca-title h-full">
+              <div className="nicca-title-text flex h-full items-center justify-center">
                 <h2 className="truncate text-2xl lg:text-3xl">{nicca.title || '日課'}</h2>
               </div>
             </div>
           </div>
           <div className="w-full sm:w-1/2 sm:pl-4">
-            <NiccaMessage className="dashboard-component relative flex border-2 border-mainColor p-6 pt-4" />
+            <NiccaMessage
+              className="dashboard-component relative flex h-full border-2 border-mainColor p-6 pt-4"
+              message={message}
+            />
           </div>
         </div>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">

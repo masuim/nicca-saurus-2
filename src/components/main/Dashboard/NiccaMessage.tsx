@@ -1,8 +1,13 @@
-export const NiccaMessage = ({ className }: { className?: string }) => {
+type NiccaMessageProps = {
+  className?: string;
+  message: string;
+};
+
+export const NiccaMessage = ({ className, message }: NiccaMessageProps) => {
   return (
     <div className={`speech-bubble flex items-start ${className}`}>
-      <p className="truncate text-sm font-bold text-mainColor sm:text-base md:text-lg">
-        今日もやるぞ！頑張ってこなそう！
+      <p className="line-clamp-2 text-[0.65rem] font-medium text-mainColor sm:text-xs md:text-sm lg:text-xs xl:text-sm">
+        {message}
       </p>
     </div>
   );
