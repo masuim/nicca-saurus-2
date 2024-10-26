@@ -44,7 +44,7 @@ export const Dashboard = ({ nicca }: Props) => {
           <div className="h-full w-full">
             <CustomCalendar
               className="dashboard-component h-full w-full bg-gray-50"
-              completedDates={completedDates}
+              achievements={nicca.achievements}
             />
           </div>
           <div className="dashboard-component flex h-full flex-col justify-between border-2 border-mainColor bg-gray-50 p-6">

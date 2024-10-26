@@ -5,14 +5,33 @@ import { useState } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
+import { Achievement } from '@/types/nicca';
 
-type Props = {
+type CustomCalendarProps = {
   className?: string;
-  completedDates: Date[];
+  achievements: Achievement[];
 };
 
-export const CustomCalendar = ({ className, completedDates }: Props) => {
+export const CustomCalendar = ({ className, achievements }: CustomCalendarProps) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
+
+  const tileContent = ({ date, view }: { date: Date; view: string }) => {
+    if (view === 'month') {
+      const isAchieved = achievements.some(
+        (achievement) =>
+          achievement.achievedDate.getDate() === date.getDate() &&
+          achievement.achievedDate.getMonth() === date.getMonth() &&
+          achievement.achievedDate.getFullYear() === date.getFullYear(),
+      );
+
+      return isAchieved ? (
+        <div className="flex items-center justify-center">
+          <Image src="/images/nicca-icon.png" alt="Completed" width={20} height={20} />
+        </div>
+      ) : null;
+    }
+    return null;
+  };
 
   return (
     <Card className={`w-full rounded-lg border-2 border-mainColor bg-white ${className}`}>
@@ -24,8 +43,11 @@ export const CustomCalendar = ({ className, completedDates }: Props) => {
           Day: ({ day, date }) => {
             const isToday = date.toDateString() === new Date().toDateString();
             const isOutsideCurrentMonth = date.getMonth() !== new Date().getMonth();
-            const isCompleted = completedDates.some(
-              (completedDate) => completedDate.toDateString() === date.toDateString(),
+            const isCompleted = achievements.some(
+              (achievement) =>
+                achievement.achievedDate.getDate() === date.getDate() &&
+                achievement.achievedDate.getMonth() === date.getMonth() &&
+                achievement.achievedDate.getFullYear() === date.getFullYear(),
             );
             return (
               <div
@@ -70,6 +92,7 @@ export const CustomCalendar = ({ className, completedDates }: Props) => {
             'text-muted-foreground w-6 sm:w-8 font-normal text-[0.7rem] sm:text-[0.8rem] md:text-sm lg:text-base',
           row: 'flex mt-2 justify-between',
         }}
+        tileContent={tileContent}
       />
     </Card>
   );
