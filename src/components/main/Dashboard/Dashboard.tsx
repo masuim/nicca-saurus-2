@@ -22,7 +22,7 @@ export const Dashboard = ({ nicca }: Props) => {
   const handleComplete = (date: Date) => {
     setCompletedDates((prevDates) => [...prevDates, date]);
     setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 5000); // 10秒後にアニメーションを停止
+    setTimeout(() => setIsAnimating(false), 5000);
   };
 
   return (
@@ -53,6 +53,7 @@ export const Dashboard = ({ nicca }: Props) => {
             </div>
             <CompleteButton
               className="mt-4 w-full transform rounded-lg border-2 border-mainColor py-3 text-lg font-bold transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              niccaId={nicca.id}
               onComplete={handleComplete}
             />
           </div>

@@ -36,6 +36,11 @@ export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<
         saurusType: getRandomSaurusType(),
         isActive: true,
         ...weekData,
+        achievements: {
+          create: {
+            achievedDate: new Date(),
+          },
+        },
       },
       include: {
         achievements: true,
@@ -129,5 +134,36 @@ export const deleteNicca = async (id: string): Promise<ApiResult<void>> => {
       }
     }
     return { success: false, error: '日課の削除に失敗しました。', status: 500 };
+  }
+};
+
+export const addAchievement = async (niccaId: string, date: Date): Promise<ApiResult<void>> => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user) {
+    return { success: false, error: 'ユーザーが認証されていません。', status: 401 };
+  }
+
+  try {
+    await prisma.nicca.update({
+      where: { id: niccaId, userId: session.user.id },
+      data: {
+        achievements: {
+          create: {
+            achievedDate: date,
+          },
+        },
+      },
+    });
+
+    return { success: true, data: undefined, status: 200 };
+  } catch (error) {
+    console.error('Achievement addition error:', error);
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return { success: false, error: 'この日付の達成記録は既に存在します。', status: 400 };
+      }
+    }
+    return { success: false, error: '達成日の追加に失敗しました。', status: 500 };
   }
 };
