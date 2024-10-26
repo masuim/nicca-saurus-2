@@ -12,7 +12,6 @@ type Props = {
 };
 
 export const Dashboard = ({ nicca }: Props) => {
-  console.log('nicca object', nicca);
   const [achievements, setAchievements] = useState<Date[]>(
     nicca?.achievements.map((a) => new Date(a.achievedDate)) || [],
   );

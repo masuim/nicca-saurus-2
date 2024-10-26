@@ -52,8 +52,6 @@ export const CustomCalendar = ({ className, achievements, nicca }: CustomCalenda
                 new Date(achievement.achievedDate).toDateString() === date.toDateString(),
             );
             const isScheduled = isScheduledDay(date);
-            console.log('date', date);
-            console.log('isScheduled', isScheduled);
 
             return (
               <div
