@@ -123,6 +123,8 @@ export const UserNiccaList = () => {
                 )
               : 'なし'}
           </p>
+          <p>開始日: {format(new Date(nicca.startDate), 'yyyy年MM月dd日', { locale: ja })}</p>
+          <p>終了日: {format(new Date(nicca.endDate), 'yyyy年MM月dd日', { locale: ja })}</p>
         </div>
       ))}
     </div>

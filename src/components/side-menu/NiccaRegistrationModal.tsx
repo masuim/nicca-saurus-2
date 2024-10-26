@@ -67,6 +67,7 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration, canClo
   }, [selectedDays, form]);
 
   const onSubmit = async (values: NiccaFormValues) => {
+    console.log('values', values);
     const isValid = await form.trigger();
     if (!isValid) {
       return;
@@ -86,15 +87,6 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration, canClo
       showFlashMessage('日課の登録中にエラーが発生しました', 'error');
     }
   };
-
-  // TODO: 使ってない。
-  const handleNiccaRegistration = useCallback(
-    (newNicca: Nicca) => {
-      onRegistration(newNicca);
-      onClose();
-    },
-    [onRegistration, onClose],
-  );
 
   return (
     <CustomModal isOpen={isOpen} onClose={onClose} canClose={canClose}>

@@ -23,6 +23,8 @@ CREATE TABLE "niccas" (
     "friday" BOOLEAN NOT NULL DEFAULT false,
     "saturday" BOOLEAN NOT NULL DEFAULT false,
     "sunday" BOOLEAN NOT NULL DEFAULT false,
+    "startDate" DATETIME NOT NULL,
+    "endDate" DATETIME NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     CONSTRAINT "niccas_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE

@@ -13,6 +13,8 @@ export type Nicca = {
     saturday: boolean;
     sunday: boolean;
   };
+  startDate: Date;
+  endDate: Date;
   createdAt: Date;
   updatedAt: Date;
   achievements: Achievement[];
