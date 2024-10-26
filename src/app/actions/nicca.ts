@@ -45,9 +45,9 @@ export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<
   const startDate = new Date(today);
   startDate.setDate(today.getDate() + ((daysUntilStart + 7 - dayOfWeek) % 7));
 
-  // endDateを計算（startDateから4週間後）
+  // endDateを計算（startDateから5週間後）
   const endDate = new Date(startDate);
-  endDate.setDate(endDate.getDate() + 28);
+  endDate.setDate(endDate.getDate() + 35);
   console.log('startDate', startDate);
   console.log('endDate', endDate);
   try {
