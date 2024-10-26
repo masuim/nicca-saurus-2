@@ -5,9 +5,15 @@ type CustomModalProps = {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  canClose: boolean;
 };
 
-export const CustomModal: React.FC<CustomModalProps> = ({ isOpen, onClose, children }) => {
+export const CustomModal: React.FC<CustomModalProps> = ({
+  isOpen,
+  onClose,
+  children,
+  canClose,
+}) => {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -17,7 +23,10 @@ export const CustomModal: React.FC<CustomModalProps> = ({ isOpen, onClose, child
           exit={{ opacity: 0 }}
           className="fixed inset-0 top-16 z-50 flex items-center justify-center lg:right-56 lg:top-0"
         >
-          <div className="absolute inset-0 bg-mainColor/70" onClick={onClose} />
+          <div
+            className="absolute inset-0 bg-mainColor/70"
+            onClick={canClose ? onClose : undefined}
+          />
           <motion.div
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}

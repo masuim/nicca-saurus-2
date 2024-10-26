@@ -6,7 +6,7 @@ import { NiccaSchema, NiccaFormValues } from '@/lib/schema/nicca';
 import { createNicca } from '@/app/actions/nicca';
 import { CustomModal } from '@/components/ui/CustomModal';
 import { Nicca } from '@/types/nicca';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { MINIMUM_SELECTED_DAYS } from '@/constants';
 
 const dayMap = ['月', '火', '水', '木', '金', '土', '日'];
@@ -25,9 +25,10 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   onRegistration: (newNicca: Nicca) => void;
+  canClose: boolean;
 };
 
-export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration }: Props) => {
+export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration, canClose }: Props) => {
   const { showFlashMessage } = useFlashMessage();
 
   const form = useForm<NiccaFormValues>({
@@ -66,6 +67,7 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration }: Prop
   }, [selectedDays, form]);
 
   const onSubmit = async (values: NiccaFormValues) => {
+    console.log('values', values);
     const isValid = await form.trigger();
     if (!isValid) {
       return;
@@ -75,10 +77,12 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration }: Prop
       const result = await createNicca(values);
       if (!result.success) {
         showFlashMessage(result.error, 'error');
-      } else {
+      } else if (result.data) {
         showFlashMessage('日課が登録されました', 'success');
         onRegistration(result.data);
         form.reset();
+      } else {
+        showFlashMessage('日課の登録に失敗しました', 'error');
       }
     } catch (error) {
       console.error('Nicca registration error:', error);
@@ -86,17 +90,8 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration }: Prop
     }
   };
 
-  // TODO: 使ってない。
-  const handleNiccaRegistration = useCallback(
-    (newNicca: Nicca) => {
-      onRegistration(newNicca);
-      onClose();
-    },
-    [onRegistration, onClose],
-  );
-
   return (
-    <CustomModal isOpen={isOpen} onClose={onClose}>
+    <CustomModal isOpen={isOpen} onClose={onClose} canClose={canClose}>
       <h2 className="mb-4 text-xl font-bold">日課登録</h2>
       <p className="mb-4 text-sm text-gray-600">日課名を入力し、実施する曜日を選択してください。</p>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -129,10 +124,7 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration }: Prop
         {form.formState.errors.root && (
           <p className="mt-2 text-sm text-red-500">{form.formState.errors.root.message}</p>
         )}
-        <div className="mt-6 flex justify-end space-x-2">
-          <Button variant="outline" onClick={onClose} className="border-2 border-primary/60">
-            戻る
-          </Button>
+        <div className="mt-6 flex justify-end">
           <Button type="submit" className="text-white">
             登録
           </Button>

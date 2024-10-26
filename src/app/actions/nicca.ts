@@ -14,9 +14,9 @@ const getRandomSaurusType = () => {
   return saurusTypes[Math.floor(Math.random() * saurusTypes.length)];
 };
 
-export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<Nicca>> => {
+export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<Nicca | null>> => {
   const validatedFields = NiccaSchema.safeParse(formData);
-
+  console.log('validatedFields', validatedFields);
   if (!validatedFields.success) {
     return { success: false, error: '無効なフィールドがあります。', status: 400 };
   }
@@ -28,6 +28,28 @@ export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<
   }
 
   const { title, ...weekData } = validatedFields.data;
+
+  // startDateを計算
+  const today = new Date();
+  const dayOfWeek = today.getDay();
+  const weekDays = [
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+  ] as const;
+  const daysUntilStart = weekDays.findIndex((day, index) => weekData[day as keyof typeof weekData]);
+  const startDate = new Date(today);
+  startDate.setDate(today.getDate() + ((daysUntilStart + 7 - dayOfWeek) % 7));
+
+  // endDateを計算（startDateから4週間後）
+  const endDate = new Date(startDate);
+  endDate.setDate(endDate.getDate() + 28);
+  console.log('startDate', startDate);
+  console.log('endDate', endDate);
   try {
     const nicca = await prisma.nicca.create({
       data: {
@@ -35,13 +57,31 @@ export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<
         title,
         saurusType: getRandomSaurusType(),
         isActive: true,
-        ...weekData,
-      },
-      include: {
-        achievements: true,
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+        monday: weekData.monday,
+        tuesday: weekData.tuesday,
+        wednesday: weekData.wednesday,
+        thursday: weekData.thursday,
+        friday: weekData.friday,
+        saturday: weekData.saturday,
+        sunday: weekData.sunday,
       },
     });
-    return { success: true, data: nicca, status: 201 };
+
+    await prisma.achievementDate.create({
+      data: {
+        niccaId: nicca.id,
+        achievedDate: '',
+      },
+    });
+
+    const niccaWithAchievements = await prisma.nicca.findUnique({
+      where: { id: nicca.id },
+      include: { achievements: true },
+    });
+
+    return { success: true, data: niccaWithAchievements, status: 201 };
   } catch (error) {
     console.error('Nicca creation error:', error);
     return { success: false, error: '日課の作成に失敗しました。', status: 500 };
@@ -129,5 +169,36 @@ export const deleteNicca = async (id: string): Promise<ApiResult<void>> => {
       }
     }
     return { success: false, error: '日課の削除に失敗しました。', status: 500 };
+  }
+};
+
+export const addAchievement = async (niccaId: string, date: Date): Promise<ApiResult<void>> => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user) {
+    return { success: false, error: 'ユーザーが認証されていません。', status: 401 };
+  }
+
+  try {
+    await prisma.nicca.update({
+      where: { id: niccaId, userId: session.user.id },
+      data: {
+        achievements: {
+          create: {
+            achievedDate: date,
+          },
+        },
+      },
+    });
+
+    return { success: true, data: undefined, status: 200 };
+  } catch (error) {
+    console.error('Achievement addition error:', error);
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return { success: false, error: 'この日付の達成記録は既に存在します。', status: 400 };
+      }
+    }
+    return { success: false, error: '達成日の追加に失敗しました。', status: 500 };
   }
 };
