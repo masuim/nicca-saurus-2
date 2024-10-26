@@ -44,12 +44,12 @@ model Nicca {
 }
 
 model AchievementDate {
-  id           String   @id @default(uuid())
+  id           String    @id @default(uuid())
   niccaId      String
-  achievedDate DateTime
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  nicca        Nicca    @relation(fields: [niccaId], references: [id])
+  achievedDate DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  nicca        Nicca     @relation(fields: [niccaId], references: [id])
 
   @@unique([niccaId, achievedDate])
   @@map("achievement_dates")
