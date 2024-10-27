@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import { DayPicker } from 'react-day-picker';
+import { ja } from 'date-fns/locale';
 
 import { cn } from '@/lib/utils';
 import { calendarClassNames } from './calendar-styles';
@@ -18,6 +19,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn('flex justify-center p-3', className)}
+      locale={ja}
       classNames={{
         ...calendarClassNames,
         months: cn('flex flex-col sm:flex-row space-y-0 justify-center', classNames?.months),
