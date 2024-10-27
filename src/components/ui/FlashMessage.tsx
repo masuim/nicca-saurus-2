@@ -8,7 +8,7 @@ export const FlashMessage = () => {
   const { flashMessages, hideFlashMessage } = useFlashMessage();
 
   return (
-    <div className="fixed right-4 top-20 z-50 space-y-2 lg:left-[232px]">
+    <div className="fixed right-4 top-20 z-50 space-y-2">
       <AnimatePresence>
         {flashMessages.map((flashMessage) => (
           <motion.div
