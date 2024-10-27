@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { FaBars, FaTimes } from 'react-icons/fa';
@@ -13,11 +13,29 @@ type HeaderProps = {
 export const Header = ({ onMenuToggle, setCurrentView, handleSignOut }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigationItems = createNavigationItems(setCurrentView, handleSignOut);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
     onMenuToggle();
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+        onMenuToggle();
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen, onMenuToggle]);
 
   return (
     <>
@@ -34,27 +52,29 @@ export const Header = ({ onMenuToggle, setCurrentView, handleSignOut }: HeaderPr
         </Button>
       </header>
       {isMenuOpen && (
-        <nav className="absolute right-0 top-16 z-50 w-full rounded-b-lg bg-mainColor/90 p-4 text-white shadow-lg xs:w-56">
-          <ul className="space-y-2">
-            {navigationItems.map((item, index) => (
-              <li key={index}>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start text-left transition-colors hover:bg-white/20 hover:text-subColor"
-                  onClick={() => {
-                    item.action();
-                    toggleMenu();
-                  }}
-                >
-                  <span className="flex items-center">
-                    {item.icon}
-                    <span className="ml-3">{item.label}</span>
-                  </span>
-                </Button>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <div ref={menuRef}>
+          <nav className="absolute right-0 top-16 z-50 w-full rounded-b-lg bg-mainColor/90 p-4 text-white shadow-lg xs:w-56">
+            <ul className="space-y-2">
+              {navigationItems.map((item, index) => (
+                <li key={index}>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start text-left transition-colors hover:bg-white/20 hover:text-subColor"
+                    onClick={() => {
+                      item.action();
+                      toggleMenu();
+                    }}
+                  >
+                    <span className="flex items-center">
+                      {item.icon}
+                      <span className="ml-3">{item.label}</span>
+                    </span>
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
       )}
     </>
   );
