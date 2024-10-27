@@ -88,6 +88,8 @@ export const CustomCalendar = ({ className, achievements, nicca }: CustomCalenda
             components={{
               Caption: () => null,
               Day: ({ date, ...props }: { date: Date } & React.HTMLAttributes<HTMLDivElement>) => {
+                if (!date) return null;
+
                 const isToday = date.toDateString() === new Date().toDateString();
                 const isOutsideCurrentMonth = date.getMonth() !== new Date().getMonth();
                 const isCompleted = achievements.some(
@@ -117,7 +119,7 @@ export const CustomCalendar = ({ className, achievements, nicca }: CustomCalenda
                           className="size-full object-contain"
                         />
                       ) : isScheduled ? (
-                        <div className="h-2 w-2 rounded-md bg-subColor sm:h-2 sm:w-2 md:h-3 md:w-3 lg:h-4 lg:w-4" />
+                        <div className="h-2 w-2 rounded-lg bg-subColor sm:h-2 sm:w-2 md:h-3 md:w-3 lg:h-4 lg:w-4" />
                       ) : null}
                     </div>
                   </div>
