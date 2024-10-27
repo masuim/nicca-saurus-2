@@ -8,6 +8,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { Nicca } from '@/types/nicca';
 import { Confetti } from '@/components/main/Dashboard/Animation/Confetti';
 import { MESSAGES } from '@/constants/messages';
+import { useNiccaProgress } from '@/hooks/use-nicca-progress';
+import { ResetModal } from '@/components/main/Dashboard/ResetModal';
 
 type Props = {
   nicca: Nicca | null;
@@ -18,14 +20,15 @@ export const Dashboard = ({ nicca, fetchNicca }: Props) => {
   const [achievements, setAchievements] = useState<Date[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [message, setMessage] = useState(MESSAGES.NICCA_MESSAGE.DEFAULT);
+  const { shouldReset, showResetModal, setShowResetModal } = useNiccaProgress(nicca);
 
   const saurusLevel = useMemo(() => {
-    if (!nicca) return 1;
+    if (!nicca || shouldReset) return 1;
     const selectedDaysCount = WEEK_DAYS.filter((day) => nicca[day as keyof Nicca]).length;
     const achievementsCount = nicca.achievements.length;
     const level = Math.floor(achievementsCount / selectedDaysCount) + 1;
     return Math.min(level, 5);
-  }, [nicca]);
+  }, [nicca, shouldReset]);
 
   const randomEncouragingMessage = () => {
     const messages = MESSAGES.NICCA_MESSAGE.ENCOURAGING;
@@ -109,6 +112,7 @@ export const Dashboard = ({ nicca, fetchNicca }: Props) => {
         </div>
       </div>
       <Confetti isAnimating={isAnimating} className="fixed inset-0 z-[9999]" />
+      <ResetModal isOpen={showResetModal} onClose={() => setShowResetModal(false)} />
     </>
   );
 };
