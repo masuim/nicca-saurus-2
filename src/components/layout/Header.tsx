@@ -34,19 +34,22 @@ export const Header = ({ onMenuToggle, setCurrentView, handleSignOut }: HeaderPr
         </Button>
       </header>
       {isMenuOpen && (
-        <nav className="absolute left-0 top-16 z-50 w-full bg-mainColor/90 p-4 text-white">
+        <nav className="absolute right-0 top-16 z-50 w-full rounded-b-lg bg-mainColor/90 p-4 text-white shadow-lg xs:w-56">
           <ul className="space-y-2">
             {navigationItems.map((item, index) => (
               <li key={index}>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-left transition-colors hover:bg-white/10"
+                  className="w-full justify-start text-left transition-colors hover:bg-white/20"
                   onClick={() => {
                     item.action();
                     toggleMenu();
                   }}
                 >
-                  {item.icon} {item.label}
+                  <span className="flex items-center">
+                    {item.icon}
+                    <span className="ml-3">{item.label}</span>
+                  </span>
                 </Button>
               </li>
             ))}
