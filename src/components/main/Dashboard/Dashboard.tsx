@@ -10,9 +10,10 @@ import { MESSAGES } from '@/constants/messages';
 
 type Props = {
   nicca: Nicca | null;
+  fetchNicca: () => Promise<void>;
 };
 
-export const Dashboard = ({ nicca }: Props) => {
+export const Dashboard = ({ nicca, fetchNicca }: Props) => {
   const [achievements, setAchievements] = useState<Date[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [message, setMessage] = useState(MESSAGES.NICCA_MESSAGE.DEFAULT);
@@ -53,10 +54,11 @@ export const Dashboard = ({ nicca }: Props) => {
     }
   }, [saurusLevel, achievements]);
 
-  const handleComplete = (date: Date) => {
+  const handleComplete = async (date: Date) => {
     setAchievements((prev) => [...prev, date]);
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 5000);
+    await fetchNicca();
   };
 
   if (nicca === null) {
@@ -102,6 +104,7 @@ export const Dashboard = ({ nicca }: Props) => {
               niccaId={nicca.id}
               onComplete={handleComplete}
               isCompletedToday={isCompletedToday}
+              fetchNicca={fetchNicca}
             />
           </div>
         </div>

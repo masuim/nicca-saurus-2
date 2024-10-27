@@ -97,7 +97,11 @@ export const MainContent = () => {
         <main className="relative flex-grow overflow-auto p-3 xs:p-6 lg:flex lg:items-center lg:justify-center">
           <div className="w-full max-w-[calc(100vw-1.5rem)] xs:max-w-[calc(100vw-3rem)] sm:max-w-4xl">
             <Suspense fallback={<Loading />}>
-              {currentView === 'dashboard' ? <Dashboard nicca={nicca} /> : <UserNiccaList />}
+              {currentView === 'dashboard' ? (
+                <Dashboard nicca={nicca} fetchNicca={fetchNicca} />
+              ) : (
+                <UserNiccaList fetchNicca={fetchNicca} />
+              )}
             </Suspense>
           </div>
         </main>

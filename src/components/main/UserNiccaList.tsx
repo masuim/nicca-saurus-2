@@ -10,7 +10,11 @@ import { deleteNicca } from '@/app/actions/nicca';
 import { useFlashMessage } from '@/providers/FlashMessageProvider';
 import { Nicca, NiccaList } from '@/types/nicca';
 
-export const UserNiccaList = () => {
+type Props = {
+  fetchNicca: () => Promise<void>;
+};
+
+export const UserNiccaList = ({ fetchNicca }: Props) => {
   const [niccas, setNiccas] = useState<NiccaList>([]);
   const [error, setError] = useState<string | null>(null);
   const { showFlashMessage } = useFlashMessage();
@@ -77,6 +81,7 @@ export const UserNiccaList = () => {
       if (result.success) {
         setNiccas(niccas.filter((nicca) => nicca.id !== id));
         showFlashMessage('日課が削除されました', 'success');
+        await fetchNicca();
       } else {
         showFlashMessage(result.error || '日課の削除に失敗しました', 'error');
       }
@@ -113,16 +118,6 @@ export const UserNiccaList = () => {
           <p>更新日: {format(new Date(nicca.updatedAt), 'yyyy年MM月dd日 HH:mm', { locale: ja })}</p>
           <p>実施曜日: {getDayString(nicca)}</p>
           <p>達成回数: {nicca.achievements.length}回</p>
-          <p>
-            最終達成日:{' '}
-            {nicca.achievements.length > 0
-              ? format(
-                  new Date(nicca.achievements[nicca.achievements.length - 1].achievedDate),
-                  'yyyy年MM月dd日',
-                  { locale: ja },
-                )
-              : 'なし'}
-          </p>
           <p>開始日: {format(new Date(nicca.startDate), 'yyyy年MM月dd日', { locale: ja })}</p>
           <p>終了日: {format(new Date(nicca.endDate), 'yyyy年MM月dd日', { locale: ja })}</p>
         </div>
