@@ -26,7 +26,6 @@ export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<
   if (!session || !session.user) {
     return { success: false, error: MESSAGES.OTHER.USER_NOT_AUTHENTICATED, status: 401 };
   }
-
   const { title, ...weekData } = validatedFields.data;
 
   // startDateを計算
@@ -48,6 +47,7 @@ export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<
   // endDateを計算（startDateから5週間後）
   const endDate = new Date(startDate);
   endDate.setDate(endDate.getDate() + 35);
+
   try {
     const nicca = await prisma.nicca.create({
       data: {
@@ -66,11 +66,10 @@ export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<
         sunday: weekData.sunday,
       },
     });
-
     await prisma.achievementDate.create({
       data: {
         niccaId: nicca.id,
-        achievedDate: '',
+        achievedDate: null,
       },
     });
 
@@ -129,7 +128,6 @@ export const getUserNiccas = async (): Promise<ApiResult<Nicca[]>> => {
         achievements: true,
       },
     });
-
     return { success: true, data: niccas, status: 200 };
   } catch (error) {
     console.error('Niccas fetch error:', error);
