@@ -54,7 +54,7 @@ export const CustomCalendar = ({ className, achievements, nicca }: CustomCalenda
     <Card className={`w-full rounded-lg border-2 border-mainColor bg-mainColor ${className}`}>
       <div className="relative p-2 sm:p-4">
         <div className="flex flex-col items-center">
-          <div className="mb-4 flex w-full items-center justify-between px-2">
+          <div className="mb-1 flex w-full items-center justify-between px-2">
             <div className="flex items-center space-x-2">
               <button
                 onClick={goToPreviousMonth}
