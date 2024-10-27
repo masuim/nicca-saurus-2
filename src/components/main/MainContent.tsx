@@ -3,6 +3,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ViewType } from '@/types/views';
 import { Suspense } from 'react';
+import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
+import { MESSAGES } from '@/constants/messages';
 
 import { UserNiccaList } from '@/components/main/UserNiccaList';
 import { SideMenu } from '@/components/layout/SideMenu';
@@ -20,6 +23,7 @@ export const MainContent = () => {
   const [nicca, setNicca] = useState<Nicca | null>(null);
   const [showNiccaRegistration, setShowNiccaRegistration] = useState(false);
   const { showFlashMessage } = useFlashMessage();
+  const router = useRouter();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -63,6 +67,17 @@ export const MainContent = () => {
     }
   }, [nicca]);
 
+  const handleSignOut = async () => {
+    try {
+      await signOut({ redirect: false });
+      showFlashMessage(MESSAGES.FLASH_MESSAGES.SIGN_OUT_SUCCESS, 'success');
+      router.push('/');
+    } catch (error) {
+      console.error('Signout error:', error);
+      showFlashMessage(MESSAGES.FLASH_MESSAGES.SIGN_OUT_ERROR, 'error');
+    }
+  };
+
   return (
     <div className="flex h-screen flex-col lg:flex-row">
       <NiccaRegistrationModal
@@ -72,7 +87,11 @@ export const MainContent = () => {
         canClose={nicca !== null}
       />
       <div className="w-full lg:hidden">
-        <Header onMenuToggle={toggleMobileMenu} />
+        <Header
+          onMenuToggle={toggleMobileMenu}
+          setCurrentView={handleViewChange}
+          handleSignOut={handleSignOut}
+        />
       </div>
       <div className="relative flex flex-grow flex-col lg:flex-row">
         <main className="relative flex-grow overflow-auto p-3 xs:p-6 lg:flex lg:items-center lg:justify-center">
@@ -83,7 +102,7 @@ export const MainContent = () => {
           </div>
         </main>
         <div className="hidden lg:block lg:w-56">
-          <SideMenu setCurrentView={handleViewChange} />
+          <SideMenu setCurrentView={handleViewChange} handleSignOut={handleSignOut} />
         </div>
       </div>
     </div>
