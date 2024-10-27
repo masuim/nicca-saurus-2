@@ -54,29 +54,30 @@ export const CustomCalendar = ({ className, achievements, nicca }: CustomCalenda
     <Card className={`w-full rounded-lg border-2 border-mainColor bg-mainColor ${className}`}>
       <div className="relative p-2 sm:p-4">
         <div className="flex flex-col items-center">
-          <div className="mb-4 flex w-full items-center justify-between">
-            <button
-              onClick={goToToday}
-              className="rounded-md border border-mainColor bg-subColor p-2 text-mainColor hover:bg-subColor/10"
-            >
-              今日
-            </button>
+          <div className="mb-4 flex w-full items-center justify-between px-2">
             <div className="flex items-center space-x-2">
+              <button
+                onClick={goToPreviousMonth}
+                className="rounded-md p-1 text-mainColor hover:bg-subColor/10"
+              >
+                &lt;
+              </button>
               <div className="text-lg font-bold text-mainColor">
                 {date?.toLocaleString('ja-JP', { year: 'numeric', month: 'long' })}
               </div>
-              <div className="flex items-center space-x-1">
-                <button
-                  onClick={goToPreviousMonth}
-                  className="rounded-md p-1 font-bold text-mainColor"
-                >
-                  &lt;
-                </button>
-                <button onClick={goToNextMonth} className="rounded-md p-1 font-bold text-mainColor">
-                  &gt;
-                </button>
-              </div>
+              <button
+                onClick={goToNextMonth}
+                className="rounded-md p-1 text-mainColor hover:bg-subColor/10"
+              >
+                &gt;
+              </button>
             </div>
+            <button
+              onClick={goToToday}
+              className="rounded-md border border-mainColor bg-subColor px-3 py-1 text-sm text-mainColor transition-colors duration-200 hover:bg-subColor/80"
+            >
+              今日
+            </button>
           </div>
           <Calendar
             mode="single"
