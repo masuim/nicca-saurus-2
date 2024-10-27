@@ -9,6 +9,7 @@ import { ApiResult } from '@/types/api-result';
 import { Nicca, NiccaWithRelations } from '@/types/nicca';
 import { SAURUS_TYPES } from '@/lib/schema/saurus-type';
 import { MESSAGES } from '@/constants/messages';
+import { WEEK_DAYS } from '@/constants/dates';
 
 const getRandomSaurusType = () => {
   const saurusTypes = SAURUS_TYPES.options;
@@ -31,16 +32,9 @@ export const createNicca = async (formData: NiccaFormValues): Promise<ApiResult<
   // startDateを計算
   const today = new Date();
   const dayOfWeek = today.getDay();
-  const weekDays = [
-    'sunday',
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday',
-  ] as const;
-  const daysUntilStart = weekDays.findIndex((day, index) => weekData[day as keyof typeof weekData]);
+  const daysUntilStart = WEEK_DAYS.findIndex(
+    (day, index) => weekData[day as keyof typeof weekData],
+  );
   const startDate = new Date(today);
   startDate.setDate(today.getDate() + ((daysUntilStart + 7 - dayOfWeek) % 7));
 

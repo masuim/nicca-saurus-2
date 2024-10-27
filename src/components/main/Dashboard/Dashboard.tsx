@@ -2,6 +2,7 @@ import { CustomCalendar } from '@/components/main/Dashboard/Calendar';
 import { CompleteButton } from '@/components/main/Dashboard/CompleteButton';
 import { NiccaMessage } from '@/components/main/Dashboard/NiccaMessage';
 import { SaurusImage } from '@/components/main/Dashboard/SaurusImage';
+import { WEEK_DAYS } from '@/constants/dates';
 
 import { useState, useEffect, useMemo } from 'react';
 import { Nicca } from '@/types/nicca';
@@ -20,9 +21,7 @@ export const Dashboard = ({ nicca, fetchNicca }: Props) => {
 
   const saurusLevel = useMemo(() => {
     if (!nicca) return 1;
-    // SaurusImage コンポーネントと同じロジックでレベルを計算
-    const weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-    const selectedDaysCount = weekDays.filter((day) => nicca[day as keyof Nicca]).length;
+    const selectedDaysCount = WEEK_DAYS.filter((day) => nicca[day as keyof Nicca]).length;
     const achievementsCount = nicca.achievements.length;
     const level = Math.floor(achievementsCount / selectedDaysCount) + 1;
     return Math.min(level, 5);
