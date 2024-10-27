@@ -40,7 +40,7 @@ export const Header = ({ onMenuToggle, setCurrentView, handleSignOut }: HeaderPr
               <li key={index}>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-left transition-colors hover:bg-white/20"
+                  className="w-full justify-start text-left transition-colors hover:bg-white/20 hover:text-subColor"
                   onClick={() => {
                     item.action();
                     toggleMenu();
