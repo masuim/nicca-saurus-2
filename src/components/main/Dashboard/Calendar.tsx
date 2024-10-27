@@ -6,6 +6,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
 import { Achievement, Nicca } from '@/types/nicca';
+import { WEEK_DAYS } from '@/constants/dates';
 
 type CustomCalendarProps = {
   className?: string;
@@ -18,16 +19,7 @@ export const CustomCalendar = ({ className, achievements, nicca }: CustomCalenda
 
   const isScheduledDay = (date: Date) => {
     const dayOfWeek = date.getDay();
-    const weekDays = [
-      'sunday',
-      'monday',
-      'tuesday',
-      'wednesday',
-      'thursday',
-      'friday',
-      'saturday',
-    ] as const;
-    const currentDay = weekDays[dayOfWeek];
+    const currentDay = WEEK_DAYS[dayOfWeek];
 
     const startDate = new Date(nicca.startDate);
     startDate.setHours(0, 0, 0, 0);
