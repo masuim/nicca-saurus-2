@@ -13,5 +13,5 @@ export const calendarClassNames = {
     'text-muted-foreground w-6 sm:w-8 font-normal text-[0.7rem] sm:text-[0.8rem] md:text-sm lg:text-base flex justify-center items-center',
   row: 'flex mt-2 justify-between bg-blue-200',
   cell: 'h-8 w-8 p-0 font-normal flex justify-center items-center',
-  day: 'h-8 w-8 p-0 font-normal flex justify-center items-center',
+  day: 'h-7 w-8 p-0 font-normal flex justify-center items-center',
 };
