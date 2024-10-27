@@ -34,7 +34,7 @@ export const Header = ({ onMenuToggle, setCurrentView, handleSignOut }: HeaderPr
         </Button>
       </header>
       {isMenuOpen && (
-        <nav className="absolute left-0 top-16 z-50 w-full bg-mainColor p-4 text-white">
+        <nav className="absolute left-0 top-16 z-50 w-full bg-mainColor/90 p-4 text-white">
           <ul className="space-y-2">
             {navigationItems.map((item, index) => (
               <li key={index}>
