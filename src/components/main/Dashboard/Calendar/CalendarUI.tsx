@@ -21,16 +21,16 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
       classNames={{
         ...calendarClassNames,
         months: cn('flex flex-col sm:flex-row space-y-0 justify-center', classNames?.months),
-        month: cn('space-y-2 sm:space-y-4', classNames?.month),
-        table: cn('w-full border-collapse space-y-1', classNames?.table),
+        month: cn('space-y-2 sm:space-y-4 py-2', classNames?.month),
+        table: cn('w-full border-collapse', classNames?.table),
         head_row: cn('flex justify-between w-full', classNames?.head_row),
         head_cell: cn(
           'text-muted-foreground w-6 sm:w-8 font-normal text-[0.7rem] sm:text-[0.8rem] md:text-sm lg:text-base',
           classNames?.head_cell,
         ),
-        row: cn('flex mt-2 justify-between', classNames?.row),
-        cell: cn('h-8 w-8 p-0 font-normal', classNames?.cell),
-        day: cn('h-8 w-8 p-0 font-normal', classNames?.day),
+        row: cn('flex justify-between', classNames?.row),
+        cell: cn('p-0 font-normal', classNames?.cell),
+        day: cn('h-14 w-8 p-0 font-normal', classNames?.day),
         day_selected:
           'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground',
         day_today: 'bg-accent text-accent-foreground',

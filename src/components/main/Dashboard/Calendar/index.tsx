@@ -52,8 +52,8 @@ export const CustomCalendar = ({ className, achievements, nicca }: CustomCalenda
 
   return (
     <Card className={`w-full rounded-lg border-2 border-mainColor bg-mainColor ${className}`}>
-      <div className="relative p-2 sm:p-4">
-        <div className="flex flex-col items-center">
+      <div className="relative h-full p-2 sm:p-4">
+        <div className="flex h-full flex-col items-center">
           <div className="mb-1 flex w-full items-center justify-between px-2">
             <div className="flex items-center space-x-2">
               <button
@@ -100,14 +100,14 @@ export const CustomCalendar = ({ className, achievements, nicca }: CustomCalenda
                 return (
                   <div
                     {...props}
-                    className={`flex h-full w-full flex-col items-center justify-center rounded-md ${
+                    className={`flex h-full w-full flex-col items-center justify-between rounded-md py-1 ${
                       isOutsideCurrentMonth ? 'opacity-50' : 'font-bold'
                     } ${isToday ? 'bg-subColor' : ''}`}
                   >
                     <div className="text-xs sm:text-[0.7rem] md:text-xs lg:text-sm">
                       {date.getDate()}
                     </div>
-                    <div className="mt-1 h-3 w-3 sm:h-3 sm:w-3 md:h-4 md:w-4 lg:h-5 lg:w-5">
+                    <div className="h-3 w-3 sm:h-3 sm:w-3 md:h-4 md:w-4 lg:h-5 lg:w-5">
                       {isCompleted ? (
                         <Image
                           src="/images/meat/meat-removebg.png"
@@ -134,8 +134,8 @@ export const CustomCalendar = ({ className, achievements, nicca }: CustomCalenda
               head_cell:
                 'text-muted-foreground w-6 sm:w-8 font-normal text-[0.7rem] sm:text-[0.8rem] md:text-sm lg:text-base',
               row: 'flex mt-2 justify-between',
-              cell: 'h-8 w-8 p-0 font-normal',
-              day: 'h-8 w-8 p-0 font-normal',
+              cell: 'h-12 w-8 p-0 font-normal rounded-md',
+              day: 'h-12 w-8 p-0 font-normal rounded-md',
             }}
           />
         </div>
