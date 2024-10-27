@@ -100,7 +100,7 @@ export const CustomCalendar = ({ className, achievements, nicca }: CustomCalenda
                 return (
                   <div
                     {...props}
-                    className={`flex h-full w-full flex-col items-center justify-between rounded-md py-1 ${
+                    className={`flex size-full flex-col items-center justify-between rounded-md py-1 ${
                       isOutsideCurrentMonth ? 'opacity-50' : 'font-bold'
                     } ${isToday ? 'bg-subColor' : ''}`}
                   >
@@ -114,7 +114,7 @@ export const CustomCalendar = ({ className, achievements, nicca }: CustomCalenda
                           alt="Meat"
                           width={16}
                           height={16}
-                          className="h-full w-full object-contain"
+                          className="size-full object-contain"
                         />
                       ) : isScheduled ? (
                         <div className="h-2 w-2 rounded-md bg-subColor sm:h-2 sm:w-2 md:h-3 md:w-3 lg:h-4 lg:w-4" />

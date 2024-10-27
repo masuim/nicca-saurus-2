@@ -90,9 +90,9 @@ export const Dashboard = ({ nicca, fetchNicca }: Props) => {
           </div>
         </div>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-          <div className="h-full w-full">
+          <div className="size-full">
             <CustomCalendar
-              className="dashboard-component h-full w-full bg-gray-50"
+              className="dashboard-component size-full bg-gray-50"
               achievements={nicca.achievements}
               nicca={nicca}
             />
