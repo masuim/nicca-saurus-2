@@ -40,13 +40,19 @@ export const Header = ({ onMenuToggle, setCurrentView, handleSignOut }: HeaderPr
   return (
     <>
       <header className="flex h-16 w-full items-center justify-between bg-mainColor px-4 text-white">
-        <Image
-          src="/images/logos/bg-removed-logo.png"
-          alt="app logo"
-          width={60}
-          height={60}
-          className="object-contain"
-        />
+        <Button
+          variant="ghost"
+          className="p-0 hover:bg-transparent"
+          onClick={() => setCurrentView('dashboard')}
+        >
+          <Image
+            src="/images/logos/bg-removed-logo.png"
+            alt="app logo"
+            width={60}
+            height={60}
+            className="object-contain transition-transform duration-300 hover:scale-110"
+          />
+        </Button>
         <Button variant="ghost" className="text-white" onClick={toggleMenu}>
           {isMenuOpen ? <FaTimes className="text-2xl" /> : <FaBars className="text-2xl" />}
         </Button>
