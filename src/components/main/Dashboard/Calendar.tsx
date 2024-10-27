@@ -107,7 +107,7 @@ export const CustomCalendar = ({ className, achievements, nicca }: CustomCalenda
                       isToday ? 'rounded-md bg-subColor' : ''
                     }`}
                   >
-                    <div className="w-full px-0.5 py-1 text-center text-xs sm:text-[0.7rem] md:text-xs lg:text-sm">
+                    <div className="flex w-full justify-center px-0.5 py-1 text-center text-xs sm:text-[0.7rem] md:text-xs lg:text-sm">
                       {date.getDate()}
                     </div>
                     <div className="flex h-3 w-3 items-center justify-center sm:h-3 sm:w-3 md:h-4 md:w-4 lg:h-5 lg:w-5">

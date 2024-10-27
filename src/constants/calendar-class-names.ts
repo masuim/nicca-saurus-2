@@ -10,8 +10,8 @@ export const calendarClassNames = {
   table: 'w-full border-collapse space-y-1',
   head_row: 'flex justify-between w-full',
   head_cell:
-    'text-muted-foreground w-6 sm:w-8 font-normal text-[0.7rem] sm:text-[0.8rem] md:text-sm lg:text-base',
+    'text-muted-foreground w-6 sm:w-8 font-normal text-[0.7rem] sm:text-[0.8rem] md:text-sm lg:text-base flex justify-center',
   row: 'flex mt-2 justify-between',
-  cell: 'h-8 w-8 p-0 font-normal',
-  day: 'h-8 w-8 p-0 font-normal',
+  cell: 'h-8 w-8 p-0 font-normal flex justify-center',
+  day: 'h-8 w-8 p-0 font-normal flex justify-center',
 };
