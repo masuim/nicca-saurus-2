@@ -1,4 +1,4 @@
-import { CustomCalendar } from '@/components/main/Dashboard/Calendar';
+import { CustomCalendar } from '@/components/main/Dashboard/Calendar/CustomCalendar';
 import { CompleteButton } from '@/components/main/Dashboard/CompleteButton';
 import { NiccaMessage } from '@/components/main/Dashboard/NiccaMessage';
 import { SaurusImage } from '@/components/main/Dashboard/SaurusImage';
