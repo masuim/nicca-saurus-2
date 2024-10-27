@@ -48,7 +48,7 @@ export const UserNiccaList = ({ fetchNicca }: Props) => {
     };
 
     fetchNiccas();
-  }, []);
+  }, [fetchNicca]);
 
   if (error) {
     return <div className="text-red-500">{error}</div>;
@@ -77,7 +77,7 @@ export const UserNiccaList = ({ fetchNicca }: Props) => {
   };
 
   const handleDelete = async (id: string) => {
-    if (window.confirm('本当にこの日課を削除しますか？')) {
+    if (window.confirm('本当にこの日課を削除しますか？削除後はこれから行う日課を登録しましょう')) {
       const result = await deleteNicca(id);
       if (result.success) {
         setNiccas(niccas.filter((nicca) => nicca.id !== id));
