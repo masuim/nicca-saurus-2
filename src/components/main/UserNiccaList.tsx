@@ -65,10 +65,11 @@ export const UserNiccaList = ({ fetchNicca }: Props) => {
       'saturday',
       'sunday',
     ] as const;
-    return dayKeys
-      .filter((day) => nicca?.week?.[day])
-      .map((day) => days[dayKeys.indexOf(day)])
-      .join(', ');
+    const selectedDays = dayKeys
+      .filter((day) => nicca[day as keyof Nicca])
+      .map((day) => days[dayKeys.indexOf(day)]);
+
+    return selectedDays.length > 0 ? selectedDays.join(', ') : '設定なし';
   };
 
   const handleEdit = (id: string) => {
