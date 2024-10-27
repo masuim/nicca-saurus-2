@@ -2,37 +2,15 @@
 
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import {
-  FaChartBar,
-  FaList,
-  FaCog,
-  FaPlus,
-  FaRegTrashAlt,
-  FaRegEdit,
-  FaSignOutAlt,
-} from 'react-icons/fa';
-import { signOut } from 'next-auth/react';
-import { useFlashMessage } from '@/providers/FlashMessageProvider';
-import { useRouter } from 'next/navigation';
+import { createNavigationItems } from './NavigationItems';
 
 type SideMenuProps = {
   setCurrentView: (view: 'dashboard' | 'niccaList') => void;
+  handleSignOut: () => void;
 };
 
-export const SideMenu = ({ setCurrentView }: SideMenuProps) => {
-  const { showFlashMessage } = useFlashMessage();
-  const router = useRouter();
-
-  const handleSignOut = async () => {
-    try {
-      await signOut({ redirect: false });
-      showFlashMessage('サインアウトしました', 'success');
-      router.push('/');
-    } catch (error) {
-      console.error('Signout error:', error);
-      showFlashMessage('サインアウト中にエラーが発生しました。もう一度お試しください。', 'error');
-    }
-  };
+export const SideMenu = ({ setCurrentView, handleSignOut }: SideMenuProps) => {
+  const navigationItems = createNavigationItems(setCurrentView, handleSignOut);
 
   return (
     <aside className="flex h-screen w-56 flex-col bg-mainColor text-white">
@@ -49,44 +27,18 @@ export const SideMenu = ({ setCurrentView }: SideMenuProps) => {
         <div className="mb-6 border-t border-white/20 pt-4">
           <h3 className="mb-2 px-2 text-sm font-semibold">ナビゲーション</h3>
           <ul className="space-y-2 px-2">
-            <li>
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-left transition-colors hover:bg-white/10"
-                onClick={() => setCurrentView('dashboard')}
-              >
-                <FaChartBar className="mr-3 text-lg" /> ダッシュボード
-              </Button>
-            </li>
-            <li>
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-left transition-colors hover:bg-white/10"
-                onClick={() => setCurrentView('niccaList')}
-              >
-                <FaList className="mr-3 text-lg" /> 日課一覧
-              </Button>
-            </li>
-            <li>
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-left transition-colors hover:bg-white/10"
-                onClick={() => alert('ユーザー設定 Clicked!!')}
-              >
-                <FaCog className="mr-3 text-lg" /> ユーザー設定
-              </Button>
-            </li>
+            {navigationItems.map((item, index) => (
+              <li key={index}>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-left transition-colors hover:bg-white/10"
+                  onClick={item.action}
+                >
+                  {item.icon} {item.label}
+                </Button>
+              </li>
+            ))}
           </ul>
-        </div>
-
-        <div className="mt-auto">
-          <Button
-            variant="ghost"
-            className="w-full justify-start py-2 text-left transition-colors hover:bg-white/10"
-            onClick={handleSignOut}
-          >
-            <FaSignOutAlt className="mr-3 text-lg" /> サインアウト
-          </Button>
         </div>
       </nav>
     </aside>
