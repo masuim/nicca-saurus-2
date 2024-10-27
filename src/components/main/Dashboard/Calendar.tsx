@@ -55,7 +55,7 @@ export const CustomCalendar = ({ className, achievements, nicca }: CustomCalenda
               >
                 <div
                   className={`flex w-full flex-col items-center justify-between pb-1 ${
-                    isToday ? 'rounded-md bg-yellow-200' : ''
+                    isToday ? 'rounded-md bg-subColor' : ''
                   }`}
                 >
                   <div className="w-full px-0.5 py-1 text-center text-xs sm:text-[0.7rem] md:text-xs lg:text-sm">
