@@ -50,26 +50,30 @@ export const CustomCalendar = ({ className, achievements, nicca }: CustomCalenda
               <div
                 {...props}
                 className={`flex h-full w-full flex-col items-center justify-between rounded-md ${
-                  isToday
-                    ? 'bg-yellow-200 px-1 pb-1 xs:px-2 xs:pb-1'
-                    : 'xs:by-1 px-1 pb-0.5 xs:px-2'
-                } ${isOutsideCurrentMonth ? 'opacity-50' : 'font-bold'}`}
+                  isOutsideCurrentMonth ? 'opacity-50' : 'font-bold'
+                }`}
               >
-                <div className="w-full px-0.5 py-1 text-center text-xs sm:text-[0.7rem] md:text-xs lg:text-sm">
-                  {date.getDate()}
-                </div>
-                <div className="flex h-3 w-3 items-center justify-center sm:h-3 sm:w-3 md:h-4 md:w-4 lg:h-5 lg:w-5">
-                  {isCompleted ? (
-                    <Image
-                      src="/images/meat/meat-removebg.png"
-                      alt="Meat"
-                      width={16}
-                      height={16}
-                      className="h-full w-full object-contain"
-                    />
-                  ) : isScheduled ? (
-                    <div className="h-2 w-2 rounded-full bg-subColor sm:h-2 sm:w-2 md:h-3 md:w-3 lg:h-4 lg:w-4" />
-                  ) : null}
+                <div
+                  className={`flex w-full flex-col items-center justify-between pb-1 ${
+                    isToday ? 'rounded-md bg-subColor' : ''
+                  }`}
+                >
+                  <div className="w-full px-0.5 py-1 text-center text-xs sm:text-[0.7rem] md:text-xs lg:text-sm">
+                    {date.getDate()}
+                  </div>
+                  <div className="flex h-3 w-3 items-center justify-center sm:h-3 sm:w-3 md:h-4 md:w-4 lg:h-5 lg:w-5">
+                    {isCompleted ? (
+                      <Image
+                        src="/images/meat/meat-removebg.png"
+                        alt="Meat"
+                        width={16}
+                        height={16}
+                        className="h-full w-full object-contain"
+                      />
+                    ) : isScheduled ? (
+                      <div className="h-2 w-2 rounded-full bg-subColor sm:h-2 sm:w-2 md:h-3 md:w-3 lg:h-4 lg:w-4" />
+                    ) : null}
+                  </div>
                 </div>
               </div>
             );
