@@ -41,6 +41,7 @@ export const CustomCalendar = ({ className, achievements, nicca }: CustomCalenda
             const isOutsideCurrentMonth = date.getMonth() !== new Date().getMonth();
             const isCompleted = achievements.some(
               (achievement) =>
+                achievement.achievedDate &&
                 new Date(achievement.achievedDate).toDateString() === date.toDateString(),
             );
             const isScheduled = isScheduledDay(date);
