@@ -207,3 +207,29 @@ export const addAchievement = async (niccaId: string, date: Date): Promise<ApiRe
     };
   }
 };
+
+export const resetNiccaAchievements = async (niccaId: string): Promise<ApiResult<void>> => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user) {
+    return { success: false, error: MESSAGES.OTHER.USER_NOT_AUTHENTICATED, status: 401 };
+  }
+
+  try {
+    await prisma.achievementDate.deleteMany({
+      where: { niccaId: niccaId },
+    });
+
+    await prisma.achievementDate.create({
+      data: {
+        niccaId: niccaId,
+        achievedDate: null,
+      },
+    });
+
+    return { success: true, data: undefined, status: 200 };
+  } catch (error) {
+    console.error('Nicca reset error:', error);
+    return { success: false, error: MESSAGES.RESET_NICCA.ERROR, status: 500 };
+  }
+};

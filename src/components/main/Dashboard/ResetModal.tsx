@@ -1,4 +1,5 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { MESSAGES } from '@/constants/messages';
 
 type ResetModalProps = {
   isOpen: boolean;
@@ -11,14 +12,12 @@ export const ResetModal = ({ isOpen, onClose }: ResetModalProps) => {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-center text-xl font-bold text-mainColor">
-            リセットのお知らせ
+            {MESSAGES.RESET_MODAL.TITLE}
           </DialogTitle>
         </DialogHeader>
         <div className="mt-4 text-center">
-          <p className="text-sm text-gray-600">
-            前回の予定日に日課を行わなかったため、進行状況がリセットされました。
-            <br />
-            また最初から一緒に頑張りましょう！
+          <p className="whitespace-pre-line text-sm text-gray-600">
+            {MESSAGES.RESET_MODAL.MESSAGE}
           </p>
         </div>
       </DialogContent>

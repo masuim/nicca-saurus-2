@@ -65,4 +65,14 @@ export const MESSAGES = {
   VALIDATION: {
     MINIMUM_DAYS_SELECTION: (days: number) => `少なくとも${days}日以上選択してください`,
   },
+
+  RESET_MODAL: {
+    TITLE: 'リセットのお知らせ',
+    MESSAGE:
+      '前回の予定日に日課を行わなかったため、\n進行状況がリセットされました。\nまた最初から一緒に頑張りましょう！',
+  },
+
+  RESET_NICCA: {
+    ERROR: '日課のリセットに失敗しました',
+  },
 };

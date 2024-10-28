@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Nicca } from '@/types/nicca';
 import { WEEK_DAYS } from '@/constants/dates';
+import { resetNiccaAchievements } from '@/app/actions/nicca';
+import { useFlashMessage } from '@/providers/FlashMessageProvider';
+import { MESSAGES } from '@/constants/messages';
 
 export const useNiccaProgress = (nicca: Nicca | null) => {
   const [shouldReset, setShouldReset] = useState(false);
   const [showResetModal, setShowResetModal] = useState(false);
   const [achievements, setAchievements] = useState<Date[]>([]);
+  const { showFlashMessage } = useFlashMessage();
 
   useEffect(() => {
     if (!nicca) return;
@@ -42,6 +46,19 @@ export const useNiccaProgress = (nicca: Nicca | null) => {
 
     return () => clearTimeout(midnightTimeout);
   }, [nicca]);
+
+  useEffect(() => {
+    if (nicca && shouldReset) {
+      const resetAchievements = async () => {
+        const result = await resetNiccaAchievements(nicca.id);
+        if (!result.success) {
+          showFlashMessage(result.error || MESSAGES.RESET_NICCA.ERROR, 'error');
+        }
+        setShouldReset(false);
+      };
+      resetAchievements();
+    }
+  }, [nicca, shouldReset, showFlashMessage]);
 
   useEffect(() => {
     if (nicca) {
