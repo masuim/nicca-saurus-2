@@ -170,29 +170,36 @@ export const addAchievement = async (niccaId: string, date: Date): Promise<ApiRe
   }
 
   try {
-    await prisma.nicca.update({
-      where: { id: niccaId, userId: session.user.id },
-      data: {
-        achievements: {
-          create: {
-            achievedDate: date,
-          },
+    // 既に今日の達成記録が存在するかチェック
+    const existingAchievement = await prisma.achievementDate.findFirst({
+      where: {
+        niccaId,
+        achievedDate: {
+          gte: new Date(date.setHours(0, 0, 0, 0)),
+          lt: new Date(date.setHours(23, 59, 59, 999)),
         },
+      },
+    });
+
+    if (existingAchievement) {
+      return {
+        success: false,
+        error: MESSAGES.FLASH_MESSAGES.ACHIEVEMENT_ALREADY_EXISTS,
+        status: 400,
+      };
+    }
+
+    // 達成記録を追加
+    await prisma.achievementDate.create({
+      data: {
+        niccaId,
+        achievedDate: date,
       },
     });
 
     return { success: true, data: undefined, status: 200 };
   } catch (error) {
     console.error('Achievement addition error:', error);
-    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return {
-          success: false,
-          error: MESSAGES.FLASH_MESSAGES.ACHIEVEMENT_ALREADY_EXISTS,
-          status: 400,
-        };
-      }
-    }
     return {
       success: false,
       error: MESSAGES.FLASH_MESSAGES.ACHIEVEMENT_ADDITION_ERROR,

@@ -10,6 +10,7 @@ import { Confetti } from '@/components/main/Dashboard/Animation/Confetti';
 import { MESSAGES } from '@/constants/messages';
 import { useNiccaProgress } from '@/hooks/use-nicca-progress';
 import { ResetModal } from '@/components/main/Dashboard/ResetModal';
+import { addAchievement } from '@/app/actions/nicca';
 
 type Props = {
   nicca: Nicca | null;
@@ -56,11 +57,24 @@ export const Dashboard = ({ nicca, fetchNicca }: Props) => {
     }
   }, [saurusLevel, achievements]);
 
+  useEffect(() => {
+    if (nicca) {
+      const achievedDates = nicca.achievements
+        .filter((achievement) => achievement.achievedDate)
+        .map((achievement) => new Date(achievement.achievedDate!));
+      setAchievements(achievedDates);
+    }
+  }, [nicca]);
+
   const handleComplete = async (date: Date) => {
-    setAchievements((prev) => [...prev, date]);
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 5000);
-    await fetchNicca();
+    if (!nicca) return;
+    const result = await addAchievement(nicca.id, date);
+    if (result.success) {
+      setAchievements((prev) => [...prev, date]);
+      setIsAnimating(true);
+      setTimeout(() => setIsAnimating(false), 5000);
+      await fetchNicca();
+    }
   };
 
   if (nicca === null) {

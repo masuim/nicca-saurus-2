@@ -1,4 +1,3 @@
-// src/hooks/useNiccaProgress.ts
 import { useState, useEffect } from 'react';
 import { Nicca } from '@/types/nicca';
 import { WEEK_DAYS } from '@/constants/dates';
@@ -6,6 +5,7 @@ import { WEEK_DAYS } from '@/constants/dates';
 export const useNiccaProgress = (nicca: Nicca | null) => {
   const [shouldReset, setShouldReset] = useState(false);
   const [showResetModal, setShowResetModal] = useState(false);
+  const [achievements, setAchievements] = useState<Date[]>([]);
 
   useEffect(() => {
     if (!nicca) return;
@@ -43,5 +43,14 @@ export const useNiccaProgress = (nicca: Nicca | null) => {
     return () => clearTimeout(midnightTimeout);
   }, [nicca]);
 
-  return { shouldReset, showResetModal, setShowResetModal };
+  useEffect(() => {
+    if (nicca) {
+      const achievedDates = nicca.achievements
+        .filter((achievement) => achievement.achievedDate)
+        .map((achievement) => new Date(achievement.achievedDate!));
+      setAchievements(achievedDates);
+    }
+  }, [nicca]);
+
+  return { shouldReset, showResetModal, setShowResetModal, achievements };
 };
