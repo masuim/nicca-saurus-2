@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { CustomModal } from '@/components/ui/CustomModal';
 import { MESSAGES } from '@/constants/messages';
 
 type ResetModalProps = {
@@ -8,19 +8,13 @@ type ResetModalProps = {
 
 export const ResetModal = ({ isOpen, onClose }: ResetModalProps) => {
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle className="text-center text-xl font-bold text-mainColor">
-            {MESSAGES.RESET_MODAL.TITLE}
-          </DialogTitle>
-        </DialogHeader>
-        <div className="mt-4 text-center">
-          <p className="whitespace-pre-line text-sm text-gray-600">
-            {MESSAGES.RESET_MODAL.MESSAGE}
-          </p>
-        </div>
-      </DialogContent>
-    </Dialog>
+    <CustomModal isOpen={isOpen} onClose={onClose} canClose={true}>
+      <h2 className="mb-4 text-center text-xl font-bold text-mainColor">
+        {MESSAGES.RESET_MODAL.TITLE}
+      </h2>
+      <div className="mt-4 text-center">
+        <p className="whitespace-pre-line text-sm text-gray-600">{MESSAGES.RESET_MODAL.MESSAGE}</p>
+      </div>
+    </CustomModal>
   );
 };
