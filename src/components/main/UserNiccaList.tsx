@@ -51,7 +51,7 @@ export const UserNiccaList = ({ fetchNicca }: Props) => {
   }, [fetchNicca]);
 
   if (error) {
-    return <div className="text-red-500">{error}</div>;
+    return <div className="text-error">{error}</div>;
   }
 
   const getDayString = (nicca: Nicca) => {
@@ -107,7 +107,7 @@ export const UserNiccaList = ({ fetchNicca }: Props) => {
               <Button
                 variant="ghost"
                 onClick={() => handleDelete(nicca.id)}
-                className="text-red-500 hover:text-red-700"
+                className="text-error hover:text-error"
               >
                 <FaRegTrashAlt className="text-lg" />
               </Button>

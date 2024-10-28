@@ -76,7 +76,7 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
         className="text-responsive-xs w-full max-w-sm space-y-6 rounded-lg bg-gray-50 p-6 shadow-md sm:px-6 md:px-8"
       >
         <h2 className="text-responsive-title text-center font-bold">サインアップ</h2>
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-error">{error}</p>}
         <FormField
           control={form.control}
           name="name"

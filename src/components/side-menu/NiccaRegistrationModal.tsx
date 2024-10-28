@@ -103,7 +103,7 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration, canClo
           className="mb-4 w-full rounded-md border-2 border-primary/60 p-2 focus:outline-none focus:ring-2"
         />
         {form.formState.errors.title && (
-          <p className="mb-2 text-sm text-red-500">{form.formState.errors.title.message}</p>
+          <p className="text-error mb-2 text-sm">{form.formState.errors.title.message}</p>
         )}
         <div className="mt-4 flex justify-between">
           {dayMap.map((day, index) => {
@@ -124,7 +124,7 @@ export const NiccaRegistrationModal = ({ isOpen, onClose, onRegistration, canClo
           })}
         </div>
         {form.formState.errors.root && (
-          <p className="mt-2 text-sm text-red-500">{form.formState.errors.root.message}</p>
+          <p className="text-error mt-2 text-sm">{form.formState.errors.root.message}</p>
         )}
         <div className="mt-6 flex justify-end">
           <Button type="submit" className="text-white">
