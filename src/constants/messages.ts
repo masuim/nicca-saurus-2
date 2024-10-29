@@ -5,6 +5,7 @@ export const MESSAGES = {
     RESTART_WARNING: 'サボると最初からやり直し！',
     KEEP_GOING: '恐竜が大人になるまで頑張って続けよう！',
     DEFAULT: '日課を続けて、恐竜と一緒に成長しましょう！',
+    RESTART: '新しい始まりだね！今度は最後まで一緒に頑張ろう！',
     CONGRATULATIONS:
       'おめでとうございます！\nあなたも恐竜も独り立ちの時が来ました！\n1ヶ月お疲れ様でした！',
     SAUR_GROWTH: '恐竜が一段階成長したよ！次の成長も楽しみだね！',

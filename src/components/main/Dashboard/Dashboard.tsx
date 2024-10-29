@@ -77,6 +77,11 @@ export const Dashboard = ({ nicca, fetchNicca }: Props) => {
     }
   };
 
+  const handleCloseResetModal = () => {
+    setShowResetModal(false);
+    setMessage(MESSAGES.NICCA_MESSAGE.RESTART);
+  };
+
   if (nicca === null) {
     return <div>アクティブな日課がないよー！</div>;
   }
@@ -126,7 +131,7 @@ export const Dashboard = ({ nicca, fetchNicca }: Props) => {
         </div>
       </div>
       <Confetti isAnimating={isAnimating} className="fixed inset-0 z-[9999]" />
-      <ResetModal isOpen={showResetModal} onClose={() => setShowResetModal(false)} />
+      <ResetModal isOpen={showResetModal} onClose={handleCloseResetModal} />
     </>
   );
 };
