@@ -22,6 +22,12 @@ export const Dashboard = ({ nicca, fetchNiccas }: Props) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [message, setMessage] = useState(MESSAGES.NICCA_MESSAGE.DEFAULT);
   const { shouldReset, showResetModal, setShowResetModal } = useNiccaProgress(nicca);
+  const [isFirstAchievement, setIsFirstAchievement] = useState(true);
+
+  const isCompletedToday = useMemo(
+    () => achievements.some((date) => date.toDateString() === new Date().toDateString()),
+    [achievements],
+  );
 
   const saurusLevel = useMemo(() => {
     if (!nicca || shouldReset) return 1;
@@ -39,23 +45,39 @@ export const Dashboard = ({ nicca, fetchNiccas }: Props) => {
   useEffect(() => {
     if (!nicca) return;
 
-    if (nicca.achievements.length === 0) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const niccaStartDate = new Date(nicca.startDate);
+    niccaStartDate.setHours(0, 0, 0, 0);
+    const isRegistrationDay = today.getTime() === niccaStartDate.getTime();
+
+    // TODO: メッセージの分岐は、モックを使って確認する。
+    if (nicca.achievements.length === 0 || (isRegistrationDay && !isCompletedToday)) {
       setMessage(MESSAGES.NICCA_MESSAGE.DEFAULT);
     } else if (
       new Date(nicca.endDate).toDateString() === new Date().toDateString() &&
-      achievements.some((date) => date.toDateString() === new Date().toDateString())
+      isCompletedToday
     ) {
       setMessage(MESSAGES.NICCA_MESSAGE.CONGRATULATIONS);
-    } else {
+    } else if (shouldReset) {
+      setMessage(MESSAGES.NICCA_MESSAGE.RESTART);
+    } else if (isCompletedToday && isFirstAchievement) {
       setMessage(randomEncouragingMessage());
+      setIsFirstAchievement(false);
     }
-  }, [nicca, achievements]);
+  }, [nicca, isCompletedToday, shouldReset, isFirstAchievement]);
 
   useEffect(() => {
-    if (saurusLevel > 1 && achievements.length % (saurusLevel - 1) === 0) {
+    if (!isCompletedToday) {
+      setIsFirstAchievement(true);
+    }
+  }, [isCompletedToday]);
+
+  useEffect(() => {
+    if (saurusLevel > 1 && achievements.length % (saurusLevel - 1) === 0 && isCompletedToday) {
       setMessage(MESSAGES.NICCA_MESSAGE.SAUR_GROWTH);
     }
-  }, [saurusLevel, achievements]);
+  }, [saurusLevel, achievements.length, isCompletedToday]);
 
   useEffect(() => {
     if (nicca) {
@@ -85,10 +107,6 @@ export const Dashboard = ({ nicca, fetchNiccas }: Props) => {
   if (nicca === null) {
     return <div>アクティブな日課がないよー！</div>;
   }
-
-  const isCompletedToday = achievements.some(
-    (date) => date.toDateString() === new Date().toDateString(),
-  );
 
   return (
     <>
