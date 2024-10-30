@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { getUserNiccas } from '@/app/actions/nicca/get-user-niccas';
+import { useState } from 'react';
 import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
@@ -11,44 +10,13 @@ import { useFlashMessage } from '@/providers/FlashMessageProvider';
 import { Nicca, NiccaList } from '@/types/nicca';
 
 type Props = {
-  fetchNicca: () => Promise<void>;
+  niccas: NiccaList;
+  fetchNiccas: () => Promise<void>;
 };
 
-export const UserNiccaList = ({ fetchNicca }: Props) => {
-  const [niccas, setNiccas] = useState<NiccaList>([]);
+export const UserNiccaList = ({ niccas, fetchNiccas }: Props) => {
   const [error, setError] = useState<string | null>(null);
   const { showFlashMessage } = useFlashMessage();
-
-  useEffect(() => {
-    const fetchNiccas = async () => {
-      try {
-        const result = await getUserNiccas();
-        if (result.success) {
-          setNiccas(
-            result.data.map((nicca: Nicca) => ({
-              ...nicca,
-              week: nicca.week || {
-                monday: false,
-                tuesday: false,
-                wednesday: false,
-                thursday: false,
-                friday: false,
-                saturday: false,
-                sunday: false,
-              },
-            })),
-          );
-        } else {
-          setError(result.error || '日課の取得に失敗しました');
-        }
-      } catch (error) {
-        console.error('Niccas fetch error:', error);
-        setError('予期せぬエラーが発生しました');
-      }
-    };
-
-    fetchNiccas();
-  }, [fetchNicca]);
 
   if (error) {
     return <div className="text-error">{error}</div>;
@@ -80,9 +48,8 @@ export const UserNiccaList = ({ fetchNicca }: Props) => {
     if (window.confirm('本当にこの日課を削除しますか？削除後はこれから行う日課を登録しましょう')) {
       const result = await deleteNicca(id);
       if (result.success) {
-        setNiccas(niccas.filter((nicca) => nicca.id !== id));
         showFlashMessage('日課が削除されました', 'success');
-        await fetchNicca();
+        await fetchNiccas();
       } else {
         showFlashMessage(result.error || '日課の削除に失敗しました', 'error');
       }

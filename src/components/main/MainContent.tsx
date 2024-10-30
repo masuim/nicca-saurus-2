@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { ViewType } from '@/types/views';
 import { Suspense } from 'react';
 import { useRouter } from 'next/navigation';
@@ -12,60 +12,69 @@ import { SideMenu } from '@/components/layout/SideMenu';
 import { Header } from '@/components/layout/Header';
 import { Dashboard } from '@/components/main/Dashboard/Dashboard';
 import { Loading } from '@/components/ui/Loading';
-import { getNicca } from '@/app/actions/nicca/get-nicca';
+import { getUserNiccas } from '@/app/actions/nicca/get-user-niccas';
 import { Nicca } from '@/types/nicca';
 import { useFlashMessage } from '@/providers/FlashMessageProvider';
 import { NiccaRegistrationModal } from '@/components/side-menu/NiccaRegistrationModal';
 
 export const MainContent = () => {
+  const [niccas, setNiccas] = useState<Nicca[]>([]);
   const [currentView, setCurrentView] = useState<ViewType>('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [nicca, setNicca] = useState<Nicca | null>(null);
   const [showNiccaRegistration, setShowNiccaRegistration] = useState(false);
   const { showFlashMessage } = useFlashMessage();
   const router = useRouter();
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const fetchNicca = useCallback(async () => {
-    const result = await getNicca();
+  const fetchNiccas = useCallback(async () => {
+    const result = await getUserNiccas();
     if (!result.success) {
-      console.error('Nicca fetch error:', result.error);
+      console.error('Niccas fetch error:', result.error);
       showFlashMessage(result.error || '日課の取得に失敗しました', 'error');
-      setNicca(null);
-      setShowNiccaRegistration(true);
+      setNiccas([]);
     } else {
-      setNicca(result.data);
-      setShowNiccaRegistration(result.data === null);
+      setNiccas(result.data);
     }
   }, [showFlashMessage]);
 
   useEffect(() => {
-    fetchNicca();
-  }, [fetchNicca]);
+    fetchNiccas();
+  }, [fetchNiccas]);
 
-  const handleNiccaRegistration = useCallback((newNicca: Nicca) => {
-    setNicca(newNicca);
-    setShowNiccaRegistration(false);
-  }, []);
+  useEffect(() => {
+    const hasActiveNicca = niccas.some((nicca) => nicca.isActive);
+    if (!hasActiveNicca) {
+      setShowNiccaRegistration(true);
+    } else {
+      setShowNiccaRegistration(false);
+    }
+  }, [niccas]);
+
+  const activeNicca = useMemo(() => {
+    return niccas.find((nicca) => nicca.isActive) || null;
+  }, [niccas]);
+
+  const handleNiccaRegistration = useCallback(
+    async (newNicca: Nicca) => {
+      setNiccas([...niccas, newNicca]);
+      setShowNiccaRegistration(false);
+      await fetchNiccas();
+    },
+    [fetchNiccas],
+  );
 
   const handleViewChange = useCallback(
-    (view: ViewType) => {
+    async (view: ViewType) => {
       setCurrentView(view);
-      if (view === 'dashboard') {
-        fetchNicca();
-      }
+      await fetchNiccas();
     },
-    [fetchNicca],
+    [fetchNiccas],
   );
 
   const handleCloseNiccaRegistration = useCallback(() => {
-    if (nicca !== null) {
+    if (activeNicca !== null) {
       setShowNiccaRegistration(false);
     }
-  }, [nicca]);
+  }, [activeNicca]);
 
   const handleSignOut = async () => {
     try {
@@ -84,11 +93,11 @@ export const MainContent = () => {
         isOpen={showNiccaRegistration}
         onClose={handleCloseNiccaRegistration}
         onRegistration={handleNiccaRegistration}
-        canClose={nicca !== null}
+        canClose={activeNicca !== null}
       />
       <div className="w-full lg:hidden">
         <Header
-          onMenuToggle={toggleMobileMenu}
+          onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           setCurrentView={handleViewChange}
           handleSignOut={handleSignOut}
         />
@@ -98,9 +107,9 @@ export const MainContent = () => {
           <div className="w-full max-w-[calc(100vw-1.5rem)] xs:max-w-[calc(100vw-3rem)] sm:max-w-4xl">
             <Suspense fallback={<Loading />}>
               {currentView === 'dashboard' ? (
-                <Dashboard nicca={nicca} fetchNicca={fetchNicca} />
+                <Dashboard nicca={activeNicca} fetchNiccas={fetchNiccas} />
               ) : (
-                <UserNiccaList fetchNicca={fetchNicca} />
+                <UserNiccaList niccas={niccas} fetchNiccas={fetchNiccas} />
               )}
             </Suspense>
           </div>

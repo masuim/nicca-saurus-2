@@ -7,7 +7,7 @@ type CompleteButtonProps = {
   niccaId: string;
   onComplete: (date: Date) => void;
   isCompletedToday: boolean;
-  fetchNicca: () => Promise<void>;
+  fetchNiccas: () => Promise<void>;
 };
 
 export const CompleteButton = ({
@@ -15,7 +15,7 @@ export const CompleteButton = ({
   niccaId,
   onComplete,
   isCompletedToday,
-  fetchNicca,
+  fetchNiccas,
 }: CompleteButtonProps) => {
   const { showFlashMessage } = useFlashMessage();
 
@@ -30,7 +30,7 @@ export const CompleteButton = ({
     if (result.success) {
       onComplete(today);
       showFlashMessage('本日の日課完了！お疲れさまです！', 'success');
-      await fetchNicca();
+      await fetchNiccas();
     } else {
       showFlashMessage(result.error || '日課の完了に失敗しました。', 'error');
     }

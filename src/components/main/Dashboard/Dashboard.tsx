@@ -14,10 +14,10 @@ import { addAchievement } from '@/app/actions/nicca/add-achievement';
 
 type Props = {
   nicca: Nicca | null;
-  fetchNicca: () => Promise<void>;
+  fetchNiccas: () => Promise<void>;
 };
 
-export const Dashboard = ({ nicca, fetchNicca }: Props) => {
+export const Dashboard = ({ nicca, fetchNiccas }: Props) => {
   const [achievements, setAchievements] = useState<Date[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [message, setMessage] = useState(MESSAGES.NICCA_MESSAGE.DEFAULT);
@@ -73,7 +73,7 @@ export const Dashboard = ({ nicca, fetchNicca }: Props) => {
       setAchievements((prev) => [...prev, date]);
       setIsAnimating(true);
       setTimeout(() => setIsAnimating(false), 5000);
-      await fetchNicca();
+      await fetchNiccas();
     }
   };
 
@@ -125,7 +125,7 @@ export const Dashboard = ({ nicca, fetchNicca }: Props) => {
               niccaId={nicca.id}
               onComplete={handleComplete}
               isCompletedToday={isCompletedToday}
-              fetchNicca={fetchNicca}
+              fetchNiccas={fetchNiccas}
             />
           </div>
         </div>

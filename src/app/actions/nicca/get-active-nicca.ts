@@ -7,7 +7,7 @@ import { ApiResult } from '@/types/api-result';
 import { NiccaWithRelations } from '@/types/nicca';
 import { MESSAGES } from '@/constants/messages';
 
-export const getNicca = async (): Promise<ApiResult<NiccaWithRelations | null>> => {
+export const getActiveNicca = async (): Promise<ApiResult<NiccaWithRelations | null>> => {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
     return { success: false, error: MESSAGES.OTHER.USER_NOT_AUTHENTICATED, status: 401 };
