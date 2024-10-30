@@ -10,7 +10,7 @@ import { Confetti } from '@/components/main/Dashboard/Animation/Confetti';
 import { MESSAGES } from '@/constants/messages';
 import { useNiccaProgress } from '@/hooks/use-nicca-progress';
 import { ResetModal } from '@/components/main/Dashboard/ResetModal';
-import { addAchievement } from '@/app/actions/nicca';
+import { addAchievement } from '@/app/actions/nicca/add-achievement';
 
 type Props = {
   nicca: Nicca | null;

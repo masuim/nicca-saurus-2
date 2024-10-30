@@ -27,7 +27,7 @@ export const CustomCalendar = ({ className, achievements, nicca }: CustomCalenda
     const endDate = new Date(nicca.endDate);
     endDate.setHours(23, 59, 59, 999);
 
-    return nicca[currentDay as keyof typeof nicca] && date >= startDate && date <= endDate;
+    return date >= startDate && nicca[currentDay as keyof typeof nicca] && date <= endDate;
   };
 
   const goToToday = () => {

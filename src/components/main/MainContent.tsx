@@ -12,7 +12,7 @@ import { SideMenu } from '@/components/layout/SideMenu';
 import { Header } from '@/components/layout/Header';
 import { Dashboard } from '@/components/main/Dashboard/Dashboard';
 import { Loading } from '@/components/ui/Loading';
-import { getNicca } from '@/app/actions/nicca';
+import { getNicca } from '@/app/actions/nicca/get-nicca';
 import { Nicca } from '@/types/nicca';
 import { useFlashMessage } from '@/providers/FlashMessageProvider';
 import { NiccaRegistrationModal } from '@/components/side-menu/NiccaRegistrationModal';

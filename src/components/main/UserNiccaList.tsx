@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getUserNiccas } from '@/app/actions/nicca';
+import { getUserNiccas } from '@/app/actions/nicca/get-user-niccas';
 import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
-import { deleteNicca } from '@/app/actions/nicca';
+import { deleteNicca } from '@/app/actions/nicca/delete-nicca';
 import { useFlashMessage } from '@/providers/FlashMessageProvider';
 import { Nicca, NiccaList } from '@/types/nicca';
 

@@ -55,6 +55,7 @@ export const MESSAGES = {
     ACHIEVEMENT_ALREADY_EXISTS: 'この日付の達成記録は既に存在します。',
     ACHIEVEMENT_ADDITION_ERROR: '達成日の追加に失敗しました。',
     EMAIL_ALREADY_REGISTERED: 'このメールアドレスは既に登録されています。',
+    NICCA_DAYS_UPDATE_ERROR: 'Niccaの更新中にエラーが発生しました。',
   },
 
   OTHER: {

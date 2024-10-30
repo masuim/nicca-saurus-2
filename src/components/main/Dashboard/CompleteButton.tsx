@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { useFlashMessage } from '@/providers/FlashMessageProvider';
-import { addAchievement } from '@/app/actions/nicca';
+import { addAchievement } from '@/app/actions/nicca/add-achievement';
 
 type CompleteButtonProps = {
   className?: string;

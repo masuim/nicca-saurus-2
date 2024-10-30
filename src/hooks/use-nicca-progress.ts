@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Nicca } from '@/types/nicca';
 import { WEEK_DAYS } from '@/constants/dates';
-import { resetNiccaAchievements } from '@/app/actions/nicca';
+import { resetNiccaAchievements } from '@/app/actions/nicca/reset-nicca-achievements';
 import { useFlashMessage } from '@/providers/FlashMessageProvider';
 import { MESSAGES } from '@/constants/messages';
 
@@ -53,6 +53,11 @@ export const useNiccaProgress = (nicca: Nicca | null) => {
         const result = await resetNiccaAchievements(nicca.id);
         if (!result.success) {
           showFlashMessage(result.error || MESSAGES.RESET_NICCA.ERROR, 'error');
+        } else if (result.data) {
+          // 新しいNicca情報を受け取る
+          const updatedNicca = result.data;
+          // 必要に応じて状態を更新
+          setAchievements(updatedNicca.achievements.map((a) => new Date(a.achievedDate!)));
         }
         setShouldReset(false);
       };
