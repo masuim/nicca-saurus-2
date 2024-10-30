@@ -61,6 +61,15 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
     setFocusedField(fieldName);
   };
 
+  const handleBlur = () => {
+    setTimeout(() => {
+      const activeElement = document.activeElement;
+      if (activeElement?.tagName !== 'INPUT') {
+        setFocusedField(null);
+      }
+    }, 0);
+  };
+
   return (
     <Form {...form}>
       <form
@@ -80,6 +89,7 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
                   {...field}
                   isFocused={focusedField === 'email'}
                   onFocus={() => handleFocus('email')}
+                  onBlur={handleBlur}
                 />
               </FormControl>
               <FormMessage />
@@ -98,6 +108,7 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
                   {...field}
                   isFocused={focusedField === 'password'}
                   onFocus={() => handleFocus('password')}
+                  onBlur={handleBlur}
                 />
               </FormControl>
               <FormMessage />
