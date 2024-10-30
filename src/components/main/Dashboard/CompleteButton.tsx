@@ -30,7 +30,7 @@ export const CompleteButton = ({
     const result = await addAchievement(niccaId, today);
     if (result.success) {
       onComplete(today);
-      showFlashMessage('お疲れさまです！これからも頑張りましょう！', 'success');
+      showFlashMessage('えらい！今日もお疲れさまでした！', 'success');
       await fetchNiccas();
     } else {
       showFlashMessage(result.error || '日課の完了に失敗しました。', 'error');
