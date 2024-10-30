@@ -19,6 +19,13 @@ export const useNiccaProgress = (nicca: Nicca | null) => {
       const yesterday = new Date(today);
       yesterday.setDate(yesterday.getDate() - 1);
 
+      // startDateをDate型に変換
+      const startDate = new Date(nicca.startDate);
+      startDate.setHours(0, 0, 0, 0);
+
+      // 昨日がstartDate以前の場合はチェックしない
+      if (yesterday < startDate) return;
+
       // 昨日が設定された曜日かどうかチェック
       const yesterdayDay = WEEK_DAYS[yesterday.getDay()];
       if (!nicca[yesterdayDay as keyof Nicca]) return;
