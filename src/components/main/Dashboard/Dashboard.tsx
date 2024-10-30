@@ -1,4 +1,4 @@
-import { CustomCalendar } from '@/components/main/Dashboard/Calendar';
+import { CustomCalendar } from '@/components/main/Dashboard/Calendar/CustomCalendar';
 import { CompleteButton } from '@/components/main/Dashboard/CompleteButton';
 import { NiccaMessage } from '@/components/main/Dashboard/NiccaMessage';
 import { SaurusImage } from '@/components/main/Dashboard/SaurusImage';
@@ -8,24 +8,34 @@ import { useState, useEffect, useMemo } from 'react';
 import { Nicca } from '@/types/nicca';
 import { Confetti } from '@/components/main/Dashboard/Animation/Confetti';
 import { MESSAGES } from '@/constants/messages';
+import { useNiccaProgress } from '@/hooks/use-nicca-progress';
+import { ResetModal } from '@/components/main/Dashboard/ResetModal';
+import { addAchievement } from '@/app/actions/nicca/add-achievement';
 
 type Props = {
   nicca: Nicca | null;
-  fetchNicca: () => Promise<void>;
+  fetchNiccas: () => Promise<void>;
 };
 
-export const Dashboard = ({ nicca, fetchNicca }: Props) => {
+export const Dashboard = ({ nicca, fetchNiccas }: Props) => {
   const [achievements, setAchievements] = useState<Date[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [message, setMessage] = useState(MESSAGES.NICCA_MESSAGE.DEFAULT);
+  const { shouldReset, showResetModal, setShowResetModal } = useNiccaProgress(nicca);
+  const [isFirstAchievement, setIsFirstAchievement] = useState(true);
+
+  const isCompletedToday = useMemo(
+    () => achievements.some((date) => date.toDateString() === new Date().toDateString()),
+    [achievements],
+  );
 
   const saurusLevel = useMemo(() => {
-    if (!nicca) return 1;
+    if (!nicca || shouldReset) return 1;
     const selectedDaysCount = WEEK_DAYS.filter((day) => nicca[day as keyof Nicca]).length;
     const achievementsCount = nicca.achievements.length;
     const level = Math.floor(achievementsCount / selectedDaysCount) + 1;
     return Math.min(level, 5);
-  }, [nicca]);
+  }, [nicca, shouldReset]);
 
   const randomEncouragingMessage = () => {
     const messages = MESSAGES.NICCA_MESSAGE.ENCOURAGING;
@@ -35,38 +45,68 @@ export const Dashboard = ({ nicca, fetchNicca }: Props) => {
   useEffect(() => {
     if (!nicca) return;
 
-    if (nicca.achievements.length === 0) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const niccaStartDate = new Date(nicca.startDate);
+    niccaStartDate.setHours(0, 0, 0, 0);
+    const isRegistrationDay = today.getTime() === niccaStartDate.getTime();
+
+    // TODO: メッセージの分岐は、モックを使って確認する。
+    if (nicca.achievements.length === 0 || (isRegistrationDay && !isCompletedToday)) {
       setMessage(MESSAGES.NICCA_MESSAGE.DEFAULT);
     } else if (
       new Date(nicca.endDate).toDateString() === new Date().toDateString() &&
-      achievements.some((date) => date.toDateString() === new Date().toDateString())
+      isCompletedToday
     ) {
       setMessage(MESSAGES.NICCA_MESSAGE.CONGRATULATIONS);
-    } else {
+    } else if (shouldReset) {
+      setMessage(MESSAGES.NICCA_MESSAGE.RESTART);
+    } else if (isCompletedToday && isFirstAchievement) {
       setMessage(randomEncouragingMessage());
+      setIsFirstAchievement(false);
     }
-  }, [nicca, achievements]);
+  }, [nicca, isCompletedToday, shouldReset, isFirstAchievement]);
 
   useEffect(() => {
-    if (saurusLevel > 1 && achievements.length % (saurusLevel - 1) === 0) {
+    if (!isCompletedToday) {
+      setIsFirstAchievement(true);
+    }
+  }, [isCompletedToday]);
+
+  useEffect(() => {
+    if (saurusLevel > 1 && achievements.length % (saurusLevel - 1) === 0 && isCompletedToday) {
       setMessage(MESSAGES.NICCA_MESSAGE.SAUR_GROWTH);
     }
-  }, [saurusLevel, achievements]);
+  }, [saurusLevel, achievements.length, isCompletedToday]);
+
+  useEffect(() => {
+    if (nicca) {
+      const achievedDates = nicca.achievements
+        .filter((achievement) => achievement.achievedDate)
+        .map((achievement) => new Date(achievement.achievedDate!));
+      setAchievements(achievedDates);
+    }
+  }, [nicca]);
 
   const handleComplete = async (date: Date) => {
-    setAchievements((prev) => [...prev, date]);
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 5000);
-    await fetchNicca();
+    if (!nicca) return;
+    const result = await addAchievement(nicca.id, date);
+    if (result.success) {
+      setAchievements((prev) => [...prev, date]);
+      setIsAnimating(true);
+      setTimeout(() => setIsAnimating(false), 5000);
+      await fetchNiccas();
+    }
+  };
+
+  const handleCloseResetModal = () => {
+    setShowResetModal(false);
+    setMessage(MESSAGES.NICCA_MESSAGE.RESTART);
   };
 
   if (nicca === null) {
     return <div>アクティブな日課がないよー！</div>;
   }
-
-  const isCompletedToday = achievements.some(
-    (date) => date.toDateString() === new Date().toDateString(),
-  );
 
   return (
     <>
@@ -87,9 +127,9 @@ export const Dashboard = ({ nicca, fetchNicca }: Props) => {
           </div>
         </div>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-          <div className="h-full w-full">
+          <div className="size-full">
             <CustomCalendar
-              className="dashboard-component h-full w-full bg-gray-50"
+              className="dashboard-component size-full bg-gray-50"
               achievements={nicca.achievements}
               nicca={nicca}
             />
@@ -103,12 +143,13 @@ export const Dashboard = ({ nicca, fetchNicca }: Props) => {
               niccaId={nicca.id}
               onComplete={handleComplete}
               isCompletedToday={isCompletedToday}
-              fetchNicca={fetchNicca}
+              fetchNiccas={fetchNiccas}
             />
           </div>
         </div>
       </div>
       <Confetti isAnimating={isAnimating} className="fixed inset-0 z-[9999]" />
+      <ResetModal isOpen={showResetModal} onClose={handleCloseResetModal} />
     </>
   );
 };

@@ -3,9 +3,10 @@
 import * as React from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import { DayPicker } from 'react-day-picker';
+import { ja } from 'date-fns/locale';
 
 import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
+import { calendarClassNames } from './calendar-styles';
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   components?: {
@@ -17,28 +18,21 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
-      className={cn('p-3', className)}
+      className={cn('flex justify-center p-3', className)}
+      locale={ja}
       classNames={{
-        months: 'flex flex-col sm:flex-row space-y-0 justify-center px-4 xs:px-6 lg:py-2',
-        month: 'space-y-2 sm:space-y-4',
-        caption:
-          'flex justify-center pt-1 relative items-center text-xs sm:text-sm md:text-base lg:text-lg',
-        caption_label: 'text-xs font-bold sm:text-sm md:text-base lg:text-lg',
-        nav: 'space-x-1 flex items-center',
-        nav_button:
-          'h-6 w-6 sm:h-7 sm:w-7 p-0 opacity-50 hover:opacity-100 md:h-8 md:w-8 lg:h-9 lg:w-9',
-        nav_button_previous: 'absolute left-1',
-        nav_button_next: 'absolute right-1',
-        table: 'w-full border-collapse space-y-1',
-        head_row: 'flex justify-between w-full',
-        head_cell:
+        ...calendarClassNames,
+        months: cn('flex flex-col sm:flex-row space-y-0 justify-center', classNames?.months),
+        month: cn('space-y-2 sm:space-y-4 py-2', classNames?.month),
+        table: cn('w-full border-collapse', classNames?.table),
+        head_row: cn('flex justify-between w-full', classNames?.head_row),
+        head_cell: cn(
           'text-muted-foreground w-6 sm:w-8 font-normal text-[0.7rem] sm:text-[0.8rem] md:text-sm lg:text-base',
-        row: 'flex mt-2 justify-between',
-        cell: 'h-8 w-8 p-0 font-normal',
-        day: cn(
-          buttonVariants({ variant: 'ghost' }),
-          'h-8 w-8 p-0 font-normal aria-selected:opacity-100',
+          classNames?.head_cell,
         ),
+        row: cn('flex justify-between', classNames?.row),
+        cell: cn('p-0 font-normal', classNames?.cell),
+        day: cn('h-14 w-8 p-0 font-normal', classNames?.day),
         day_selected:
           'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground',
         day_today: 'bg-accent text-accent-foreground',

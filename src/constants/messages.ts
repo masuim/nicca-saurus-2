@@ -5,6 +5,7 @@ export const MESSAGES = {
     RESTART_WARNING: 'サボると最初からやり直し！',
     KEEP_GOING: '恐竜が大人になるまで頑張って続けよう！',
     DEFAULT: '日課を続けて、恐竜と一緒に成長しましょう！',
+    RESTART: '新しい始まりだね！今度は最後まで一緒に頑張ろう！',
     CONGRATULATIONS:
       'おめでとうございます！\nあなたも恐竜も独り立ちの時が来ました！\n1ヶ月お疲れ様でした！',
     SAUR_GROWTH: '恐竜が一段階成長したよ！次の成長も楽しみだね！',
@@ -54,6 +55,7 @@ export const MESSAGES = {
     ACHIEVEMENT_ALREADY_EXISTS: 'この日付の達成記録は既に存在します。',
     ACHIEVEMENT_ADDITION_ERROR: '達成日の追加に失敗しました。',
     EMAIL_ALREADY_REGISTERED: 'このメールアドレスは既に登録されています。',
+    NICCA_DAYS_UPDATE_ERROR: 'Niccaの更新中にエラーが発生しました。',
   },
 
   OTHER: {
@@ -64,5 +66,15 @@ export const MESSAGES = {
 
   VALIDATION: {
     MINIMUM_DAYS_SELECTION: (days: number) => `少なくとも${days}日以上選択してください`,
+  },
+
+  RESET_MODAL: {
+    TITLE: 'リセットのお知らせ',
+    MESSAGE:
+      '前回の予定日に日課を行わなかったため、\n進行状況がリセットされました。\nまた最初から一緒に頑張りましょう！',
+  },
+
+  RESET_NICCA: {
+    ERROR: '日課のリセットに失敗しました',
   },
 };

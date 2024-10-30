@@ -22,7 +22,7 @@ export const SaurusImage = ({ nicca, className }: Props) => {
       <img
         src={imagePath}
         alt={nicca.saurusType}
-        className="absolute inset-0 h-full w-full rounded-lg object-cover hover:shadow-lg"
+        className="absolute inset-0 size-full rounded-lg object-cover hover:shadow-lg"
       />
     </div>
   );

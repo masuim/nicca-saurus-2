@@ -69,6 +69,15 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
     setFocusedField(fieldName);
   };
 
+  const handleBlur = () => {
+    setTimeout(() => {
+      const activeElement = document.activeElement;
+      if (activeElement?.tagName !== 'INPUT') {
+        setFocusedField(null);
+      }
+    }, 0);
+  };
+
   return (
     <Form {...form}>
       <form
@@ -76,7 +85,7 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
         className="text-responsive-xs w-full max-w-sm space-y-6 rounded-lg bg-gray-50 p-6 shadow-md sm:px-6 md:px-8"
       >
         <h2 className="text-responsive-title text-center font-bold">サインアップ</h2>
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-error">{error}</p>}
         <FormField
           control={form.control}
           name="name"
@@ -88,6 +97,7 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
                   {...field}
                   isFocused={focusedField === 'name'}
                   onFocus={() => handleFocus('name')}
+                  onBlur={handleBlur}
                 />
               </FormControl>
               <FormMessage />
@@ -106,6 +116,7 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
                   {...field}
                   isFocused={focusedField === 'email'}
                   onFocus={() => handleFocus('email')}
+                  onBlur={handleBlur}
                 />
               </FormControl>
               <FormMessage />
@@ -124,6 +135,7 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
                   {...field}
                   isFocused={focusedField === 'password'}
                   onFocus={() => handleFocus('password')}
+                  onBlur={handleBlur}
                 />
               </FormControl>
               <FormMessage />
@@ -142,6 +154,7 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
                   {...field}
                   isFocused={focusedField === 'confirmPassword'}
                   onFocus={() => handleFocus('confirmPassword')}
+                  onBlur={handleBlur}
                 />
               </FormControl>
               <FormMessage />
@@ -151,7 +164,7 @@ export const SignUpForm = ({ setIsSignUp }: Props) => {
         <div>
           <Button
             type="submit"
-            className="text-responsive-sm mt-[8px] w-full py-5 text-white"
+            className="text-responsive-sm mt-[8px] w-full transform py-5 text-white transition-all duration-200 focus:scale-[1.02] focus:shadow-lg"
             onClick={form.handleSubmit(onSubmit)}
           >
             サインアップ

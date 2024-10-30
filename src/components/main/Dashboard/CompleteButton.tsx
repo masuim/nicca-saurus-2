@@ -1,13 +1,13 @@
 import { Button } from '@/components/ui/button';
 import { useFlashMessage } from '@/providers/FlashMessageProvider';
-import { addAchievement } from '@/app/actions/nicca';
+import { addAchievement } from '@/app/actions/nicca/add-achievement';
 
 type CompleteButtonProps = {
   className?: string;
   niccaId: string;
   onComplete: (date: Date) => void;
   isCompletedToday: boolean;
-  fetchNicca: () => Promise<void>;
+  fetchNiccas: () => Promise<void>;
 };
 
 export const CompleteButton = ({
@@ -15,11 +15,12 @@ export const CompleteButton = ({
   niccaId,
   onComplete,
   isCompletedToday,
-  fetchNicca,
+  fetchNiccas,
 }: CompleteButtonProps) => {
   const { showFlashMessage } = useFlashMessage();
 
   const handleClick = async () => {
+    // TODO: この分岐がtrueになることはあり得るのか？
     if (isCompletedToday) {
       showFlashMessage('本日の日課は既に完了しています！', 'info');
       return;
@@ -29,8 +30,8 @@ export const CompleteButton = ({
     const result = await addAchievement(niccaId, today);
     if (result.success) {
       onComplete(today);
-      showFlashMessage('本日の日課完了！お疲れさまです！', 'success');
-      await fetchNicca();
+      showFlashMessage('えらい！今日もお疲れさまでした！', 'success');
+      await fetchNiccas();
     } else {
       showFlashMessage(result.error || '日課の完了に失敗しました。', 'error');
     }
@@ -47,7 +48,7 @@ export const CompleteButton = ({
       <span
         className={`text-sm font-semibold ${isCompletedToday ? 'text-white' : 'text-mainColor'}`}
       >
-        {isCompletedToday ? '完了しました！' : '本日の日課完了！'}
+        {isCompletedToday ? '達成済み！' : '日課を達成したらクリック！'}
       </span>
     </Button>
   );

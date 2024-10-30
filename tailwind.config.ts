@@ -20,6 +20,7 @@ const config: Config = {
       colors: {
         mainColor: 'hsl(var(--mainColor))',
         subColor: 'hsl(var(--subColor))',
+        errorColor: 'hsl(var(--errorColor))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -60,6 +61,7 @@ const config: Config = {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
+        error: 'var(--errorColor)',
       },
       fontFamily: {
         sans: ['DotGothic16', 'sans-serif'],
