@@ -105,7 +105,11 @@ export const SignInForm = ({ setIsSignUp }: Props) => {
           )}
         />
         <div>
-          <Button type="submit" className="text-responsive-sm mt-[8px] w-full py-5 text-white">
+          <Button
+            type="submit"
+            className="text-responsive-sm mt-[8px] w-full transform py-5 text-white transition-all duration-200 focus:scale-[1.02] focus:shadow-lg"
+            onClick={form.handleSubmit(onSubmit)}
+          >
             サインイン
           </Button>
           <p className="text-responsive-xs mt-2 text-center text-muted-foreground">
